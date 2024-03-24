@@ -1,0 +1,3 @@
+you need to install libspeechd-dev if you on debian or ubuntu
+
+Arch: speech-dispatcher libspeechd
