@@ -14,13 +14,14 @@ usr/include/speech-dispatcher/speechd_types.h
 
 
 #include <libspeechd.h>
-
+#include <semaphore.h>
 
 class CSpeech
 {
   public:
 
   SPDConnection *spd_connection;
+
   bool initialized;
 
   CSpeech();
