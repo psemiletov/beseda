@@ -2,7 +2,23 @@
 
 #include <iostream>
 
+
 sem_t semaphore;
+
+
+
+void f_signal_handler (int signal)
+{
+  std::cout <<  "f_signal_handler " << std::endl;
+
+  g_signal = signal;
+
+//  shutdown (sockfd, 2);
+  //close (sockfd);
+
+  std::cout << "Exiting by the signal" << std::endl;
+}
+
 
 /* Callback for Speech Dispatcher notifications */
 void cbk_end_of_speech(size_t msg_id, size_t client_id, SPDNotificationType type)
