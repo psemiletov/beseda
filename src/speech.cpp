@@ -43,6 +43,7 @@ CSpeech::CSpeech()
 {
   initialized = false;
   spd_connection = 0;
+  paused = false;
 
   sem_init (&semaphore, 0, 0);
 
@@ -90,15 +91,66 @@ void CSpeech::init (const char* client_name)
 
 void CSpeech::say (const char* text)
 {
+  if (! initialized)
+      return;
+
+  int result = spd_say (spd_connection, SPD_TEXT, text);
+
+  if (result == -1)
+     std::cout << "say error!" << std::endl;
+
+   paused = false;
+
+   sem_wait (&semaphore);
+}
+
+
+void CSpeech::stop()
+{
+  if (! initialized)
+      return;
+
+   spd_cancel (spd_connection);
+   g_position = 0;
+}
+
+
+void CSpeech::pause()
+{
    if (! initialized)
       return;
 
-   int result = spd_say (spd_connection, SPD_TEXT, text);
+   spd_pause (spd_connection);
+}
 
-   if (result == -1)
-      std::cout << "say error!" << std::endl;
+void CSpeech::play()
+{
+   if (! initialized)
+      return;
 
-   sem_wait(&semaphore);
+  paused = false;
+  g_position = 0;
+}
 
 
+
+void CSpeech::resume()
+{
+  if (! initialized)
+     return;
+
+  if (! paused)
+     return;
+
+   spd_resume (spd_connection);
+}
+
+
+
+void CSpeech::cancel()
+{
+  if (! initialized)
+      return;
+
+   spd_cancel (spd_connection);
 }

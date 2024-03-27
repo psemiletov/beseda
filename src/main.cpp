@@ -4,6 +4,7 @@
 #include <signal.h>
 
 #include <ncurses.h>
+#include <locale.h>
 
 #include "speech.h"
 #include "textbuffer.h"
@@ -36,9 +37,16 @@ int main (int argc, char *argv[])
 
   g_position = 0;
 
+
+
+
+  std::cout << setlocale(LC_ALL, NULL);
+
   initscr();
 
-    addstr("How are you?");
+    //addstr("How are you?");
+
+
 
 // Give NCurses control of input
   keypad(stdscr, TRUE);
@@ -61,37 +69,101 @@ int main (int argc, char *argv[])
    int ch;
 
   /* Event loop */
-  while(running) {
+  while (running)
+        {
+         if (g_signal == SIGINT)
+             break;
 
-        addstr("|");
+         addstr("|");
 
+         std::string str_counter =  std::to_string(g_position);
 
-        ch = getch();
+         addstr(str_counter.c_str());
 
+         ch = getch();
 
-//     refresh();
+           //     refresh();
 
-    if (ch == 'q') {
-
-
-      /* This will cause the while loop to end the */
-      /* next time the while loop checks the */
-      /* value of 'running' */
-      running = false;
-    }
-
-
-   if (g_position > text_buffer.lines.size())
-       running = false;
-
-      sp.say (text_buffer.lines[g_position].c_str());
+         if (ch == 'q')
+             {
+              running = false;
+              break;
+             }
 
 
-   // addstr(g_position);
+         if (ch == KEY_HOME)
+            {
+             g_position = 0;
+            }
+
+         if (ch == KEY_END)
+            {
+             g_position = text_buffer.lines.size() - 2;
+            }
 
 
+        if (ch == KEY_UP)
+            {
+             if (g_position > 0)
+                g_position--;
+            }
 
-     // sp.say (text_buffer.lines[0].c_str());
+        if (ch == KEY_DOWN)
+            {
+             if (g_position < text_buffer.lines.size() - 2)
+                g_position++;
+            }
+
+
+         if (ch == 's')//stop
+            {
+             addstr("ENTER");
+             sp.stop();
+             continue;
+            }
+
+         if (ch == ' ') //space
+            {
+
+             sp.paused = ! sp.paused;
+
+             if (sp.paused)
+                {
+                 addstr("PAUSE");
+                 sp.pause();
+                 continue;
+                }
+              else
+                 {
+                  addstr("UNPAUSE");
+                  sp.resume();
+                  continue;
+
+                 }
+
+
+             // g_position = text_buffer.lines.size() - 1;
+             }
+
+
+          if (g_position > text_buffer.lines.size())
+             {
+              running = false;
+              break;
+
+             }
+
+          if (! sp.paused)
+              sp.say (text_buffer.lines[g_position].c_str());
+
+/*
+           if (g_signal == SIGINT)
+             {
+              running = false;
+              break;
+
+            }
+*/
 
   }
 
@@ -108,6 +180,8 @@ int main (int argc, char *argv[])
 */
 
   endwin();
+
+  sp.stop();
 
   return 0;
 }
