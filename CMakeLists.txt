@@ -27,10 +27,14 @@ add_executable(beseda ${sources})
 find_package(PkgConfig)
 pkg_check_modules(SPEECH REQUIRED speech-dispatcher>=0.0.1)
 
-target_link_libraries(beseda ${SPEECH_LIBRARIES})
 
 # This allows to include files relative to the root of the src directory with a <> pair
 target_include_directories(beseda PUBLIC src ${SPEECH_INCLUDE_DIRS})
+
+find_package(Curses REQUIRED)
+include_directories(${CURSES_INCLUDE_DIR})
+
+target_link_libraries(beseda ${SPEECH_LIBRARIES} ${CURSES_LIBRARIES})
 
 
 # Just for example add some compiler flags.

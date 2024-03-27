@@ -5,6 +5,7 @@
 
 sem_t semaphore;
 
+int g_position;
 
 
 void f_signal_handler (int signal)
@@ -32,7 +33,8 @@ void cbk_end_of_speech(size_t msg_id, size_t client_id, SPDNotificationType type
 
    sem_post(&semaphore);
 
-   std::cout << "say ok" << std::endl;
+   g_position++;
+//   std::cout << "say ok" << std::endl;
 
 }
 
