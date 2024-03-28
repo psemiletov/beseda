@@ -16,6 +16,8 @@
 
 using namespace std;
 
+
+
 //
 
 /*
@@ -29,6 +31,8 @@ using namespace std;
 
 
 extern int g_position;
+
+extern bool saying;
 
 
 int main (int argc, char *argv[])
@@ -50,6 +54,8 @@ int main (int argc, char *argv[])
 
 // Give NCurses control of input
   keypad(stdscr, TRUE);
+  cbreak();
+  noecho();
 
   CSpeech sp;
   sp.init ("beseda");
@@ -62,9 +68,9 @@ int main (int argc, char *argv[])
   text_buffer.load (BOOK1);
 
 
- bool running;
+  bool running = true;
 
-   halfdelay(1);
+  halfdelay(1);
 
    int ch;
 
@@ -72,44 +78,58 @@ int main (int argc, char *argv[])
   while (running)
         {
          if (g_signal == SIGINT)
-             break;
+           {
+            running = false;
+            break;
+           }
 
          addstr("|");
 
          std::string str_counter =  std::to_string(g_position);
-
          addstr(str_counter.c_str());
+
+         //flushinp();
 
          ch = getch();
 
            //     refresh();
-
          if (ch == 'q')
-             {
-              running = false;
-              break;
-             }
+            {
+             running = false;
+             break;
+            }
+
+         if (ch == 'n')
+            {
+             sp.cancel();
+             break;
+            }
 
 
          if (ch == KEY_HOME)
             {
+             sp.cancel();
              g_position = 0;
             }
 
          if (ch == KEY_END)
             {
+             sp.cancel();
              g_position = text_buffer.lines.size() - 2;
             }
 
 
-        if (ch == KEY_UP)
+         if (ch == KEY_UP)
             {
+             sp.cancel();
              if (g_position > 0)
                 g_position--;
             }
 
-        if (ch == KEY_DOWN)
+         if (ch == KEY_DOWN)
             {
+             sp.cancel();
+
              if (g_position < text_buffer.lines.size() - 2)
                 g_position++;
             }
@@ -117,32 +137,25 @@ int main (int argc, char *argv[])
 
          if (ch == 's')//stop
             {
-             addstr("ENTER");
+             addstr ("STOP");
              sp.stop();
              continue;
             }
 
          if (ch == ' ') //space
             {
-
-             sp.paused = ! sp.paused;
-
              if (sp.paused)
                 {
                  addstr("PAUSE");
                  sp.pause();
                  continue;
                 }
-              else
-                 {
-                  addstr("UNPAUSE");
-                  sp.resume();
-                  continue;
-
-                 }
-
-
-             // g_position = text_buffer.lines.size() - 1;
+             else
+                {
+                 addstr("RESUME");
+                 sp.resume();
+                 continue;
+                }
              }
 
 
@@ -153,7 +166,7 @@ int main (int argc, char *argv[])
 
              }
 
-          if (! sp.paused)
+          if (! sp.paused && ! saying)
               sp.say (text_buffer.lines[g_position].c_str());
 
 /*

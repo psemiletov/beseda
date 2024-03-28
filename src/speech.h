@@ -28,6 +28,7 @@ class CSpeech
   CSpeech();
   ~CSpeech();
 
+
   bool paused;
 
   void init (const char* client_name);
