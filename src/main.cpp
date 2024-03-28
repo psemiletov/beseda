@@ -32,8 +32,11 @@ using namespace std;
 
 extern int g_position;
 
-extern bool saying;
+//extern bool saying;
 
+extern int g_state;
+
+int saved_pos;
 
 int main (int argc, char *argv[])
 {
@@ -67,16 +70,20 @@ int main (int argc, char *argv[])
   CTextBuffer text_buffer;
   text_buffer.load (BOOK1);
 
+  g_state = SPCH_STATE_SAYING;
 
   bool running = true;
 
   halfdelay(1);
 
-   int ch;
+  int ch;
+
+  saved_pos = -1;
 
   /* Event loop */
   while (running)
         {
+
          if (g_signal == SIGINT)
            {
             running = false;
@@ -99,10 +106,11 @@ int main (int argc, char *argv[])
              break;
             }
 
+            /*
          if (ch == 'n')
             {
              sp.cancel();
-             break;
+             continue;
             }
 
 
@@ -122,8 +130,8 @@ int main (int argc, char *argv[])
          if (ch == KEY_UP)
             {
              sp.cancel();
-             if (g_position > 0)
-                g_position--;
+             if (g_position > 1)
+                g_position -= 2;
             }
 
          if (ch == KEY_DOWN)
@@ -131,7 +139,18 @@ int main (int argc, char *argv[])
              sp.cancel();
 
              if (g_position < text_buffer.lines.size() - 2)
-                g_position++;
+                 g_position++;
+
+             g_state = SPCH_STATE_SAYING;
+
+            }
+
+
+        if (ch == 'c')//stop
+            {
+             addstr ("CANCEL");
+             sp.cancel();
+             continue;
             }
 
 
@@ -142,9 +161,11 @@ int main (int argc, char *argv[])
              continue;
             }
 
+           */
+
          if (ch == ' ') //space
             {
-             if (sp.paused)
+             if (g_state != SPCH_STATE_PAUSED)
                 {
                  addstr("PAUSE");
                  sp.pause();
@@ -159,15 +180,21 @@ int main (int argc, char *argv[])
              }
 
 
+           //EOF - ВЫХОДИМ ЛИ?
           if (g_position > text_buffer.lines.size())
              {
               running = false;
+              //state = SPCH_STATE_STOPPED;
+              sp.stop();
               break;
-
              }
 
-          if (! sp.paused && ! saying)
-              sp.say (text_buffer.lines[g_position].c_str());
+          if (g_state == SPCH_STATE_SAYING && saved_pos != g_position)
+              {
+               sp.say (text_buffer.lines[g_position].c_str());
+               saved_pos = g_position;
+              }
+
 
 /*
            if (g_signal == SIGINT)
@@ -180,17 +207,6 @@ int main (int argc, char *argv[])
 
   }
 
- // sp.say (text_buffer.lines[0].c_str());
-
-//  sp.say ("hello");
-/*
-  cout << "type:";
-  std::string s;
-   cin >> s;
-
-
-  sp.say (s.c_str());
-*/
 
   endwin();
 

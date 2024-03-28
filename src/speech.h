@@ -17,6 +17,13 @@ usr/include/speech-dispatcher/speechd_types.h
 #include <semaphore.h>
 #include <signal.h>
 
+
+#define SPCH_STATE_STOPPED 0
+#define SPCH_STATE_SAYING 1
+#define SPCH_STATE_PAUSED 2
+#define SPCH_STATE_NEXT 3
+
+
 class CSpeech
 {
   public:
@@ -29,7 +36,8 @@ class CSpeech
   ~CSpeech();
 
 
-  bool paused;
+
+  //bool paused;
 
   void init (const char* client_name);
 
