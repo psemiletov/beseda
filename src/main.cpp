@@ -9,6 +9,7 @@
 #include "speech.h"
 #include "textbuffer.h"
 
+#define BOOK0 "/home/rox/devel/test-books/test.txt"
 #define BOOK1 "/home/rox/devel/test-books/Dracula by Bram Stoker.txt"
 #define BOOK2 "/home/rox/devel/test-books/frankenstein.txt"
 #define BOOK3 "/home/rox/devel/test-books/Pride and Prejudice by Jane Austen.txt"
@@ -68,7 +69,7 @@ int main (int argc, char *argv[])
 
 
   CTextBuffer text_buffer;
-  text_buffer.load (BOOK1);
+  text_buffer.load (BOOK0);
 
   g_state = SPCH_STATE_SAYING;
 
@@ -106,32 +107,39 @@ int main (int argc, char *argv[])
              break;
             }
 
-            /*
+           /*
          if (ch == 'n')
             {
              sp.cancel();
              continue;
             }
+*/
 
-
+         //OK
          if (ch == KEY_HOME)
             {
              sp.cancel();
+             g_state = SPCH_STATE_SAYING;
              g_position = 0;
             }
 
+
+         //ok
          if (ch == KEY_END)
             {
              sp.cancel();
-             g_position = text_buffer.lines.size() - 2;
+             g_state = SPCH_STATE_SAYING;
+             g_position = text_buffer.lines.size() - 1;
             }
 
-
+         //ok
          if (ch == KEY_UP)
             {
              sp.cancel();
-             if (g_position > 1)
-                g_position -= 2;
+             g_state = SPCH_STATE_SAYING;
+
+             if (g_position > 0)
+                g_position--;
             }
 
          if (ch == KEY_DOWN)
@@ -144,7 +152,7 @@ int main (int argc, char *argv[])
              g_state = SPCH_STATE_SAYING;
 
             }
-
+/*
 
         if (ch == 'c')//stop
             {
@@ -163,6 +171,7 @@ int main (int argc, char *argv[])
 
            */
 
+         //WORK
          if (ch == ' ') //space
             {
              if (g_state != SPCH_STATE_PAUSED)
