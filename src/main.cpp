@@ -13,7 +13,7 @@
 #define BOOK1 "/home/rox/devel/test-books/Dracula by Bram Stoker.txt"
 #define BOOK2 "/home/rox/devel/test-books/frankenstein.txt"
 #define BOOK3 "/home/rox/devel/test-books/Pride and Prejudice by Jane Austen.txt"
-
+#define BOOK4 "/home/rox/devel/test-books/чтоделать.txt"
 
 using namespace std;
 
@@ -45,7 +45,7 @@ int main (int argc, char *argv[])
    std::string filename;
 
    if (argc == 1)
-      filename = BOOK0;
+      filename = BOOK4;
 
    if (argc == 2)
       {
@@ -62,12 +62,14 @@ int main (int argc, char *argv[])
   g_position = 0;
 
   std::cout << setlocale(LC_ALL, NULL);
+  setlocale(LC_ALL, "");
 
   //NCURSES INIT
   initscr();
   keypad(stdscr, TRUE);
   cbreak();
   noecho();
+  clear();
 
 
   //SPEECH INIT
@@ -87,6 +89,7 @@ int main (int argc, char *argv[])
   bool running = true;
 
   halfdelay(1);
+  //use nodelay instead?
 
   int ch;
 
@@ -102,10 +105,20 @@ int main (int argc, char *argv[])
             break;
            }
 
-         addstr("|");
+
+         erase();
+
+        // move (0, 0);
+         //addstr (filename.c_str());
+
+         printw ("filename: %s\n", filename.c_str());
+        // move (1, 0);
+//         addstr ("line:");
 
          std::string str_counter =  std::to_string(g_position);
-         addstr(str_counter.c_str());
+  //       addstr(str_counter.c_str());
+
+         printw ("line: %s\n", str_counter.c_str());
 
          //flushinp();
 

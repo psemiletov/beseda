@@ -31,18 +31,10 @@ void f_signal_handler (int signal)
 /* Callback for Speech Dispatcher notifications */
 void cbk_end_of_speech (size_t msg_id, size_t client_id, SPDNotificationType type)
 {
-   /* We don't check msg_id here since we will only send one
-       message. */
-
-   /* Callbacks are running in a separate thread, so let the
-       (sleeping) main thread know about the event and wake it up. */
-
- // addstr("*cbk_end_of_speech*");
 
   if (type == SPD_EVENT_END)
       {
-       addstr("*SPD_EVENT_END*");
-       //g_state = SPCH_STATE_SAYING;
+   //    addstr("*SPD_EVENT_END*");
        g_position++;
       }
 /*
@@ -51,8 +43,7 @@ void cbk_end_of_speech (size_t msg_id, size_t client_id, SPDNotificationType typ
       addstr("*SPD_CANCEL*");
      }
 */
-  addstr(std::to_string (type).c_str());
-
+ //  addstr(std::to_string (type).c_str());
 
 
 //  sem_post(&g_semaphore);
@@ -64,23 +55,10 @@ void cbk_cancel_of_speech (size_t msg_id, size_t client_id, SPDNotificationType 
 {
 //  addstr("*cbk_cancel_of_speech*");
 
-
-
   if (type == SPD_EVENT_CANCEL)
      {
-      addstr("*SPD_EVENT_CANCEL*");
+     // addstr("*SPD_EVENT_CANCEL*");
      }
-
-   /* We don't check msg_id here since we will only send one
-       message. */
-
-   /* Callbacks are running in a separate thread, so let the
-       (sleeping) main thread know about the event and wake it up. */
-
-  //saying = false;
-  //sem_post(&g_semaphore);
-
- //   std::cout << "say ok" << std::endl;
 
 }
 
@@ -120,6 +98,10 @@ void CSpeech::init (const char* client_name)
   if (spd_connection)
      {
       initialized = true;
+
+     //  spd_set_language (spd_connection, setlocale(LC_ALL, "ru"));
+
+       addstr(spd_get_language(spd_connection));
 
       /* Set callback handler for 'end' and 'cancel' events. */
       spd_connection->callback_end = cbk_end_of_speech;

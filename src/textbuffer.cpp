@@ -5,7 +5,7 @@
 bool CTextBuffer::load (std::string fname)
 {
 
-  std::cout << "CTextBuffer::load: " << fname;
+ // std::cout << "CTextBuffer::load: " << fname;
 
 
    CFIO *f = loader.get_loader_for_file (fname);

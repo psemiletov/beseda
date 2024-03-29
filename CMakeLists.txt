@@ -31,7 +31,12 @@ pkg_check_modules(SPEECH REQUIRED speech-dispatcher>=0.0.1)
 # This allows to include files relative to the root of the src directory with a <> pair
 target_include_directories(beseda PUBLIC src ${SPEECH_INCLUDE_DIRS})
 
-find_package(Curses REQUIRED)
+#find_package(Curses REQUIRED)
+
+
+pkg_check_modules(CURSES REQUIRED ncursesw>=6.0.0)
+
+
 include_directories(${CURSES_INCLUDE_DIR})
 
 target_link_libraries(beseda ${SPEECH_LIBRARIES} ${CURSES_LIBRARIES})
