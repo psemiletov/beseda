@@ -6,6 +6,9 @@
 #include <ncurses.h>
 #include <locale.h>
 
+#include <sys/stat.h>  //for mkdir
+
+
 #include "utl.h"
 #include "pairfile.h"
 #include "speech.h"
@@ -42,6 +45,17 @@ int saved_pos;
 
 int main (int argc, char *argv[])
 {
+
+   std::string config_dir = get_home_dir() + "/.config";
+
+   mkdir (config_dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+   config_dir += "/beseda";
+   mkdir (config_dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+
+   std::string message;
+
   CBookmarks bookmarks;
 
   std::string fname_bookmarks = get_home_dir() + "/.config/beseda/bookmarks.conf";
@@ -117,7 +131,11 @@ int main (int argc, char *argv[])
         // move (0, 0);
          //addstr (filename.c_str());
 
-         printw ("filename: %s\n", filename.c_str());
+         //printw ("message: %s\n", message.c_str());
+         printw ("message: %s\n", bookmarks.pf.file_name.c_str());
+
+
+         printw ("filename: %s at slot: %d\n", filename.c_str(), bookmarks.current_index);
         // move (1, 0);
 //         addstr ("line:");
 
@@ -197,8 +215,14 @@ int main (int argc, char *argv[])
             //save bookmark
 
           if (ch == KEY_F(2))
+//          if (ch == 's')
+
             {
+             //message = "BMX SAVED\n";
+
              std::string bmarkprefix = "bm" + std::to_string (bookmarks.current_index) + "_";
+
+             message = bmarkprefix;
 
              bookmarks.pf.set_string (bmarkprefix + "filename", filename);
              bookmarks.pf.set_int (bmarkprefix + "position", g_position);
@@ -282,7 +306,15 @@ int main (int argc, char *argv[])
 
   sp.stop();
 
- //bookmarks.save();
+  std::cout << "111111111111 -A" << std::endl;
+
+
+  bookmarks.pf.save();
+
+
+    std::cout << "111111111111 - B" << std::endl;
+
+  //bookmarks.save();
 
   return 0;
 }

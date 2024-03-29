@@ -10,6 +10,8 @@
 #include <cstring>
 #include <algorithm>
 
+#include <ncurses.h>
+
 #include "pairfile.h"
 #include "utl.h"
 
@@ -21,13 +23,24 @@ typedef std::map <string, string> TSPair;
 
 void CPairFile::save()
 {
+
+  std::cout << "1" << std::endl;
+
   if (file_name.empty())
      return;
+
+     std::cout << "2" << std::endl;
+
+      std::cout << "2: " << file_name << std::endl;
+
 
   ofstream myfile (file_name.c_str());
   if (! myfile.is_open())
       return; 
  
+     std::cout << "3" << std::endl;
+
+
   TSPair::const_iterator end = values.end(); 
 
   for (TSPair::const_iterator it = values.begin(); it != end; it++)
@@ -329,6 +342,9 @@ void CPairFile::load (const std::string &fname)
   file_name = fname;
   if (! file_exists(file_name))
      return;
+
+ //addstr (file_name.c_str());
+
 
   ifstream infile (file_name.c_str());
 
