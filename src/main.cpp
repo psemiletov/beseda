@@ -41,35 +41,46 @@ int saved_pos;
 
 int main (int argc, char *argv[])
 {
+
+   std::string filename;
+
+   if (argc == 1)
+      filename = BOOK0;
+
+   if (argc == 2)
+      {
+       //take from argv[1]
+       filename = argv[1];
+
+      }
+
+
+
+
   // Initialise ncurses
 
   g_position = 0;
 
-
-
-
   std::cout << setlocale(LC_ALL, NULL);
 
+  //NCURSES INIT
   initscr();
-
-    //addstr("How are you?");
-
-
-
-// Give NCurses control of input
   keypad(stdscr, TRUE);
   cbreak();
   noecho();
 
+
+  //SPEECH INIT
   CSpeech sp;
   sp.init ("beseda");
 
 
+  //Do we need it?
   signal (SIGINT, f_signal_handler);
 
 
   CTextBuffer text_buffer;
-  text_buffer.load (BOOK0);
+  text_buffer.load (filename);
 
   g_state = SPCH_STATE_SAYING;
 
@@ -142,14 +153,14 @@ int main (int argc, char *argv[])
                 g_position--;
             }
 
+         //ok
          if (ch == KEY_DOWN)
             {
              sp.cancel();
-
-             if (g_position < text_buffer.lines.size() - 2)
-                 g_position++;
-
              g_state = SPCH_STATE_SAYING;
+
+             if (g_position < text_buffer.lines.size() - 1)
+                g_position++;
 
             }
 /*
@@ -204,16 +215,7 @@ int main (int argc, char *argv[])
                saved_pos = g_position;
               }
 
-
-/*
-           if (g_signal == SIGINT)
-             {
-              running = false;
-              break;
-
-            }
-*/
-
+           refresh(); //ncurses
   }
 
 
