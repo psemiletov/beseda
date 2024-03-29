@@ -6,8 +6,11 @@
 #include <ncurses.h>
 #include <locale.h>
 
+#include "utl.h"
+#include "pairfile.h"
 #include "speech.h"
 #include "textbuffer.h"
+#include "bookmarks.h"
 
 #define BOOK0 "/home/rox/devel/test-books/test.txt"
 #define BOOK1 "/home/rox/devel/test-books/Dracula by Bram Stoker.txt"
@@ -16,8 +19,6 @@
 #define BOOK4 "/home/rox/devel/test-books/чтоделать.txt"
 
 using namespace std;
-
-
 
 //
 
@@ -41,6 +42,11 @@ int saved_pos;
 
 int main (int argc, char *argv[])
 {
+  CBookmarks bookmarks;
+
+  std::string fname_bookmarks = get_home_dir() + "/.config/beseda/bookmarks.conf";
+
+  bookmarks.load (fname_bookmarks);
 
    std::string filename;
 
@@ -176,6 +182,46 @@ int main (int argc, char *argv[])
                 g_position++;
 
             }
+
+
+          if (ch == '0')
+             bookmarks.current_index = 0;
+
+
+          if (ch == '1')
+             bookmarks.current_index = 1;
+
+          if (ch == '2')
+             bookmarks.current_index = 2;
+
+            //save bookmark
+
+          if (ch == KEY_F(2))
+            {
+             std::string bmarkprefix = "bm" + std::to_string (bookmarks.current_index) + "_";
+
+             bookmarks.pf.set_string (bmarkprefix + "filename", filename);
+             bookmarks.pf.set_int (bmarkprefix + "position", g_position);
+
+             bookmarks.pf.save();
+            }
+
+
+
+            //load bookmark
+         if (ch == KEY_F(3))
+            {
+             //load bookmark
+             std::string bmarkprefix = "bm" + std::to_string (bookmarks.current_index) + "_";
+
+             filename = bookmarks.pf.get_string (bmarkprefix + "filename");
+             text_buffer.load (filename);
+
+             g_position = bookmarks.pf.get_int ("bm00_position");
+             g_state = SPCH_STATE_SAYING;
+            }
+
+
 /*
 
         if (ch == 'c')//stop
@@ -235,6 +281,8 @@ int main (int argc, char *argv[])
   endwin();
 
   sp.stop();
+
+ //bookmarks.save();
 
   return 0;
 }
