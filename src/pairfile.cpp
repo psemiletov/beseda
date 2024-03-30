@@ -21,24 +21,17 @@ using namespace std;
 typedef std::map <string, string> TSPair;
 
 
+//NEED TO MAKE FULL PATH FIRST!
 void CPairFile::save()
 {
-
-  std::cout << "1" << std::endl;
-
   if (file_name.empty())
      return;
-
-     std::cout << "2" << std::endl;
-
-      std::cout << "2: " << file_name << std::endl;
 
 
   ofstream myfile (file_name.c_str());
   if (! myfile.is_open())
       return; 
  
-     std::cout << "3" << std::endl;
 
 
   TSPair::const_iterator end = values.end(); 
