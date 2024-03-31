@@ -15,7 +15,7 @@
 #include "textbuffer.h"
 #include "bookmarks.h"
 
-//#define DEBUGFIO 1
+#define DEBUGFIO 1
 
 #define BOOK0 "/home/rox/devel/test-books/test.txt"
 #define BOOK1 "/home/rox/devel/test-books/Dracula by Bram Stoker.txt"
@@ -24,6 +24,11 @@
 #define BOOK4 "/home/rox/devel/test-books/чтоделать.txt"
 #define BOOK5 "/home/rox/devel/test-books/human_hist.abw"
 #define BOOKDOCX "/home/rox/devel/test-books/01.docx"
+#define BOOKODT "/home/rox/devel/test-books/01.odt"
+
+
+#define BOOKKWD "/home/rox/devel/test-books/dark_rituals.kwd"
+
 
 using namespace std;
 
@@ -69,7 +74,7 @@ int main (int argc, char *argv[])
    std::string filename;
 
    if (argc == 1)
-      filename = BOOKDOCX;
+      filename = BOOKKWD;
 
    if (argc == 2)
       {

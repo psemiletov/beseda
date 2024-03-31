@@ -42,26 +42,14 @@ bool CXML_walker::for_each (pugi::xml_node &node)
   if (std::find(paragraphs.begin(), paragraphs.end(), node_name) != paragraphs.end())
      {
       // Element in vector.
-
       std::string t = node.text().as_string();
 
       std::cout << "t:" << t << std::endl;
 
       if (! t.empty())
          {
-          //if (fine_spaces)
-            //  text->append ("   ");
-
            if (t.size() != 1 && t[0] != ' ' && t[0] != '\n')
                lines.push_back (t);
-
-
-          //text->append (t);
-
-          //if (t.size() > 1)
-             //text->append ("\n");
-            // lines.push_back ("\n");
-
          }
       }
 
@@ -231,7 +219,10 @@ bool CFIOABW::understand (const std::string &fname)
 
 bool CFIOXMLZipped::understand (const std::string &fname)
 {
+  std::cout  << "CFIOXMLZipped::understand (const std::string &fname)\n";
+
   std::string ext = get_file_ext (fname);
+
 
   if (ext == "odt" || ext == "docx" || ext == "kwd" || ext == "sxw")
      return true;
@@ -244,6 +235,8 @@ bool CFIOXMLZipped::understand (const std::string &fname)
 std::vector <std::string> CFIOXMLZipped::load (const std::string &fname)
 {
 
+  std::cout << "^^^^^^^^^^^^^^^ CFIOXMLZipped::load (const std::string &fname) " << std::endl;
+
   std::vector <std::string> tags;
   std::vector <std::string> lines;
 
@@ -254,6 +247,8 @@ std::vector <std::string> CFIOXMLZipped::load (const std::string &fname)
      {
       source_fname = "maindoc.xml";
       tags.push_back ("text");
+      tags.push_back ("TEXT");
+
      }
   else
   if (ext == "docx")
@@ -269,6 +264,8 @@ std::vector <std::string> CFIOXMLZipped::load (const std::string &fname)
       tags.push_back ( "text:s");
      }
 
+     std::cout << "^^^^^^^^^^^^^^^ 1\n";
+
 
 //  CZipper zipper;
 //  if (! zipper.read_as_utf8 (fname, source_fname))
@@ -280,26 +277,44 @@ std::vector <std::string> CFIOXMLZipped::load (const std::string &fname)
 
   struct zip_t *zip = zip_open(fname.c_str(), 0, 'r');
 
+  std::cout << "^^^^^^^^^^^^^^^ 2\n";
+
+
   if (! zip)
      return lines;
 
 
+  std::cout << "^^^^^^^^^^^^^^^ 3\n";
+
   if (zip_entry_open(zip, source_fname.c_str()) < 0)
      return lines;
 
+    std::cout << "^^^^^^^^^^^^^^^ 4\n";
 
   zip_entry_read(zip, &buf, &bufsize);
+
+  std::cout << "^^^^^^^^^^^^^^^ 5\n";
+
 
   zip_entry_close(zip);
 
 
+    std::cout << "^^^^^^^^^^^^^^^ 6\n";
+
   lines = extract_text_from_xml_pugi ((char*)buf, bufsize, tags);
 
 
+    std::cout << "^^^^^^^^^^^^^^^ 7\n";
+
+
   zip_close(zip);
+
+     std::cout << "^^^^^^^^^^^^^^^ 8\n";
+
   free(buf);
 
 
+     std::cout << "^^^^^^^^^^^^^^^ 9\n";
 
   return lines;
 }
