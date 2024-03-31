@@ -8,7 +8,7 @@ project(beseda)            # this sets the project name
 # These instructions search the directory tree when cmake is
 # invoked and put all files that match the pattern in the variables
 # `sources` and `data`.
-file(GLOB_RECURSE sources  src/*.cpp src/*.h)
+file(GLOB_RECURSE sources  src/*.cpp src/*.h src/*.hpp src/*.c)
 #file(GLOB_RECURSE data resources/*)
 # You can use set(sources src/main.cpp) etc if you don't want to
 # use globbing to find files automatically.

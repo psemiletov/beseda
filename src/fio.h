@@ -14,8 +14,8 @@ class CFIO
 {
 public:
 
-  virtual std::vector <std::string> load (const std::string fname) = 0;
-  virtual bool understand (const std::string fname) = 0;
+  virtual std::vector <std::string> load (const std::string &fname) = 0;
+  virtual bool understand (const std::string &fname) = 0;
 
 };
 
@@ -24,8 +24,8 @@ class CFIOPlainText: public CFIO
 {
 public:
 
-  std::vector <std::string> load (const std::string fname);
-  bool understand (const std::string fname);
+  std::vector <std::string> load (const std::string &fname);
+  bool understand (const std::string &fname);
 
 };
 
@@ -35,8 +35,18 @@ class CFIOABW: public CFIO
 {
 public:
 
-  std::vector <std::string> load (const std::string fname);
-  bool understand (const std::string fname);
+  std::vector <std::string> load (const std::string &fname);
+  bool understand (const std::string &fname);
+
+};
+
+
+class CFIOXMLZipped: public CFIO
+{
+public:
+
+  std::vector <std::string> load (const std::string &fname);
+  bool understand (const std::string &fname);
 
 };
 
@@ -48,7 +58,7 @@ public:
 
   std::vector <CFIO*> loaders;
 
-  CFIO* get_loader_for_file (const std::string fname);
+  CFIO* get_loader_for_file (const std::string &fname);
 
   CFIOList();
   ~CFIOList();

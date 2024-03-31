@@ -15,6 +15,8 @@
 #include "textbuffer.h"
 #include "bookmarks.h"
 
+#define DEBUGFIO 1
+
 #define BOOK0 "/home/rox/devel/test-books/test.txt"
 #define BOOK1 "/home/rox/devel/test-books/Dracula by Bram Stoker.txt"
 #define BOOK2 "/home/rox/devel/test-books/frankenstein.txt"
@@ -55,7 +57,7 @@ int main (int argc, char *argv[])
    mkdir (config_dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
 
-   std::string message;
+  std::string message;
 
   CBookmarks bookmarks;
 
@@ -66,7 +68,7 @@ int main (int argc, char *argv[])
    std::string filename;
 
    if (argc == 1)
-      filename = BOOK4;
+      filename = BOOK5;
 
    if (argc == 2)
       {
@@ -82,15 +84,9 @@ int main (int argc, char *argv[])
 
   g_position = 0;
 
-  std::cout << setlocale(LC_ALL, NULL);
+  std::cout << setlocale(LC_ALL, NULL) << std::endl;
   setlocale(LC_ALL, "");
 
-  //NCURSES INIT
-  initscr();
-  keypad(stdscr, TRUE);
-  cbreak();
-  noecho();
-  clear();
 
 
   //SPEECH INIT
@@ -105,9 +101,34 @@ int main (int argc, char *argv[])
   CTextBuffer text_buffer;
   text_buffer.load (filename);
 
+#ifdef DEBUGFIO
+
+   std::cout << "text_buffer.lines.size():" << text_buffer.lines.size() << std::endl;
+
+
+  return 0;
+
+#endif
+
+
+
+
   g_state = SPCH_STATE_SAYING;
 
   bool running = true;
+
+
+   //std::string ttt;
+
+   //std::cin >> ttt;
+
+  //NCURSES INIT
+  initscr();
+  keypad(stdscr, TRUE);
+  cbreak();
+  noecho();
+//  clear();
+
 
   halfdelay(1);
   //use nodelay instead?
@@ -299,11 +320,11 @@ int main (int argc, char *argv[])
   }
 
 
-  endwin();
+//  endwin();
 
   sp.stop();
 
-    bookmarks.pf.save();
+  bookmarks.pf.save();
 
 
   //  std::cout << "111111111111 - B" << std::endl;

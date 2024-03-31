@@ -7,8 +7,8 @@
 #include "utl.h"
 
 
-#include "zip.h"
 #include "pugixml.hpp"
+#include "zip.h"
 
 
 class CXML_walker: public pugi::xml_tree_walker
@@ -33,26 +33,36 @@ bool CXML_walker::for_each (pugi::xml_node &node)
 
   std::string node_name = node.name();
 
- if (std::find(paragraphs.begin(), paragraphs.end(), node_name) != paragraphs.end())
-    {
-  // Element in vector.
+//  std::cout << "node_name:" << node_name << std::endl;
+
+//  std::string node_value = node.value();
+
+ //std::cout << "node_value:" << node_value << std::endl;
+
+ //std::cout << "node_txt:" << node.text().as_string() << std::endl;
 
   //if (paragraphs.contains (node_name, Qt::CaseInsensitive))
+  if (std::find(paragraphs.begin(), paragraphs.end(), node_name) != paragraphs.end())
+     {
+      // Element in vector.
+
       std::string t = node.text().as_string();
+
+      std::cout << "t:" << t << std::endl;
 
       if (! t.empty())
          {
           //if (fine_spaces)
             //  text->append ("   ");
 
+           if (t.size() == 1 && t[0] != ' ' && t[0] != '\n')
+
            lines.push_back (t);
           //text->append (t);
 
-
-          if (t.size() > 1)
+          //if (t.size() > 1)
              //text->append ("\n");
-             lines.push_back ("\n");
-
+            // lines.push_back ("\n");
 
          }
       }
@@ -63,6 +73,8 @@ bool CXML_walker::for_each (pugi::xml_node &node)
 
 std::vector <std::string> extract_text_from_xml_pugi (const char *string_data, size_t datasizebytes, std::vector <std::string> tags)
 {
+  std::cout << "extract_text_from_xml_pugi 1" << std::endl;
+
   std::vector <std::string> result_lines;
   //  QString data;
 
@@ -73,11 +85,18 @@ std::vector <std::string> extract_text_from_xml_pugi (const char *string_data, s
                                                    pugi::parse_default,
                                                    pugi::encoding_utf8);
 
+
+  std::cout << "extract_text_from_xml_pugi 2" << std::endl;
+
+
   if (! result)
      {
       std::cout << "NOT PARSED" << std::endl;
       return result_lines;
      }
+
+
+ std::cout << "extract_text_from_xml_pugi 3" << std::endl;
 
   CXML_walker walker;
   //walker.text = &data;
@@ -86,22 +105,27 @@ std::vector <std::string> extract_text_from_xml_pugi (const char *string_data, s
   walker.paragraphs.reserve (tags.size());
   std::copy (tags.begin(), tags.end(), back_inserter(walker.paragraphs));
 
+  std::cout << "extract_text_from_xml_pugi 4" << std::endl;
+
+
   doc.traverse (walker);
+
+
+  std::cout << "extract_text_from_xml_pugi 5" << std::endl;
 
   return walker.lines;
 }
 
 
-
-
-
-
 CFIOList::CFIOList()
 {
+  std::cout << "CFIOList::CFIOList() - 1\n";
+
 
   loaders.push_back (new CFIOPlainText);
   loaders.push_back (new CFIOABW);
 
+  std::cout << "CFIOList::CFIOList() - 2\n";
 
 }
 
@@ -115,7 +139,7 @@ CFIOList::~CFIOList()
 
 
 
-CFIO* CFIOList::get_loader_for_file (const std::string fname)
+CFIO* CFIOList::get_loader_for_file (const std::string &fname)
 {
   std::cout << "CFIO* CFIOList::get_loader_for_file: " << fname;
 
@@ -130,7 +154,7 @@ CFIO* CFIOList::get_loader_for_file (const std::string fname)
 }
 
 
-std::vector <std::string> CFIOPlainText::load (const std::string fname)
+std::vector <std::string> CFIOPlainText::load (const std::string &fname)
 {
   std::cout << "CFIO* CFIOPlainText::load: " << fname;
 
@@ -151,7 +175,7 @@ std::vector <std::string> CFIOPlainText::load (const std::string fname)
 }
 
 
-bool CFIOPlainText::understand (const std::string fname)
+bool CFIOPlainText::understand (const std::string &fname)
 {
   std::string ext = get_file_ext (fname);
 
@@ -164,19 +188,28 @@ bool CFIOPlainText::understand (const std::string fname)
 
 
 
-std::vector <std::string> CFIOABW::load (const std::string fname)
+std::vector <std::string> CFIOABW::load (const std::string &fname)
 {
-  std::cout << "CFIO* CFIOABW::load: " << fname;
 
   std::string temp = string_file_load (fname);
 
+
+
   std::vector<std::string> tags;
-  tags.push_back ("p");
+//  tags.push_back ("p");
+
+    tags.push_back ("c");
+
 
 
   std::vector<std::string> lines;
 
   lines = extract_text_from_xml_pugi (temp.c_str(), temp.size(), tags);
+
+    std::cout << "CFIO* CFIOABW::load 3\n";
+
+
+    std::cout << "lines.size:\n" << lines.size();
 
   return lines;
 }
@@ -184,7 +217,7 @@ std::vector <std::string> CFIOABW::load (const std::string fname)
 
 
 
-bool CFIOABW::understand (const std::string fname)
+bool CFIOABW::understand (const std::string &fname)
 {
   std::string ext = get_file_ext (fname);
 
@@ -195,4 +228,80 @@ bool CFIOABW::understand (const std::string fname)
 }
 
 
+
+
+bool CFIOXMLZipped::understand (const std::string &fname)
+{
+  std::string ext = get_file_ext (fname);
+
+  if (ext == "odt" || ext == "docx" || ext == "kwd" || ext == "sxw")
+     return true;
+
+  return false;
+}
+
+
+
+std::vector <std::string> CFIOXMLZipped::load (const std::string &fname)
+{
+
+  std::vector <std::string> tags;
+  std::vector <std::string> lines;
+
+  std::string source_fname;
+  std::string ext = get_file_ext (fname);
+
+  if (ext == "kwd")
+     {
+      source_fname = "maindoc.xml";
+      tags.push_back ("text");
+     }
+  else
+  if (ext == "docx")
+     {
+      source_fname = "word/document.xml";
+      tags.push_back ("w:t");
+     }
+  else
+  if (ext == "odt" || ext == "sxw" )
+     {
+      source_fname = "content.xml";
+      tags.push_back ( "text:p");
+      tags.push_back ( "text:s");
+     }
+
+
+//  CZipper zipper;
+//  if (! zipper.read_as_utf8 (fname, source_fname))
+  //    return false;
+
+
+  void *buf = NULL;
+  size_t bufsize;
+
+  struct zip_t *zip = zip_open(fname.c_str(), 0, 'r');
+
+  if (! zip)
+     return lines;
+
+
+  if (zip_entry_open(zip, source_fname.c_str()) < 0)
+     return lines;
+
+
+  zip_entry_read(zip, &buf, &bufsize);
+
+  zip_entry_close(zip);
+
+
+  lines = extract_text_from_xml_pugi ((char*)buf, bufsize, tags);
+
+
+  zip_close(zip);
+  free(buf);
+
+
+
+  return lines;
+}
 
