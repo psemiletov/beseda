@@ -15,7 +15,7 @@
 #include "textbuffer.h"
 #include "bookmarks.h"
 
-#define DEBUGFIO 1
+//#define DEBUGFIO 1
 
 #define BOOK0 "/home/rox/devel/test-books/test.txt"
 #define BOOK1 "/home/rox/devel/test-books/Dracula by Bram Stoker.txt"
@@ -23,6 +23,7 @@
 #define BOOK3 "/home/rox/devel/test-books/Pride and Prejudice by Jane Austen.txt"
 #define BOOK4 "/home/rox/devel/test-books/чтоделать.txt"
 #define BOOK5 "/home/rox/devel/test-books/human_hist.abw"
+#define BOOKDOCX "/home/rox/devel/test-books/01.docx"
 
 using namespace std;
 
@@ -68,7 +69,7 @@ int main (int argc, char *argv[])
    std::string filename;
 
    if (argc == 1)
-      filename = BOOK5;
+      filename = BOOKDOCX;
 
    if (argc == 2)
       {
@@ -104,8 +105,6 @@ int main (int argc, char *argv[])
 #ifdef DEBUGFIO
 
    std::cout << "text_buffer.lines.size():" << text_buffer.lines.size() << std::endl;
-
-
   return 0;
 
 #endif
@@ -127,7 +126,7 @@ int main (int argc, char *argv[])
   keypad(stdscr, TRUE);
   cbreak();
   noecho();
-//  clear();
+  clear();
 
 
   halfdelay(1);
@@ -320,7 +319,7 @@ int main (int argc, char *argv[])
   }
 
 
-//  endwin();
+  endwin();
 
   sp.stop();
 

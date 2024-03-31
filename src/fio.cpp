@@ -15,12 +15,9 @@ class CXML_walker: public pugi::xml_tree_walker
 {
 public:
 
-  //std::string *text;
-
   std::vector <std::string> paragraphs; //text paragraph element, i.e. p para etc
   std::vector <std::string> lines;
 
-  //QStringList paragraphs;
   bool fine_spaces;
   bool for_each (pugi::xml_node& node);
 };
@@ -55,9 +52,10 @@ bool CXML_walker::for_each (pugi::xml_node &node)
           //if (fine_spaces)
             //  text->append ("   ");
 
-           if (t.size() == 1 && t[0] != ' ' && t[0] != '\n')
+           if (t.size() != 1 && t[0] != ' ' && t[0] != '\n')
+               lines.push_back (t);
 
-           lines.push_back (t);
+
           //text->append (t);
 
           //if (t.size() > 1)
@@ -124,6 +122,7 @@ CFIOList::CFIOList()
 
   loaders.push_back (new CFIOPlainText);
   loaders.push_back (new CFIOABW);
+   loaders.push_back (new CFIOXMLZipped);
 
   std::cout << "CFIOList::CFIOList() - 2\n";
 
@@ -206,7 +205,7 @@ std::vector <std::string> CFIOABW::load (const std::string &fname)
 
   lines = extract_text_from_xml_pugi (temp.c_str(), temp.size(), tags);
 
-    std::cout << "CFIO* CFIOABW::load 3\n";
+  //  std::cout << "CFIO* CFIOABW::load 3\n";
 
 
     std::cout << "lines.size:\n" << lines.size();
