@@ -20,6 +20,7 @@
 #define BOOK2 "/home/rox/devel/test-books/frankenstein.txt"
 #define BOOK3 "/home/rox/devel/test-books/Pride and Prejudice by Jane Austen.txt"
 #define BOOK4 "/home/rox/devel/test-books/чтоделать.txt"
+#define BOOK5 "/home/rox/devel/test-books/human_hist.abw"
 
 using namespace std;
 
@@ -133,16 +134,12 @@ int main (int argc, char *argv[])
 
          //printw ("message: %s\n", message.c_str());
          printw ("message: %s\n", bookmarks.pf.file_name.c_str());
+         printw ("slot: %d\n", bookmarks.current_index);
+         printw ("filename: %s\n", filename.c_str());
 
-
-         printw ("filename: %s at slot: %d\n", filename.c_str(), bookmarks.current_index);
-        // move (1, 0);
-//         addstr ("line:");
-
+         printw ("lines total: %s\n", std::to_string (text_buffer.lines.size()).c_str());
          std::string str_counter =  std::to_string(g_position);
-  //       addstr(str_counter.c_str());
-
-         printw ("line: %s\n", str_counter.c_str());
+         printw ("current line: %s\n", str_counter.c_str());
 
          //flushinp();
 
@@ -306,13 +303,10 @@ int main (int argc, char *argv[])
 
   sp.stop();
 
-  std::cout << "111111111111 -A" << std::endl;
+    bookmarks.pf.save();
 
 
-  bookmarks.pf.save();
-
-
-    std::cout << "111111111111 - B" << std::endl;
+  //  std::cout << "111111111111 - B" << std::endl;
 
   //bookmarks.save();
 

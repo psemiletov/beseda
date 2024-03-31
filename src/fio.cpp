@@ -1,15 +1,14 @@
+#include <fstream>
+#include <iostream>
+#include <algorithm>
+
+
 #include "fio.h"
 #include "utl.h"
 
 
 #include "zip.h"
 #include "pugixml.hpp"
-
-
-#include <fstream>
-#include <iostream>
-
-
 
 
 class CXML_walker: public pugi::xml_tree_walker
@@ -62,11 +61,46 @@ bool CXML_walker::for_each (pugi::xml_node &node)
 }
 
 
+std::vector <std::string> extract_text_from_xml_pugi (const char *string_data, size_t datasizebytes, std::vector <std::string> tags)
+{
+  std::vector <std::string> result_lines;
+  //  QString data;
+
+  pugi::xml_document doc;
+
+  pugi::xml_parse_result result = doc.load_buffer (string_data,
+                                                   datasizebytes,
+                                                   pugi::parse_default,
+                                                   pugi::encoding_utf8);
+
+  if (! result)
+     {
+      std::cout << "NOT PARSED" << std::endl;
+      return result_lines;
+     }
+
+  CXML_walker walker;
+  //walker.text = &data;
+  //walker.fine_spaces = settings->value ("show_ebooks_fine", "0").toBool();
+
+  walker.paragraphs.reserve (tags.size());
+  std::copy (tags.begin(), tags.end(), back_inserter(walker.paragraphs));
+
+  doc.traverse (walker);
+
+  return walker.lines;
+}
+
+
+
+
+
 
 CFIOList::CFIOList()
 {
 
   loaders.push_back (new CFIOPlainText);
+  loaders.push_back (new CFIOABW);
 
 
 }
@@ -122,6 +156,39 @@ bool CFIOPlainText::understand (const std::string fname)
   std::string ext = get_file_ext (fname);
 
   if (ext == "txt")
+     return true;
+
+  return false;
+}
+
+
+
+
+std::vector <std::string> CFIOABW::load (const std::string fname)
+{
+  std::cout << "CFIO* CFIOABW::load: " << fname;
+
+  std::string temp = string_file_load (fname);
+
+  std::vector<std::string> tags;
+  tags.push_back ("p");
+
+
+  std::vector<std::string> lines;
+
+  lines = extract_text_from_xml_pugi (temp.c_str(), temp.size(), tags);
+
+  return lines;
+}
+
+
+
+
+bool CFIOABW::understand (const std::string fname)
+{
+  std::string ext = get_file_ext (fname);
+
+  if (ext == "abw")
      return true;
 
   return false;
