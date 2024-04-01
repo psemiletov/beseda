@@ -63,7 +63,7 @@ make install
 
 ## Donate
 
-If you like this software, you can donate me, Peter Semiletov, to Paypal: peter.semiletov@gmail.com
+If you like this software, you can donate to me, Peter Semiletov, via Paypal: peter.semiletov@gmail.com
 
 
 
