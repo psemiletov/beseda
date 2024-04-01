@@ -212,6 +212,8 @@ int main (int argc, char *argv[])
             }
 
 
+         //slots
+
           if (ch == '0')
              bookmarks.current_index = 0;
 
@@ -222,12 +224,34 @@ int main (int argc, char *argv[])
           if (ch == '2')
              bookmarks.current_index = 2;
 
+          if (ch == '3')
+             bookmarks.current_index = 3;
+
+          if (ch == '4')
+             bookmarks.current_index = 4;
+
+          if (ch == '5')
+             bookmarks.current_index = 5;
+
+          if (ch == '6')
+             bookmarks.current_index = 6;
+
+          if (ch == '7')
+             bookmarks.current_index = 7;
+
+          if (ch == '7')
+             bookmarks.current_index = 7;
+
+          if (ch == '8')
+             bookmarks.current_index = 8;
+
+          if (ch == '9')
+             bookmarks.current_index = 9;
+
             //save bookmark
 
           if (ch == KEY_F(2) && text_buffer.loaded)
             {
-             //message = "BMX SAVED\n";
-
              std::string bmarkprefix = "bm" + std::to_string (bookmarks.current_index) + "_";
 
              message = bmarkprefix;
@@ -238,7 +262,7 @@ int main (int argc, char *argv[])
              bookmarks.pf.save();
             }
 
-            //load bookmark
+         //load bookmark
          if (ch == KEY_F(3))
             {
              //load bookmark
@@ -247,7 +271,7 @@ int main (int argc, char *argv[])
              filename = bookmarks.pf.get_string (bmarkprefix + "filename");
              text_buffer.load (filename);
 
-             g_position = bookmarks.pf.get_int ("bm00_position");
+             g_position = bookmarks.pf.get_int (bmarkprefix + "position");
              g_state = SPCH_STATE_SAYING;
             }
 
