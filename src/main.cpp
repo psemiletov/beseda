@@ -150,12 +150,6 @@ int main (int argc, char *argv[])
 
          refresh(); //ncurses
 
-         if (! text_buffer.loaded)
-            {
-             g_state = SPCH_STATE_STOPPED;
-             continue;
-            }
-
      /*   if (g_signal == SIGINT)
            {
             running = false;
@@ -171,6 +165,7 @@ int main (int argc, char *argv[])
              break;
             }
 
+
            /*
          if (ch == 'n')
             {
@@ -180,7 +175,7 @@ int main (int argc, char *argv[])
 */
 
          //OK
-         if (ch == KEY_HOME)
+         if (ch == KEY_HOME && text_buffer.loaded)
             {
              sp.cancel();
              g_state = SPCH_STATE_SAYING;
@@ -189,7 +184,7 @@ int main (int argc, char *argv[])
 
 
          //ok
-         if (ch == KEY_END)
+         if (ch == KEY_END && text_buffer.loaded)
             {
              sp.cancel();
              g_state = SPCH_STATE_SAYING;
@@ -197,7 +192,7 @@ int main (int argc, char *argv[])
             }
 
          //ok
-         if (ch == KEY_UP)
+         if (ch == KEY_UP && text_buffer.loaded)
             {
              sp.cancel();
              g_state = SPCH_STATE_SAYING;
@@ -207,7 +202,7 @@ int main (int argc, char *argv[])
             }
 
          //ok
-         if (ch == KEY_DOWN)
+         if (ch == KEY_DOWN && text_buffer.loaded)
             {
              sp.cancel();
              g_state = SPCH_STATE_SAYING;
@@ -229,7 +224,7 @@ int main (int argc, char *argv[])
 
             //save bookmark
 
-          if (ch == KEY_F(2))
+          if (ch == KEY_F(2) && text_buffer.loaded)
             {
              //message = "BMX SAVED\n";
 
@@ -256,7 +251,7 @@ int main (int argc, char *argv[])
              g_state = SPCH_STATE_SAYING;
             }
 
-         if (ch == ' ') //space
+         if (ch == ' ' && text_buffer.loaded) //space
             {
              if (g_state != SPCH_STATE_PAUSED)
                 {
@@ -271,6 +266,14 @@ int main (int argc, char *argv[])
                  continue;
                 }
              }
+
+
+
+        if (! text_buffer.loaded)
+            {
+             g_state = SPCH_STATE_STOPPED;
+             continue;
+            }
 
 
            //EOF - ВЫХОДИМ ЛИ?
