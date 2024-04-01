@@ -5,12 +5,15 @@ This Public Domain console program can speak you ebooks and is controlled via th
 Dependencies:
 
 [Speech Dispatcher](https://htmlpreview.github.io)
+
 [ncurses](https://invisible-island.net/ncurses/)
 
 Bundled libraries:
 
 [pugixml](https://pugixml.org)
+
 [zip](https://github.com/kuba--/zip)
+
 
 To build Beseda run under sudo or root:
 
