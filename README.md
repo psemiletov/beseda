@@ -4,7 +4,7 @@ This Public Domain console program can speak you ebooks and is controlled via th
 
 Supported formats: plain text, fb2, abw, odt, docx. 
 
-###Run:###
+## Run:
 
 ```
 beseda book_filename
@@ -20,12 +20,11 @@ beseda
 ```
 
 
-###Keyboard controls:###
+## Keyboard controls:
 
 q - exit
 
 up/down - scroll the current text by the paragraph
-
 
 space - play or pause
 
@@ -36,23 +35,23 @@ F2 - save the current file name and posion as the bookmark at the current bookma
 F3 - load the file and the position to the current slot, if it has been saved previously
 
 
-###How to build and install:###
+## How to build and install:
 
 
-####Dependencies####
+### Dependencies:
 
 [Speech Dispatcher](https://htmlpreview.github.io)
 
 [ncurses](https://invisible-island.net/ncurses/)
 
-####Bundled libraries:####
+### Bundled libraries:
 
 [pugixml](https://pugixml.org)
 
 [zip](https://github.com/kuba--/zip)
 
 
-####To build Beseda run under sudo or root:####
+### To build Beseda run under sudo or root:
 
 ```
 mkdir b
