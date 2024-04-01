@@ -6,18 +6,12 @@ Supported formats: plain text, fb2, abw, odt, docx.
 
 ## Run:
 
-```
-beseda book_filename
-
-```
+```beseda book_filename```
 
 or (no starting file, load from bookmarks later)
 
 
-```
-beseda
-
-```
+```beseda```
 
 
 ## Keyboard controls:
