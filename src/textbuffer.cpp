@@ -4,19 +4,26 @@
 
 bool CTextBuffer::load (std::string fname)
 {
-
- // std::cout << "CTextBuffer::load: " << fname;
-
-
    CFIO *f = loader.get_loader_for_file (fname);
    if (f)
       {
        lines = f->load (fname);
+
+       if (lines.size() != 0)
+           loaded = true;
+
        return true;
       }
 
 
-   return false;
+  loaded = false;
+  return false;
+}
+
+
+CTextBuffer::CTextBuffer()
+{
+  loaded = false;
 
 }
 

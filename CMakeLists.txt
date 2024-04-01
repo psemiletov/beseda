@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.5) # setting this is required
 project(beseda)            # this sets the project name
 
+
+
 ###############################################################################
 ## file globbing ##############################################################
 ###############################################################################
@@ -44,3 +46,6 @@ target_link_libraries(beseda ${SPEECH_LIBRARIES} ${CURSES_LIBRARIES})
 
 # Just for example add some compiler flags.
 target_compile_options(beseda PUBLIC -std=c++1y -Wall -Wfloat-conversion)
+
+
+install (TARGETS beseda DESTINATION bin)

@@ -13,10 +13,14 @@ class CTextBuffer
 
   CFIOList loader;
 
+
   int pos; //current position
+
+  bool loaded;
 
   std::vector <std::string> lines; //paragraphs of the text file
 
+  CTextBuffer();
   bool load (std::string fname);
 
 };

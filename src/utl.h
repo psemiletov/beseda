@@ -41,6 +41,7 @@ std::string get_macro_name (const std::string &value);
 void string_save_to_file (const std::string &fname, const std::string &s);
 std::string format3 (size_t n);
 std::string format3 (const std::string &s);
+bool hasEnding (std::string const &fullString, std::string const &ending);
 
 
 #endif
