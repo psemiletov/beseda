@@ -1,5 +1,8 @@
-#include <algorithm>
+/***********************************************************
+ *   this code by Peter Semiletov is Public Domain         *
+ **********************************************************/
 
+#include <algorithm>
 
 #include "filelist.h"
 #include "utl.h"
@@ -19,23 +22,19 @@ CFileList::CFileList()
   current_index = -1;
 }
 
+
 void CFileList::update_for_directory (const std::string &path)
 {
   files = files_get_list (path, exts);
-
-  //SORT ABC!
   sort (files.begin(), files.end());
-
 }
+
 
 void CFileList::update_for_file (const std::string &path)
 {
   std::string dir = get_file_path (path);
   files = files_get_list (dir, exts);
-
-    //SORT ABC!
   sort (files.begin(), files.end());
-
 }
 
 

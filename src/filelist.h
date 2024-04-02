@@ -1,3 +1,7 @@
+/***********************************************************
+ *   this code by Peter Semiletov is Public Domain         *
+ **********************************************************/
+
 #ifndef FILELIST_H
 #define FILELIST_H
 
@@ -23,11 +27,6 @@ public:
 
   void left();
   void right();
-
-
 };
-
-
-
 
 #endif

@@ -1,14 +1,17 @@
+/***********************************************************
+ *   this code by Peter Semiletov is Public Domain         *
+ **********************************************************/
+
 #include <fstream>
 #include <iostream>
 #include <algorithm>
 
+#include "pugixml.hpp"
+#include "zip.h"
 
 #include "fio.h"
 #include "utl.h"
 
-
-#include "pugixml.hpp"
-#include "zip.h"
 
 
 class CXML_walker: public pugi::xml_tree_walker
@@ -35,7 +38,7 @@ bool CXML_walker::for_each (pugi::xml_node &node)
  //std::cout << "node_value:" << node_value << std::endl;
  //std::cout << "node_txt:" << node.text().as_string() << std::endl;
 
-  if (std::find(paragraphs.begin(), paragraphs.end(), node_name) != paragraphs.end())
+  if (std::find (paragraphs.begin(), paragraphs.end(), node_name) != paragraphs.end())
      {
       // Element in vector.
       std::string t = node.text().as_string();
@@ -64,32 +67,18 @@ std::vector <std::string> extract_text_from_xml_pugi (const char *string_data, s
                                                    pugi::parse_default,
                                                    pugi::encoding_utf8);
 
-
-  //std::cout << "extract_text_from_xml_pugi 2" << std::endl;
-
   if (! result)
      {
       std::cout << "NOT PARSED" << std::endl;
       return result_lines;
      }
 
-
-// std::cout << "extract_text_from_xml_pugi 3" << std::endl;
-
   CXML_walker walker;
-  //walker.text = &data;
-  //walker.fine_spaces = settings->value ("show_ebooks_fine", "0").toBool();
 
   walker.paragraphs.reserve (tags.size());
   std::copy (tags.begin(), tags.end(), back_inserter(walker.paragraphs));
 
-  //std::cout << "extract_text_from_xml_pugi 4" << std::endl;
-
-
   doc.traverse (walker);
-
-
-  //std::cout << "extract_text_from_xml_pugi 5" << std::endl;
 
   return walker.lines;
 }
@@ -112,7 +101,6 @@ CFIOList::~CFIOList()
 }
 
 
-
 CFIO* CFIOList::get_loader_for_file (const std::string &fname)
 {
   for (int i = 0; i < loaders.size(); i++)
@@ -129,7 +117,6 @@ CFIO* CFIOList::get_loader_for_file (const std::string &fname)
 std::vector <std::string> CFIOPlainText::load (const std::string &fname)
 {
   std::vector<std::string> lines;
-
   std::string line;
 
   std::ifstream infile (fname, std::ios_base::in);
@@ -159,8 +146,7 @@ std::vector <std::string> CFIOABW::load (const std::string &fname)
 {
   std::string temp = string_file_load (fname);
 
-  std::vector<std::string> tags;
-//  tags.push_back ("p");
+  std::vector <std::string> tags;
 
   tags.push_back ("c");
 
@@ -169,7 +155,6 @@ std::vector <std::string> CFIOABW::load (const std::string &fname)
 
   return lines;
 }
-
 
 
 bool CFIOABW::understand (const std::string &fname)
@@ -183,7 +168,6 @@ bool CFIOABW::understand (const std::string &fname)
 }
 
 
-
 bool CFIOXMLZipped::understand (const std::string &fname)
 {
   std::string ext = get_file_ext (fname);
@@ -193,7 +177,6 @@ bool CFIOXMLZipped::understand (const std::string &fname)
 
   return false;
 }
-
 
 
 std::vector <std::string> CFIOXMLZipped::load (const std::string &fname)
@@ -254,7 +237,6 @@ class CFB2_walker: public pugi::xml_tree_walker
 {
 public:
 
-//  std::vector <std::string> paragraphs; //text paragraph element, i.e. p para etc
   std::vector <std::string> lines;
 
   bool for_each (pugi::xml_node& node);
@@ -270,14 +252,8 @@ bool CFB2_walker::for_each (pugi::xml_node &node)
 
   if (node_name == "p")
      {
-      //if (fine_spaces)
-//        text->append ("   ");
-
       std::string t = node.text().as_string();
       lines.push_back (t);
-
-      //text->append (t);
-      //text->append ("\n");
      }
 
   //if (node_name == "title" || node_name == "section" || node_name == "empty-line")
@@ -304,7 +280,6 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
 
   std::vector <std::string> tags;
   std::vector <std::string> lines;
-
   std::string ext = get_file_ext (fname);
 
   tags.push_back ("p");
@@ -326,7 +301,6 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
   std::string source_fname;
 
   //we can have malformed internal filename, so find the first fb2 at the archive
-
 
   struct zip_t *zip = zip_open (fname.c_str(), 0, 'r');
 
