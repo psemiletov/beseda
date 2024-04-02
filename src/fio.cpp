@@ -88,6 +88,8 @@ CFIOList::CFIOList()
 {
   loaders.push_back (new CFIOPlainText);
   loaders.push_back (new CFIOABW);
+  loaders.push_back (new CFIOHTML);
+
   loaders.push_back (new CFIOXMLZipped);
   loaders.push_back (new CFIOFB2);
 }
@@ -136,6 +138,32 @@ bool CFIOPlainText::understand (const std::string &fname)
   std::string ext = get_file_ext (fname);
 
   if (ext == "txt")
+     return true;
+
+  return false;
+}
+
+
+
+std::vector <std::string> CFIOHTML::load (const std::string &fname)
+{
+  std::string temp = string_file_load (fname);
+
+  std::string cleared = html_strip (temp);
+
+  std::cout << cleared << std::endl;
+
+  std::vector<std::string> lines = split_string_to_vector (cleared, "\n", false);
+
+  return lines;
+}
+
+
+bool CFIOHTML::understand (const std::string &fname)
+{
+  std::string ext = get_file_ext (fname);
+
+  if (ext == "htm" || ext == "html" || ext == "xhtml"  )
      return true;
 
   return false;

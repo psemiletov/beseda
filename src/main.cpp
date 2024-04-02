@@ -33,6 +33,7 @@
 #define BOOKFB2 "/home/rox/devel/test-books/dar.fb2"
 #define BOOKFB2ZIP "/home/rox/devel/test-books/Dante_Aligeri__Bozhestvennaja_komedija.fb2.zip"
 #define BOOKFBZ "/home/rox/devel/test-books/ud-tom-01Z.fbz"
+#define BOOKHTML "/home/rox/devel/test-books/aorta.html"
 
 
 
@@ -80,7 +81,7 @@ int main (int argc, char *argv[])
 
 #ifdef DEBUGFIO
    if (argc == 1)
-      filename = BOOKFBZ;
+      filename = BOOKHTML;
 #endif
 
    if (argc == 2)
@@ -161,6 +162,8 @@ int main (int argc, char *argv[])
          std::string str_counter =  std::to_string(g_position);
          printw ("current line: %s\n", str_counter.c_str());
 
+
+         //ПЕРЕПИСАТЬ, ОБНОВЛЯТЬ ЛИШЬ ПРИ ИЗМЕНЕНИИ ПАРАМЕТРОВ!
          refresh();
 
      /*   if (g_signal == SIGINT)
@@ -178,14 +181,6 @@ int main (int argc, char *argv[])
              break;
             }
 
-
-           /*
-         if (ch == 'n')
-            {
-             sp.cancel();
-             continue;
-            }
-*/
 
          //PgUp
          if (ch == KEY_PPAGE  && text_buffer.loaded)

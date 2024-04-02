@@ -40,6 +40,17 @@ public:
 };
 
 
+class CFIOHTML: public CFIO
+{
+public:
+
+  std::vector <std::string> load (const std::string &fname);
+  bool understand (const std::string &fname);
+
+};
+
+
+
 class CFIOXMLZipped: public CFIO
 {
 public:

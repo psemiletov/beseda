@@ -18,6 +18,9 @@ CFileList::CFileList()
   exts.push_back ("fb2");
   exts.push_back ("fbz");
   exts.push_back ("fb2.zip");
+  exts.push_back ("html");
+  exts.push_back ("xhtml");
+  exts.push_back ("htm");
 
   current_index = -1;
 }

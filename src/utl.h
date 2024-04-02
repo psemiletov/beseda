@@ -51,5 +51,6 @@ void string_save_to_file (const std::string &fname, const std::string &s);
 bool ends_with (std::string const & value, std::string const & ending);
 std::string format3 (size_t n);
 std::string format3 (const std::string &s);
+std::string html_strip (const std::string &source);
 
 #endif

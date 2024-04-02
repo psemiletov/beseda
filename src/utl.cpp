@@ -758,4 +758,22 @@ std::string format3 (const std::string &s)
 }
 
 
+std::string html_strip (const std::string &source)
+{
+  std::string html = source;
+
+    while (html.find("<") != std::string::npos)
+    {
+        auto startpos = html.find("<");
+        auto endpos = html.find(">") + 1;
+
+        if (endpos != std::string::npos)
+        {
+            html.erase(startpos, endpos - startpos);
+        }
+    }
+
+   return html;
+
+}
 
