@@ -22,7 +22,7 @@ up/down - scroll the current text by the paragraph
 
 left/right - go to previous/next supported file at the current directory
 
-enter - load and play the selected file
+enter - load and play the selected (by left/right) file
 
 space - when playing, play or pause
 
