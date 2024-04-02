@@ -20,9 +20,13 @@ q - exit
 
 up/down - scroll the current text by the paragraph
 
-space - play or pause
+left/right - go to previous/next supported file at the current directory
 
-0..9 - choose current bookmark slot
+enter - load and play the selected file
+
+space - when playing, play or pause
+
+0..9 - choose the current bookmark slot
 
 F2 - save the current file name and posion as the bookmark at the current bookmark slot
 

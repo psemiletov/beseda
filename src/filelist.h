@@ -21,6 +21,9 @@ public:
   void update_for_file (const std::string &path);
   int get_list_index_from_fname (const std::string &path);
 
+  void left();
+  void right();
+
 
 };
 

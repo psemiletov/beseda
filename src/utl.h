@@ -12,6 +12,8 @@
 
 //File utils
 
+std::string get_file_name (std::string const& path);
+
 size_t get_file_size (const std::string &fname);
 std::string get_file_ext (const std::string &fname);
 std::string replace_file_ext (const std::string &fname, const std::string &ext);

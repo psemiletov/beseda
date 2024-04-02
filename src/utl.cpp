@@ -66,6 +66,12 @@
 using namespace std;
 
 
+std::string get_file_name (std::string const& path)
+{
+   size_t index_of_slash = path.find_last_of ("/");
+   return path.substr (index_of_slash + 1);
+}
+
 
 #if !defined(_WIN32) || !defined(_WIN64)
 
@@ -121,6 +127,10 @@ std::vector <std::string> files_get_list (const std::string &path,
    while (dir_entry = readdir (directory))
          {
           // std::cout << dir_entry->d_name << std::endl;
+
+          if (dir_entry->d_type == DT_DIR)
+             continue;
+
           t = dir_entry->d_name;
 
           for (auto & ext : exts)

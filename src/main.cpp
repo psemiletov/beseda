@@ -14,6 +14,7 @@
 #include "speech.h"
 #include "textbuffer.h"
 #include "bookmarks.h"
+#include "filelist.h"
 
 #define LINES_PER_PAGE 7
 
@@ -54,8 +55,12 @@ extern int g_state;
 
 int saved_pos;
 
+
 int main (int argc, char *argv[])
 {
+
+  CFileList filelist;
+
   g_position = 0;
 
   std::string config_dir = get_home_dir() + "/.config";
@@ -105,6 +110,15 @@ int main (int argc, char *argv[])
       g_state = SPCH_STATE_STOPPED;
 
 
+  if (text_buffer.loaded)
+    {
+     filelist.update_for_file (filename);
+     filelist.current_index = filelist.get_list_index_from_fname (filename);
+    }
+  else
+      filelist.update_for_directory (current_path());
+
+
 #ifdef DEBUGFIO
 
   std::cout << "text_buffer.lines.size():" << text_buffer.lines.size() << std::endl;
@@ -137,7 +151,7 @@ int main (int argc, char *argv[])
 
          erase();
 
-         printw ("message: %s\n", bookmarks.pf.file_name.c_str());
+         printw ("message: %s\n", message.c_str());
          printw ("slot: %d\n", bookmarks.current_index);
          printw ("filename: %s\n", filename.c_str());
 
@@ -147,7 +161,7 @@ int main (int argc, char *argv[])
          std::string str_counter =  std::to_string(g_position);
          printw ("current line: %s\n", str_counter.c_str());
 
-         refresh(); //ncurses
+         refresh();
 
      /*   if (g_signal == SIGINT)
            {
@@ -235,6 +249,85 @@ int main (int argc, char *argv[])
                 g_position++;
             }
 
+         if (ch == KEY_LEFT)
+            {
+             if (text_buffer.loaded)
+                 sp.cancel();
+
+             filelist.left();
+             if (filelist.current_index != -1)
+                {
+                 //filename = filelist.files[filelist.current_index];
+                 //add here say filename
+
+                 std::string temp_filename = filelist.files[filelist.current_index];
+
+                 message = get_file_name (temp_filename);
+
+
+               //add here say filename
+  //              sp.say (temp_filename.c_str());
+                sp.say (get_file_name (temp_filename).c_str());
+
+
+                 //text_buffer.load (filename);
+                 g_position = 0;
+                 g_state = SPCH_STATE_STOPPED;
+                }
+            }
+
+
+        if (ch == KEY_RIGHT)
+            {
+             if (text_buffer.loaded)
+                 sp.cancel();
+
+
+             filelist.right();
+             if (filelist.current_index != -1)
+                {
+                 std::string temp_filename = filelist.files[filelist.current_index];
+
+                 message = get_file_name (temp_filename);
+
+//                 filename = temp_filename;
+
+               //add here say filename
+
+                sp.say (get_file_name (temp_filename).c_str());
+
+                 //text_buffer.load (filename);
+
+                 g_position = 0;
+                 g_state = SPCH_STATE_STOPPED;
+                }
+            }
+
+
+        if (ch == 10/*KEY_ENTER*/)
+            {
+             //if (filelist.current_index == filelist.get_list_index_from_fname (filename))
+               // continue;
+
+             if (text_buffer.loaded)
+                 sp.cancel();
+
+             if (filelist.current_index != -1)
+                {
+                 filename = filelist.files[filelist.current_index];
+
+               //add here say filename
+                 text_buffer.load (filename);
+
+                 saved_pos = -1;
+
+                 g_position = 0;
+                 g_state = SPCH_STATE_SAYING;
+                }
+            }
+
+
+
 
          //slots
 
@@ -295,8 +388,14 @@ int main (int argc, char *argv[])
              filename = bookmarks.pf.get_string (bmarkprefix + "filename");
              text_buffer.load (filename);
 
-             g_position = bookmarks.pf.get_int (bmarkprefix + "position");
-             g_state = SPCH_STATE_SAYING;
+             if (text_buffer.loaded)
+                {
+                 filelist.update_for_file (filename);
+                 filelist.current_index = filelist.get_list_index_from_fname (filename);
+
+                 g_position = bookmarks.pf.get_int (bmarkprefix + "position");
+                 g_state = SPCH_STATE_SAYING;
+               }
             }
 
          if (ch == ' ' && text_buffer.loaded) //space
@@ -325,7 +424,7 @@ int main (int argc, char *argv[])
 
 
            //EOF - ВЫХОДИМ ЛИ?
-          if (g_position !=0 && g_position > text_buffer.lines.size())
+          if (g_position != 0 && g_position > text_buffer.lines.size())
              {
               running = false;
               //state = SPCH_STATE_STOPPED;
@@ -347,7 +446,7 @@ int main (int argc, char *argv[])
 
   sp.stop();
 
-  bookmarks.pf.save();
+ // bookmarks.pf.save();
 
 
   //  std::cout << "111111111111 - B" << std::endl;
