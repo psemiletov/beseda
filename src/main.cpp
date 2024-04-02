@@ -15,6 +15,9 @@
 #include "textbuffer.h"
 #include "bookmarks.h"
 
+#define LINES_PER_PAGE 7
+
+
 //#define DEBUGFIO 1
 
 #define BOOK0 "/home/rox/devel/test-books/test.txt"
@@ -53,12 +56,12 @@ int saved_pos;
 
 int main (int argc, char *argv[])
 {
-   g_position = 0;
+  g_position = 0;
 
-   std::string config_dir = get_home_dir() + "/.config";
-   mkdir (config_dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-   config_dir += "/beseda";
-   mkdir (config_dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+  std::string config_dir = get_home_dir() + "/.config";
+  mkdir (config_dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+  config_dir += "/beseda";
+  mkdir (config_dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
   std::string message;
   CBookmarks bookmarks;
@@ -69,7 +72,6 @@ int main (int argc, char *argv[])
 
   std::string filename = "no file loaded";
 
-   //ПЕРЕПИСАТЬ, СДЕЛАТЬ ВОЗМОЖНОСТЬ ЗАГРУЗКИ БЕЗ ФАЙЛА!
 
 #ifdef DEBUGFIO
    if (argc == 1)
@@ -77,16 +79,13 @@ int main (int argc, char *argv[])
 #endif
 
    if (argc == 2)
-      {
        //take from argv[1]
        filename = argv[1];
-      }
 
   //std::cout << "filename:::" << filename << std::endl;
 
   //std::cout << setlocale(LC_ALL, NULL) << std::endl;
   setlocale (LC_ALL, "");
-
 
   //SPEECH INIT
   CSpeech sp;
@@ -173,6 +172,31 @@ int main (int argc, char *argv[])
              continue;
             }
 */
+
+         //PgUp
+         if (ch == KEY_PPAGE  && text_buffer.loaded)
+            {
+             sp.cancel();
+             g_state = SPCH_STATE_SAYING;
+
+             g_position -= LINES_PER_PAGE;
+             if (g_position < 0)
+                g_position = 0;
+            }
+
+
+         //PgDn
+         if (ch == KEY_NPAGE  && text_buffer.loaded)
+            {
+             sp.cancel();
+             g_state = SPCH_STATE_SAYING;
+
+             g_position += LINES_PER_PAGE;
+             if (g_position > (text_buffer.lines.size() - 1))
+                g_position = text_buffer.lines.size() - 1;
+            }
+
+
 
          //OK
          if (ch == KEY_HOME && text_buffer.loaded)
