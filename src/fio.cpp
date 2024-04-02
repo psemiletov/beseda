@@ -292,7 +292,7 @@ bool CFIOFB2::understand (const std::string &fname)
 {
   std::string ext = get_file_ext (fname);
 
-  if (ext == "fb2" || ext == "fbz" || hasEnding (fname, "fb2.zip"))
+  if (ext == "fb2" || ext == "fbz" || ends_with (fname, "fb2.zip"))
      return true;
 
   return false;
@@ -341,7 +341,7 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
        const char *name = zip_entry_name(zip);
 
        std::string tname = name;
-        if (hasEnding (tname, "fb2"))
+        if (ends_with (tname, "fb2"))
            {
             source_fname = tname;
             zip_entry_close(zip);
@@ -371,7 +371,7 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
    //if (hasEnding (fname, "fbz"))
       //source_fname = source_fname + ".fb2";
 
-  std::cout << source_fname << std::endl;
+//  std::cout << source_fname << std::endl;
 
 
   void *buf = NULL;

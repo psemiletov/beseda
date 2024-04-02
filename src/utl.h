@@ -25,6 +25,12 @@ bool is_path_abs (const std::string &path);
 bool path_exists (const std::string &fname);
 std::string get_tmp_dir();
 
+std::vector <std::string> files_get_list (const std::string &path);
+std::vector <std::string> files_get_list (const std::string &path, const std::string &ext); //ext with dot: ".txt"
+std::vector <std::string> files_get_list (const std::string &path,
+                                         std::vector <std::string> exts);
+
+
 
 //String utis
 
@@ -39,9 +45,9 @@ std::string string_file_load (const std::string &fname);
 std::vector <std::string> vector_file_load (const std::string &fname);
 std::string get_macro_name (const std::string &value);
 void string_save_to_file (const std::string &fname, const std::string &s);
+//bool hasEnding (std::string const &fullString, std::string const &ending);
+bool ends_with (std::string const & value, std::string const & ending);
 std::string format3 (size_t n);
 std::string format3 (const std::string &s);
-bool hasEnding (std::string const &fullString, std::string const &ending);
-
 
 #endif

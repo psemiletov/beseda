@@ -39,26 +39,22 @@
 #include <limits>
 #include <unistd.h>
 
-#if defined(_WIN32) || defined(_WIN64)
 
-//#include <pwd.h>
+#if !defined(_WIN32) || !defined(_WIN64)
 
-#include <windows.h>
-#include <Shlobj.h>
-
-
-#define GetCurrentDir _getcwd
-#define DIR_SEPARATOR '\\'
-
-#else
-
+#include <unistd.h>
+#include <dirent.h>
 #include <sys/statvfs.h>
-
 
 #define DIR_SEPARATOR '/'
 
-//#define GetCurrentDir getcwd
+#else
 
+#include <Windows.h>
+#include <shlobj.h>
+
+#define GetCurrentDir _getcwd
+#define DIR_SEPARATOR '\\'
 
 #endif
 
@@ -67,9 +63,192 @@
 
 
 
-
-
 using namespace std;
+
+
+
+#if !defined(_WIN32) || !defined(_WIN64)
+
+std::vector <std::string> files_get_list (const std::string &path)
+{
+  std::vector <std::string> result;
+
+  if (path.empty())
+     return result;
+
+  DIR *directory;
+  struct dirent *dir_entry = NULL;
+
+  directory = opendir (path.c_str());
+  if (! directory)
+     return result;
+
+  std::string t;
+
+  while ((dir_entry = readdir (directory)))
+        {
+         t = dir_entry->d_name;
+
+         if (t != "." && t != "..")
+             result.push_back (path + "/" + t);
+        }
+
+  closedir (directory);
+
+  return result;
+}
+
+
+std::vector <std::string> files_get_list (const std::string &path,
+                                         std::vector <std::string> exts)
+{
+  std::vector <std::string> result;
+
+  if (path.empty())
+     return result;
+
+  DIR *directory;
+
+
+  directory = opendir (path.c_str());
+  if (! directory)
+      return result;
+
+  std::string t;// = dir_entry->d_name;
+
+  struct dirent *dir_entry = NULL;
+
+   while (dir_entry = readdir (directory))
+         {
+          // std::cout << dir_entry->d_name << std::endl;
+          t = dir_entry->d_name;
+
+          for (auto & ext : exts)
+             {
+              if (t.rfind (ext) != string::npos)
+                 result.push_back (path + "/" + t);
+             }
+
+         }
+
+   closedir (directory);
+   return result;
+}
+
+
+std::vector <std::string> files_get_list (const std::string &path, const std::string &ext) //ext with dot: ".txt"
+{
+  std::vector <std::string> result;
+
+  if (path.empty())
+     return result;
+
+  DIR *directory;
+
+
+  directory = opendir (path.c_str());
+  if (! directory)
+      return result;
+
+  std::string t;// = dir_entry->d_name;
+
+  struct dirent *dir_entry = NULL;
+
+   while (dir_entry = readdir (directory))
+         {
+          // std::cout << dir_entry->d_name << std::endl;
+          t = dir_entry->d_name;
+          if (t.rfind (ext) != string::npos)
+            result.push_back (path + "/" + t);
+         }
+
+   closedir (directory);
+   return result;
+}
+
+
+
+#else
+
+
+
+std::vector <std::string> files_get_list (const std::string &path)
+{
+
+  std::vector<std::string> result;
+
+  if (path.empty())
+     return result;
+
+
+    WIN32_FIND_DATAA findData;
+    HANDLE hFind = INVALID_HANDLE_VALUE;
+    std::string full_path = path + "\\*";
+
+    hFind = FindFirstFileA (full_path.c_str(), &findData);
+
+    std::string t;
+
+    if (hFind == INVALID_HANDLE_VALUE)
+        //throw std::runtime_error("Invalid handle value! Please check your path...");
+       return result;
+
+    while (FindNextFileA(hFind, &findData) != 0)
+      {
+       t = findData.cFileName;
+
+       if (t != "." && t != "..")
+           result.push_back (path + "/" + t);
+     }
+
+    FindClose(hFind);
+
+    return result;
+}
+
+
+
+std::vector <std::string> files_get_list (const std::string &path, const std::string &ext) //ext with dot: ".txt"
+{
+
+  std::vector<std::string> result;
+
+  if (path.empty())
+     return result;
+
+
+
+    WIN32_FIND_DATAA findData;
+    HANDLE hFind = INVALID_HANDLE_VALUE;
+    std::string full_path = path + "\\*";
+
+
+    hFind = FindFirstFileA (full_path.c_str(), &findData);
+
+    std::string t;
+
+    if (hFind == INVALID_HANDLE_VALUE)
+        //throw std::runtime_error("Invalid handle value! Please check your path...");
+       return result;
+
+    while (FindNextFileA(hFind, &findData) != 0)
+      {
+        t = findData.cFileName;
+
+      if (t.rfind (ext) != string::npos)
+            result.push_back (path + "/" + t);
+
+    }
+
+    FindClose(hFind);
+
+    return result;
+}
+
+
+#endif
+
+
 
 
 size_t get_file_size (const string &fname)
@@ -125,13 +304,6 @@ string get_home_dir()
 
   if (homedir != NULL)
      result = homedir;
-  /*else
-      homedir = getpwuid(getuid())->pw_dir;
-
-  if (homedir != NULL)
-     result = homedir;
-*/
-//  return result;
 
 #else
 
@@ -155,7 +327,7 @@ string current_path()
 */
 
 
-string current_path()
+std::string current_path()
 {
  std::string result;
 
@@ -164,8 +336,7 @@ string current_path()
 #if defined(_WIN32) || defined(_WIN64)
 
   if (_getcwd (buff, FILENAME_MAX))
-    result = buff;
-
+     result = buff;
 
 #else
 
@@ -175,13 +346,10 @@ string current_path()
 #endif
 
  return result;
-
-
 }
 
 
-
-string get_tmp_dir()
+std::string get_tmp_dir()
 {
   std::string result;
 
@@ -192,11 +360,10 @@ string get_tmp_dir()
   DWORD d = GetTempPath(MAX_PATH + 1, szPath);
   if (d != ERROR_SUCCESS)
      result = "/tmp";
-   else
-        result = szPath;
+  else
+      result = szPath;
 
  #else
-
 
   char const *d = getenv ("TMPDIR");
   if (d)
@@ -208,9 +375,6 @@ string get_tmp_dir()
 
   return result;
 }
-
-
-
 
 
 /*
@@ -257,8 +421,6 @@ size_t get_free_space (const string &path)
             printf ("Free space on drive       = %I64u MB\n",
                     i64FreeBytes / (1024*1024));*/
          }
-
-
 
 #else
 
@@ -439,7 +601,6 @@ size_t string_to_file_size (const string &val)
 }
 
 
-
 string bytes_to_file_size (size_t val)
 {
   if (val >= 1073741824)
@@ -453,7 +614,6 @@ string bytes_to_file_size (size_t val)
 
   return std::to_string (val) + " bytes";;
 }
-
 
 
 string bytes_to_file_size3 (size_t val)
@@ -471,12 +631,10 @@ string bytes_to_file_size3 (size_t val)
 }
 
 
-
-
-string string_file_load (const string &fname)
+std::string string_file_load (const std::string &fname)
 {
  if (fname.empty())
-    return string();
+    return std::string();
 
  std::ifstream t (fname.c_str());
  std::string s ((std::istreambuf_iterator<char>(t)),
@@ -486,9 +644,9 @@ string string_file_load (const string &fname)
 }
 
 
-vector <string> vector_file_load (const string &fname)
+std::vector <std::string> vector_file_load (const std::string &fname)
 {
-  vector <string> v;
+  std::vector <std::string> v;
 
   if (fname.empty())
      return v;
@@ -502,7 +660,7 @@ vector <string> vector_file_load (const string &fname)
       return v;
      }
 
-  string line;
+  std::string line;
 
   while (getline (infile, line))
         {
@@ -514,7 +672,7 @@ vector <string> vector_file_load (const string &fname)
 }
 
 
-string get_macro_name (const string &value)
+std::string get_macro_name (const std::string &value)
 {
  size_t pos = value.find_first_of (':');
  if (pos == string::npos)
@@ -546,6 +704,27 @@ bool path_exists (const string &fname)
 }
 
 
+bool ends_with (std::string const & value, std::string const & ending)
+{
+    if (ending.size() > value.size())
+       return false;
+
+    return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
+}
+
+
+
+/*
+bool hasEnding (std::string const &fullString, std::string const &ending) {
+    if (fullString.length() >= ending.length()) {
+        return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
+    } else {
+        return false;
+    }
+}
+*/
+
+
 
 std::string format3 (size_t n)
 {
@@ -570,20 +749,3 @@ std::string format3 (const std::string &s)
 
 
 
-bool hasEnding (std::string const &fullString, std::string const &ending) {
-    if (fullString.length() >= ending.length()) {
-        return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
-    } else {
-        return false;
-    }
-}
-
-/*
-
- inline bool ends_with(std::string const & value, std::string const & ending)
-{
-    if (ending.size() > value.size()) return false;
-    return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
-}
-
- */
