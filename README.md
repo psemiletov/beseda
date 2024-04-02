@@ -2,7 +2,7 @@
 
 This Public Domain console program can speak you ebooks and is controlled via the keyboard to make it handy for the vision accesibility. Fast and simple. 
 
-Supported formats: plain text, fb2, abw, odt, docx. 
+Supported formats: plain text, fb2, abw, [x]html, odt, docx. 
 
 ## Run:
 
