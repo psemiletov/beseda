@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="styles.css" rel="stylesheet" type="text/css">
+
+<title>Beseda: ebooks speaker | Беседа: говорилка для книжек</title>
+</head>
+<body>
+
+<h2 align="center"> Beseda | Беседа</h2>
+
+<h3 align="center">Beseda: ebooks speaker for Linux | Беседа: говорилка для книжек под Linux</h3>
+
+<p align="center">
+<a href="index.html">Home | Главная</a> •
+<a href="install.html">Get plugin | Скачать плагин</a> • <a href="getkits.html">Get kits | Скачать драмкиты</a> •
+<a href="manual.html">Docs | Руководство</a> • <a href="donate.html">Donate | Донат</a></p>
+
+
+<div align="center">
+<table>
+
+<tr>
+
+<td>
+
+<h3>ABOUT</h3>
+
+<p>Beseda is Public Domain console Linux program that speak you ebooks and controlled via the keyboard to make it handy for the vision accesibility. Fast and simple.<p> 
+
+<p>It supports the following formats: plain text, fb2, abw, [x]html, odt, docx.</p>
+
+<p>For the speech it uses <a href="https://freebsoft.org/speechd">Speech Dispatcher</a> service that must be installed and configured separately. Speech Dispatcher needs some  voice synths, such as <a href="RHVoice">https://github.com/RHVoice</a> or <a href="http://festvox.org">Festival, Flite</a>. Please read the documentation for you Linux distro or those programs for a details.</p>
+
+<h3>INSTALL</h3>
+
+<p>To install Beseda, you can try to find the package for your distro (if available), or build it from the source. <a href="">This link</a> points to the latest release, and <a href="https://github.com/psemiletov/beseda">here is the project page</a> at Github.</p>
+
+<p>To build it from the source, you need some utilities and packages. The dependencies are:</p>
+
+<p>
+g++ and cmake - the standard tools to build programs.<br>
+libspeechd - library of Speech Dispatcher, can be named <i>libspeechd-dev</i> in Debian or Ubuntu.<br>
+<a href="https://invisible-island.net/ncurses">ncurses</a>) for the console interface.
+</p>
+
+<p>Beseda's source code also bundles <a href="https://pugixml.org">pugixml</a> and <a href="https://github.com/kuba--/zip">zip</a> libraries.</p>
+
+<p>To build Beseda, unpack the source tarball, go to the created dir and run the followed commands</p>
+
+<pre>mkdir b
+cd b
+cmake ..
+make
+sudo make install</pre>
+
+<h3>USE</h3>
+
+<p>To run Beseda is the simpliest case, just type and press enter:<br>
+<i>beseda ebook_file_name</i><br>
+If ebook_file_name is not in the current directory, write the full path name. If it has spaces, enclose the path to the "double quotes".</p>
+
+<p>Beseda speaks paragraph by paragraph (i.e. line by line).</p>
+
+<p>When runned, Beseda allows you to navigate through the files (supported formats only) at the directory of the current file or the current working directory. Use left and right cursor keys to navigate, and Enter to load and play.</p>
+
+<p>About other control keys read the next section. Consider the slots/bookmarks conception to open favourites books quickly.</p>
+
+<h3>KEYBOARD</h3>
+
+<p><b>q</b> - exit<br>
+
+<b>Up/Down</b> - scroll the current text by the paragraph<br>
+
+<b>Left/Right</b> - go to previous/next supported file at the current directory<br>
+
+<b>Enter</b> - load and play the selected (by left/right) file<br>
+
+<b>Space</b> - when playing, play or pause. If the current paragraph is big, the pause may not work immidiately, so don't press <b>Space</b> again, just wait and you will be awarded for your patience with the solid rock pause.<br>
+
+<b>0..9</b> - choose the current bookmark slot<br>
+
+<b>F2</b> - save the current file name and posion as the bookmark at the current bookmark slot<br>
+
+<b>F3</b> - load the file and the position to the current slot, if it has been saved previously. Thus, you can run Beseda without any file at the command line, then select the slot and load file to it with the saved position.
+</p>
+
+<h3>DONATE</h3>
+
+<p>If you like this software, you can donate to me, Peter Semiletov, via Paypal: peter.semiletov@gmail.com
+</p>
+
+</td>
+
+
+<td>
+
+
+<h3>О ПРОГРАММЕ</h3>
+
+<p>Беседа это шаровая консольная программа для Linux, которая может читать вслух электронные книжки и управляется при помощи клавиатуры, что делает ее удобной для тех, кто плохо видит.</p>
+
+<p>Поддерживаются такие форматы: обычный текст, FB2, ABW, [X]HTML, ODT, DOCX.</p>
+
+<p>Для чтения вслух используется сервис <a href="https://freebsoft.org/speechd">Speech Dispatcher</a>, который надо установить и настроить отдельно. А Speech Dispatcher требует модули синтеза речи, например <a href="RHVoice">https://github.com/RHVoice</a> или <a href="http://festvox.org">Festival, Flite</a>. Пожалуйста, читайте в документации к вашему дистрибутиву Linux или этим программам, как их установить и настроить.</p>
+
+<h3>УСТАНОВКА</h3>
+
+
+<p>Чтобы установить Беседу, попробуйте найти ее пакет для своего дистрибутива Linux, или же соберите из исходника. <a href="">Эта ссылочка</a> указывает на последний выпуск, а <a href="https://github.com/psemiletov/beseda">вот страница проекта</a> на Github.</p>
+
+<p>Для сборки из исходников, вам понадобится кое-какой софт:</p>
+
+<p>
+g++ и cmake - стандартный набор для сборки программ.<br>
+libspeechd - библиотека Speech Dispatcher, называется <i>libspeechd-dev</i> в Debian и Ubuntu.<br>
+<a href="https://invisible-island.net/ncurses">ncurses</a> для консольного интерфейса.
+</p>
+
+<p>В исходники Беседы включены библиотеки <a href="https://pugixml.org">pugixml</a> and <a href="https://github.com/kuba--/zip">zip</a>, из скачивать не нужно.</p>
+
+<p>Для сборки Беседы, распакуйте архив с исходником, зайдите в полученный каталог и дайте следующие команды:</p>
+
+<pre>mkdir b
+cd b
+cmake ..
+make
+sudo make install</pre>
+
+<h3>ИСПОЛЬЗОВАНИЕ</h3>
+
+<p>В простейшем случае, для запуска Беседы достаточно набрать и потом нажать Enter:<br>
+<i>beseda имя_файла_с_книгой</i><br>
+Если beseda имя_файла_с_книгой не находится в текущем каталоге, укажите полный путь. Если в пути есть пробелы, заключите путь в "двойные кавычки".</p>
+
+<p>When runned, Beseda allows you to navigate through the files (supported formats only) at the directory of the current file or the current working directory. Use left and right cursor keys to navigate, and Enter to load and play.</p>
+
+<p>About other control keys read the next section. Consider the slots/bookmarks conception to open favourites books quickly.</p>
+
+<h3>KEYBOARD</h3>
+
+<p><b>q</b> - exit<br>
+
+<b>Up/Down</b> - scroll the current text by the paragraph<br>
+
+<b>Left/Right</b> - go to previous/next supported file at the current directory<br>
+
+<b>Enter</b> - load and play the selected (by left/right) file<br>
+
+<b>Space</b> - when playing, play or pause<br>
+
+<b>0..9</b> - choose the current bookmark slot<br>
+
+<b>F2</b> - save the current file name and posion as the bookmark at the current bookmark slot<br>
+
+<b>F3</b> - load the file and the position to the current slot, if it has been saved previously
+</p>
+
+<h3>DONATE</h3>
+
+<p>If you like this software, you can donate to me, Peter Semiletov, via Paypal: peter.semiletov@gmail.com
+</p>
+
+
+
+</td>
+
+
+</tr>
+
+<table>
+</div>
+<h3 align="center">Made by Peter Semiletov | Создано Петром Семилетовым</h3>
+
+</body>
+</html>

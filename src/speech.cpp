@@ -150,8 +150,8 @@ void CSpeech::pause()
   if (! initialized)
      return;
 
-  spd_pause (spd_connection);
-  g_state = SPCH_STATE_PAUSED;
+  if (spd_pause (spd_connection) != -1)
+     g_state = SPCH_STATE_PAUSED;
 }
 
 
@@ -161,9 +161,6 @@ void CSpeech::play()
       return;
 
   g_state = SPCH_STATE_SAYING;
-
-//  paused = false;
-//  saying = true;
   g_position = 0;
 }
 
@@ -174,8 +171,8 @@ void CSpeech::resume()
   if (! initialized)
      return;
 
-   g_state = SPCH_STATE_SAYING;
-   spd_resume (spd_connection);
+   if (spd_resume (spd_connection) != -1)
+      g_state = SPCH_STATE_SAYING;
 }
 
 

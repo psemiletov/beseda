@@ -244,6 +244,7 @@ int main (int argc, char *argv[])
                 g_position++;
             }
 
+
          if (ch == KEY_LEFT)
             {
              if (text_buffer.loaded)
@@ -252,20 +253,11 @@ int main (int argc, char *argv[])
              filelist.left();
              if (filelist.current_index != -1)
                 {
-                 //filename = filelist.files[filelist.current_index];
-                 //add here say filename
-
                  std::string temp_filename = filelist.files[filelist.current_index];
 
                  message = get_file_name (temp_filename);
+                 sp.say (message.c_str());
 
-
-               //add here say filename
-  //              sp.say (temp_filename.c_str());
-                sp.say (get_file_name (temp_filename).c_str());
-
-
-                 //text_buffer.load (filename);
                  g_position = 0;
                  g_state = SPCH_STATE_STOPPED;
                 }
@@ -277,21 +269,14 @@ int main (int argc, char *argv[])
              if (text_buffer.loaded)
                  sp.cancel();
 
-
              filelist.right();
+
              if (filelist.current_index != -1)
                 {
                  std::string temp_filename = filelist.files[filelist.current_index];
 
                  message = get_file_name (temp_filename);
-
-//                 filename = temp_filename;
-
-               //add here say filename
-
-                sp.say (get_file_name (temp_filename).c_str());
-
-                 //text_buffer.load (filename);
+                 sp.say (message.c_str());
 
                  g_position = 0;
                  g_state = SPCH_STATE_STOPPED;
@@ -301,9 +286,6 @@ int main (int argc, char *argv[])
 
         if (ch == 10/*KEY_ENTER*/)
             {
-             //if (filelist.current_index == filelist.get_list_index_from_fname (filename))
-               // continue;
-
              if (text_buffer.loaded)
                  sp.cancel();
 
@@ -315,20 +297,16 @@ int main (int argc, char *argv[])
                  text_buffer.load (filename);
 
                  saved_pos = -1;
-
                  g_position = 0;
                  g_state = SPCH_STATE_SAYING;
                 }
             }
 
 
-
-
          //slots
 
           if (ch == '0')
              bookmarks.current_index = 0;
-
 
           if (ch == '1')
              bookmarks.current_index = 1;
@@ -359,6 +337,7 @@ int main (int argc, char *argv[])
 
           if (ch == '9')
              bookmarks.current_index = 9;
+
 
             //save bookmark
 
@@ -393,36 +372,35 @@ int main (int argc, char *argv[])
                }
             }
 
+          //not ok
          if (ch == ' ' && text_buffer.loaded) //space
             {
              if (g_state != SPCH_STATE_PAUSED)
                 {
                  message = "PAUSED";
                  sp.pause();
-                 continue;
+                 //continue;
                 }
              else
-                {
-                 message = "RESUMED";
-                 sp.resume();
-                 continue;
-                }
+                 if (g_state == SPCH_STATE_PAUSED)
+                    {
+                     message = "RESUMED";
+                     sp.resume();
+                     //continue;
+                    }
              }
 
 
-
-        if (! text_buffer.loaded)
-            {
-             g_state = SPCH_STATE_STOPPED;
-             continue;
-            }
-
+          if (! text_buffer.loaded)
+             {
+              g_state = SPCH_STATE_STOPPED;
+              continue; //просто крутимся
+             }
 
            //EOF - ВЫХОДИМ ЛИ?
           if (g_position != 0 && g_position > text_buffer.lines.size())
              {
               running = false;
-              //state = SPCH_STATE_STOPPED;
               sp.stop();
               break;
              }

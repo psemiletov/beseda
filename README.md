@@ -38,7 +38,7 @@ F3 - load the file and the position to the current slot, if it has been saved pr
 
 ### Dependencies:
 
-[Speech Dispatcher](https://htmlpreview.github.io) - need to be configured separately. Use Speech Dispatcher and some voice synths, such as [RHVoice](https://github.com/RHVoice/RHVoice) or [Festival, Flite](http://festvox.org).
+[Speech Dispatcher](https://freebsoft.org/speechd) - need to be configured separately. Use Speech Dispatcher and some voice synths, such as [RHVoice](https://github.com/RHVoice/RHVoice) or [Festival, Flite](http://festvox.org).
 
 [ncurses](https://invisible-island.net/ncurses/)
 
