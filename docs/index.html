@@ -12,10 +12,6 @@
 
 <h3 align="center">Beseda: ebooks speaker for Linux | Беседа: говорилка для книжек под Linux</h3>
 
-<p align="center">
-<a href="index.html">Home | Главная</a> •
-<a href="install.html">Get plugin | Скачать плагин</a> • <a href="getkits.html">Get kits | Скачать драмкиты</a> •
-<a href="manual.html">Docs | Руководство</a> • <a href="donate.html">Donate | Донат</a></p>
 
 
 <div align="center">
@@ -63,7 +59,7 @@ If ebook_file_name is not in the current directory, write the full path name. If
 
 <p>Beseda speaks paragraph by paragraph (i.e. line by line).</p>
 
-<p>When runned, Beseda allows you to navigate through the files (supported formats only) at the directory of the current file or the current working directory. Use left and right cursor keys to navigate, and Enter to load and play.</p>
+<p>When runned, Beseda allows you to navigate through the files list (supported formats only) at the directory of the current file or the current working directory. Use left and right cursor keys to navigate, and Enter to load and play.</p>
 
 <p>About other control keys read the next section. Consider the slots/bookmarks conception to open favourites books quickly.</p>
 
@@ -72,6 +68,8 @@ If ebook_file_name is not in the current directory, write the full path name. If
 <p><b>q</b> - exit<br>
 
 <b>Up/Down</b> - scroll the current text by the paragraph<br>
+
+<b>PageUp/PageDown</b> - scroll the current text by 7 paragraphs<br>
 
 <b>Left/Right</b> - go to previous/next supported file at the current directory<br>
 
@@ -134,34 +132,36 @@ sudo make install</pre>
 <i>beseda имя_файла_с_книгой</i><br>
 Если beseda имя_файла_с_книгой не находится в текущем каталоге, укажите полный путь. Если в пути есть пробелы, заключите путь в "двойные кавычки".</p>
 
-<p>When runned, Beseda allows you to navigate through the files (supported formats only) at the directory of the current file or the current working directory. Use left and right cursor keys to navigate, and Enter to load and play.</p>
+<p>После запуска, Беседа позволяет вам перемещаться по списку файлов поддерживаемого формата вперед-назад (клавишами влево-вправо) в пределах каталога с текущим файлом либо, если никакой файл не открыт, в рабочем каталоге. Клавиша Enter загружает выбранный файл в Беседу и та начинает его произносить.</p>
 
-<p>About other control keys read the next section. Consider the slots/bookmarks conception to open favourites books quickly.</p>
+<p>Про другие клавиши управления читайте в следующем разделе. Обратите внимание на концепцию слотов/закладок как на удобный способ быстро открывать избранные книги в нужных местах.</p>
 
-<h3>KEYBOARD</h3>
 
-<p><b>q</b> - exit<br>
+<h3>КЛАВА</h3>
 
-<b>Up/Down</b> - scroll the current text by the paragraph<br>
+<p><b>q</b> - выход из программы<br>
 
-<b>Left/Right</b> - go to previous/next supported file at the current directory<br>
+<b>Вверх/Вниз</b> - прокручивать текущий текст по параграфу<br>
 
-<b>Enter</b> - load and play the selected (by left/right) file<br>
+<b>PageUp/PageDown</b> - прокручивать текущий текст по семь параграфов<br>
 
-<b>Space</b> - when playing, play or pause<br>
 
-<b>0..9</b> - choose the current bookmark slot<br>
+<b>Влево/Вправо</b> - переместиться на предыдущий или последующий файл относительно текущего в его каталоге<br>
 
-<b>F2</b> - save the current file name and posion as the bookmark at the current bookmark slot<br>
+<b>Enter</b> - загрузить выбранный при помощи влево-вправо файл<br>
 
-<b>F3</b> - load the file and the position to the current slot, if it has been saved previously
+<b>Пробел</b> - пауза или снять с паузы. Если параграф большой, установка на паузку может сработать не сразу, так что не пробуйте повторно, просто ждите. Это специфика движка, стало быть не баг, а фича.<br>
+
+<b>0..9</b> - выбрать текущий слот закладок<br>
+
+<b>F2</b> - сохранить в текущий слот текущий файл и положение в нем<br>
+
+<b>F3</b> - загрузить в текущий слот сохраненный в нем ранее файл и перейти к положению в нем</p>
+
+<h3>ПОДДЕРЖАТЬ ПРОЕКТ</h3>
+
+<p>Буду рад донатам на Paypal по адресу peter.semiletov@gmail.com
 </p>
-
-<h3>DONATE</h3>
-
-<p>If you like this software, you can donate to me, Peter Semiletov, via Paypal: peter.semiletov@gmail.com
-</p>
-
 
 
 </td>
@@ -169,8 +169,9 @@ sudo make install</pre>
 
 </tr>
 
-<table>
+</table>
 </div>
+
 <h3 align="center">Made by Peter Semiletov | Создано Петром Семилетовым</h3>
 
 </body>
