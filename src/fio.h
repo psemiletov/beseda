@@ -16,6 +16,7 @@ public:
 
   virtual std::vector <std::string> load (const std::string &fname) = 0;
   virtual bool understand (const std::string &fname) = 0;
+  virtual ~CFIO(){};
 
 };
 

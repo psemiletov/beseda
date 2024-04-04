@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.5) # setting this is required
-project(beseda)            # this sets the project name
+project(beseda VERSION 1.0.0)            # this sets the project name
+add_definitions(-DVERSION_NUMBER="${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 
 
 
@@ -43,9 +44,7 @@ include_directories(${CURSES_INCLUDE_DIR})
 
 target_link_libraries(beseda ${SPEECH_LIBRARIES} ${CURSES_LIBRARIES})
 
-
-# Just for example add some compiler flags.
-target_compile_options(beseda PUBLIC -std=c++1y -Wall -Wfloat-conversion)
+target_compile_options(beseda PUBLIC -Wall -Wfloat-conversion)
 
 
 install (TARGETS beseda DESTINATION bin)

@@ -97,7 +97,7 @@ CFIOList::CFIOList()
 
 CFIOList::~CFIOList()
 {
-  for (int i = 0; i < loaders.size(); i++)
+  for (size_t i = 0; i < loaders.size(); i++)
        delete loaders[i];
 
 }
@@ -105,7 +105,7 @@ CFIOList::~CFIOList()
 
 CFIO* CFIOList::get_loader_for_file (const std::string &fname)
 {
-  for (int i = 0; i < loaders.size(); i++)
+  for (size_t i = 0; i < loaders.size(); i++)
       {
        CFIO* fio = loaders[i];
        if (fio->understand (fname))

@@ -39,7 +39,6 @@
 
 using namespace std;
 
-//
 
 /*
 
@@ -63,6 +62,8 @@ int main (int argc, char *argv[])
   CFileList filelist;
 
   g_position = 0;
+
+  std::string program_name = "Beseda " + std::string (VERSION_NUMBER) + " by Peter Semiletov, https://psemiletov.github.io/beseda/";
 
   std::string config_dir = get_home_dir() + "/.config";
   mkdir (config_dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
@@ -151,6 +152,11 @@ int main (int argc, char *argv[])
         {
 
          erase();
+
+
+
+         printw ("%s\n", program_name.c_str());
+
 
          printw ("message: %s\n", message.c_str());
          printw ("slot: %d\n", bookmarks.current_index);
