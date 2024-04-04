@@ -1,8 +1,8 @@
 # Beseda: ebook speech reader
 
-This Public Domain console program can speak you ebooks and is controlled via the keyboard to make it handy for the vision accesibility. Fast and simple. 
+This Public Domain console program speaks the ebooks and is controlled via the keyboard to make it handy for the vision accessibility. Fast and simple. 
 
-Supported formats: plain text, fb2, abw, [x]html, odt, docx. 
+Supported formats: TXT, FB2, ABW, [X]HTML, ODT, DOCX. 
 
 ## Run:
 
