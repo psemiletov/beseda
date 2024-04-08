@@ -34,8 +34,6 @@
 #define BOOKFB2ZIP "/home/rox/devel/test-books/Dante_Aligeri__Bozhestvennaja_komedija.fb2.zip"
 #define BOOKFBZ "/home/rox/devel/test-books/ud-tom-01Z.fbz"
 #define BOOKHTML "/home/rox/devel/test-books/aorta.html"
-
-
 #define BOOKEPUB "/home/rox/devel/test-books/pg1513.epub"
 #define BOOKEPUB3 "/home/rox/devel/test-books/pg1513-images-3.epub"
 
@@ -82,7 +80,7 @@ int main (int argc, char *argv[])
 
   bookmarks.load (fname_bookmarks);
 
-  std::string filename = "no file loaded";
+  std::string filename = "no file is loaded";
 
 
 #ifdef DEBUGFIO
