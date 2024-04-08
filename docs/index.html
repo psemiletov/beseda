@@ -31,7 +31,7 @@
 
 <p>This Public Domain console program speaks the ebooks and is controlled via the keyboard to make it handy for the vision accessibility. Fast and simple.<p> 
 
-<p>It supports the following formats: TXT, FB2, ABW, [X]HTML, ODT, DOCX.</p>
+<p>It supports the following formats: TXT, FB2, EPUB, [X]HTML, ODT, DOCX, KWD, ABW.</p>
 
 <p>For the speech it uses <a href="https://freebsoft.org/speechd">Speech Dispatcher</a> service that must be installed and configured separately. Speech Dispatcher needs some  voice synths, such as <a href="RHVoice">https://github.com/RHVoice</a> or <a href="http://festvox.org">Festival, Flite</a>. Please read the documentation for you Linux distro or those programs for a details.</p>
 
@@ -63,9 +63,16 @@ sudo make install</pre>
 <i>beseda ebook_file_name</i><br>
 If ebook_file_name is not in the current directory, write the full path name. If it has spaces, enclose the path to the "double quotes".</p>
 
-<p>Beseda speaks paragraph by paragraph (i.e. line by line).</p>
+<p>Or, you can run:<br>
+<i>beseda directory_name</i><br>
+Beseda runs at the choosed directory, and then
+you can select some file with left/right cursor keys. Press Enter to load the file.</p>
 
-<p>When runned, Beseda allows you to navigate through the files list (supported formats only) at the directory of the current file or the current working directory. Use left and right cursor keys to navigate, and Enter to load and play.</p>
+<p>If no file or directory used as the parameter, Beseda opens at the current working directory.</p>
+
+<p>After loading the file, Beseda speaks paragraph by paragraph (i.e. line by line).</p>
+
+<p>When runned, Beseda allows you to navigate through the files list (supported formats only) at the directory of the current file, or directory from the parameter, or the current working directory. Use left and right cursor keys to navigate, and Enter to load and play.</p>
 
 <p>About other control keys read the next section. Consider the slots/bookmarks conception to open favourites books quickly.</p>
 
@@ -105,7 +112,7 @@ If ebook_file_name is not in the current directory, write the full path name. If
 
 <p>Беседа это шаровая консольная программа для Linux, которая может читать вслух электронные книжки и управляется при помощи клавиатуры, что делает ее удобной для тех, кто плохо видит.</p>
 
-<p>Поддерживаются такие форматы: обычный текст, FB2, ABW, [X]HTML, ODT, DOCX.</p>
+<p>Поддерживаются такие форматы: TXT, FB2, EPUB, [X]HTML, ODT, DOCX, KWD, ABW.</p>
 
 <p>Для чтения вслух используется сервис <a href="https://freebsoft.org/speechd">Speech Dispatcher</a>, который надо установить и настроить отдельно. А Speech Dispatcher требует модули синтеза речи, например <a href="RHVoice">https://github.com/RHVoice</a> или <a href="http://festvox.org">Festival, Flite</a>. Пожалуйста, читайте в документации к вашему дистрибутиву Linux или этим программам, как их установить и настроить.</p>
 
@@ -138,7 +145,11 @@ sudo make install</pre>
 <i>beseda имя_файла_с_книгой</i><br>
 Если beseda имя_файла_с_книгой не находится в текущем каталоге, укажите полный путь. Если в пути есть пробелы, заключите путь в "двойные кавычки".</p>
 
-<p>После запуска, Беседа позволяет вам перемещаться по списку файлов поддерживаемого формата вперед-назад (клавишами влево-вправо) в пределах каталога с текущим файлом либо, если никакой файл не открыт, в рабочем каталоге. Клавиша Enter загружает выбранный файл в Беседу и та начинает его произносить.</p>
+<p>Либо, вы можете запустить так:<br>
+<i>beseda имя_директории</i><br>
+И Беседа загрузится в указанной директории, где вы сможете курсорными клавишами влево-вправо выбрать нужный файл и загрузить его, нажав Enter.</p>
+
+<p>После запуска, Беседа позволяет вам перемещаться по списку файлов поддерживаемого формата вперед-назад (клавишами влево-вправо) в пределах каталога с текущим файлом либо, если никакой файл не открыт, в рабочем каталоге или каталоге, переданном в качестве параметра. Клавиша Enter загружает выбранный файл в Беседу и та начинает его произносить.</p>
 
 <p>Про другие клавиши управления читайте в следующем разделе. Обратите внимание на концепцию слотов/закладок как на удобный способ быстро открывать избранные книги в нужных местах.</p>
 

@@ -12,6 +12,7 @@
 
 //File utils
 
+bool is_dir (char *path);
 std::string get_file_name (std::string const& path);
 
 size_t get_file_size (const std::string &fname);

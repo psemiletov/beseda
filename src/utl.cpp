@@ -66,6 +66,19 @@
 using namespace std;
 
 
+bool is_dir (char *path)
+{
+  struct stat s;
+ if (stat(path,&s) == 0)
+
+    if (s.st_mode & S_IFDIR)
+        return true;
+
+  return false;
+
+}
+
+
 std::string get_file_name (std::string const& path)
 {
    size_t index_of_slash = path.find_last_of ("/");

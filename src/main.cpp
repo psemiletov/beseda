@@ -91,8 +91,12 @@ int main (int argc, char *argv[])
 #endif
 
    if (argc == 2)
-       //take from argv[1]
-       filename = argv[1];
+     { //take from argv[1]
+       if (! is_dir (argv[1]))
+          filename = argv[1];
+      //else filename is empty
+
+     }
 
   //std::cout << "filename:::" << filename << std::endl;
 
@@ -123,8 +127,16 @@ int main (int argc, char *argv[])
      filelist.current_index = filelist.get_list_index_from_fname (filename);
     }
   else
-      filelist.update_for_directory (current_path());
-
+     {
+      if (argc == 2) //directory supplied
+        {
+         //TESTED
+         std::string dirpath = argv[1];
+         filelist.update_for_directory (dirpath);
+        }
+       else //NOT TESTED
+            filelist.update_for_directory (current_path());
+     }
 
 #ifdef DEBUGFIO
 
