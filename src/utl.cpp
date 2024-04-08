@@ -774,6 +774,53 @@ std::string html_strip (const std::string &source)
     }
 
    return html;
+}
+
+
+std::vector <std::string> extract_hrefs (const std::string &source, const std::string &prefix)
+{
+ std::vector <std::string> result;
+
+
+ size_t i = 0;
+ size_t limit = source.size() - 1;
+ std::string signature_str = "<item href=\"";
+ size_t signature_size = signature_str.size();
+
+
+ while (i < limit)
+       {
+        size_t pos_start = source.find (signature_str, i);
+        if (pos_start == string::npos)
+           break;
+
+        size_t pos_end = source.find ("\"", pos_start + signature_size);
+        if (pos_end == string::npos)
+           break;
+
+        //else
+
+        std::string url = source.substr (pos_start + signature_size, pos_end - (pos_start + signature_size));
+
+        if (ends_with (url, "html") || ends_with (url, "xhtml"))
+           if (url.rfind("wrap", 0) != 0)
+              {
+                  result.push_back (prefix + url);
+                          std::cout << "url: " << url << std::endl;
+
+              }
+
+        i = pos_end + 1;
+       }
+
+   return result;
+}
+
+
+void print_lines (std::vector <std::string> lines)
+{
+  for (auto s: lines)
+    std::cout << s << '\n';
 
 }
 

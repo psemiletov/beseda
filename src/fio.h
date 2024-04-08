@@ -72,6 +72,16 @@ public:
 };
 
 
+class CFIOEPUB: public CFIO
+{
+public:
+
+  std::vector <std::string> load (const std::string &fname);
+  bool understand (const std::string &fname);
+
+};
+
+
 
 
 class CFIOList

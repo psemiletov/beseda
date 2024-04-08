@@ -92,6 +92,8 @@ CFIOList::CFIOList()
 
   loaders.push_back (new CFIOXMLZipped);
   loaders.push_back (new CFIOFB2);
+  loaders.push_back (new CFIOEPUB);
+
 }
 
 
@@ -260,7 +262,7 @@ std::vector <std::string> CFIOXMLZipped::load (const std::string &fname)
   return lines;
 }
 
-
+/*
 class CFB2_walker: public pugi::xml_tree_walker
 {
 public:
@@ -289,7 +291,7 @@ bool CFB2_walker::for_each (pugi::xml_node &node)
 
   return true;
 }
-
+*/
 
 
 bool CFIOFB2::understand (const std::string &fname)
@@ -395,6 +397,114 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
   zip_close(zip);
 
   free(buf);
+
+  return lines;
+}
+
+
+
+
+
+
+
+bool CFIOEPUB::understand (const std::string &fname)
+{
+  std::string ext = get_file_ext (fname);
+
+  if (ext == "epub")
+     return true;
+
+  return false;
+}
+
+
+std::vector <std::string> CFIOEPUB::load (const std::string &fname)
+{
+
+  std::vector <std::string> tags;
+  std::vector <std::string> lines; //lines from all html contained at epub
+
+  struct zip_t *zip = zip_open (fname.c_str(), 0, 'r');
+
+  if (! zip)
+     return lines;
+
+
+  //read content.opf
+
+  void *contentopf = NULL;
+  size_t bufsize;
+
+   if (zip_entry_open (zip, "OEBPS/content.opf") < 0)
+     return lines;
+
+  zip_entry_read (zip, &contentopf, &bufsize);
+
+  zip_entry_close (zip);
+
+  if (bufsize == 0)
+    return lines;
+
+ // done with contentopf
+  std::string content ((char*)contentopf);
+  free (contentopf);
+
+  std::vector <std::string> urls = extract_hrefs (content, "OEBPS/");
+
+  //HERE WE ALREADY PARSED URLS
+
+  if (urls.size() == 0)
+    return lines;
+
+  tags.push_back ("p");
+
+  //read urls from epub
+
+  for (size_t i = 0; i < urls.size(); i++)
+      {
+//      std::cout << i << std::endl;
+  //    std::cout << "open: " << urls[i] << std::endl;
+
+      void *temp = NULL;
+
+      if (zip_entry_open (zip, urls[i].c_str()) >= 0)
+         {
+
+//           std::cout << "ok" << std::endl;
+
+           zip_entry_read (zip, &temp, &bufsize);
+           zip_entry_close (zip);
+
+  //         std::cout << "bufsize: " << bufsize << std::endl;
+
+           //std::cout << (char*) temp << std::endl;
+
+           std::string st = (char*) temp;
+           std::string st_cleaned = html_strip (st);
+
+           //std::cout << st_cleaned << std::endl;
+
+
+           std::vector <std::string> file_lines = split_string_to_vector (st_cleaned, "\n", false);
+
+           //file_lines = extract_text_from_xml_pugi ((char*) temp, bufsize, tags);
+
+           //print_lines (file_lines);
+
+
+           if (file_lines.size() > 0)
+              lines.insert(std::end(lines), std::begin(file_lines), std::end(file_lines));
+
+          free (temp);
+         }
+      }
+
+  zip_close(zip);
+
+ // print_lines (lines);
+
+//  std::cout << "2222\n";
+
 
   return lines;
 }

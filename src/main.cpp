@@ -36,6 +36,11 @@
 #define BOOKHTML "/home/rox/devel/test-books/aorta.html"
 
 
+#define BOOKEPUB "/home/rox/devel/test-books/pg1513.epub"
+#define BOOKEPUB3 "/home/rox/devel/test-books/pg1513-images-3.epub"
+
+
+
 
 using namespace std;
 
@@ -82,7 +87,7 @@ int main (int argc, char *argv[])
 
 #ifdef DEBUGFIO
    if (argc == 1)
-      filename = BOOKHTML;
+      filename = BOOKEPUB3;
 #endif
 
    if (argc == 2)

@@ -52,5 +52,8 @@ bool ends_with (std::string const & value, std::string const & ending);
 std::string format3 (size_t n);
 std::string format3 (const std::string &s);
 std::string html_strip (const std::string &source);
+std::vector <std::string> extract_hrefs (const std::string &source, const std::string &prefix);
+void print_lines (std::vector <std::string> lines);
+
 
 #endif
