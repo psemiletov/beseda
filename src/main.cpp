@@ -268,12 +268,16 @@ int main (int argc, char *argv[])
 
          if (ch == KEY_LEFT)
             {
-             if (text_buffer.loaded)
-                 sp.cancel();
+             if (filelist.current_index == -1 || filelist.current_index == 0)
+                 continue;
 
              filelist.left();
+
              if (filelist.current_index != -1)
                 {
+                 if (text_buffer.loaded)
+                    sp.cancel();
+
                  std::string temp_filename = filelist.files[filelist.current_index];
 
                  message = get_file_name (temp_filename);
@@ -287,13 +291,16 @@ int main (int argc, char *argv[])
 
         if (ch == KEY_RIGHT)
             {
-             if (text_buffer.loaded)
-                 sp.cancel();
+             if (filelist.current_index == filelist.files.size() - 1)
+                continue;
 
              filelist.right();
 
              if (filelist.current_index != -1)
                 {
+                 if (text_buffer.loaded)
+                    sp.cancel();
+
                  std::string temp_filename = filelist.files[filelist.current_index];
 
                  message = get_file_name (temp_filename);
@@ -393,21 +400,19 @@ int main (int argc, char *argv[])
                }
             }
 
-          //not ok
-         if (ch == ' ' && text_buffer.loaded) //space
+
+            if (ch == ' ' && text_buffer.loaded) //space
             {
              if (g_state != SPCH_STATE_PAUSED)
                 {
                  message = "PAUSED";
                  sp.pause();
-                 //continue;
                 }
              else
                  if (g_state == SPCH_STATE_PAUSED)
                     {
                      message = "RESUMED";
                      sp.resume();
-                     //continue;
                     }
              }
 

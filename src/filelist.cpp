@@ -59,23 +59,31 @@ int CFileList::get_list_index_from_fname (const std::string &path)
 
 void CFileList::left()
 {
+ if (files.size() == 0)
+    {
+     current_index = -1;
+     return;
+    }
+
   current_index--;
 
-  if (files.size() == 0)
-     current_index = -1;
-  else
-      if (current_index < 0)
-         current_index = 0;
+  if (current_index < 0)
+     current_index = 0;
+
 }
 
 
 void CFileList::right()
 {
+ if (files.size() == 0)
+    {
+     current_index = -1;
+     return;
+    }
+
   current_index++;
 
-  if (files.size() == 0)
-     current_index = -1;
-  else
-      if (current_index > files.size() - 1)
-         current_index = files.size() - 1;
+  if (current_index > files.size() - 1)
+     current_index = files.size() - 1;
+
 }

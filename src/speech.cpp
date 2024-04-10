@@ -99,9 +99,10 @@ void CSpeech::init (const char* client_name)
      {
       initialized = true;
 
+
      //  spd_set_language (spd_connection, setlocale(LC_ALL, "ru"));
 
-       addstr(spd_get_language(spd_connection));
+       //addstr(spd_get_language(spd_connection));
 
       /* Set callback handler for 'end' and 'cancel' events. */
       spd_connection->callback_end = cbk_end_of_speech;
@@ -111,6 +112,28 @@ void CSpeech::init (const char* client_name)
          /* Ask Speech Dispatcher to notify us about these events. */
       spd_set_notification_on(spd_connection, SPD_END);
 //      spd_set_notification_on(spd_connection, SPD_CANCEL);
+
+      char *s = NULL;
+
+      s = spd_get_output_module (spd_connection);
+
+      if (s)
+        {
+         output_module_name = s;
+         free (s);
+        }
+
+      s = spd_get_language (spd_connection);
+      if (s)
+         {
+          language_name = s;
+          free (s);
+         }
+
+
+      get_voices();
+
+
      }
 }
 
@@ -183,6 +206,57 @@ void CSpeech::cancel()
       return;
 
   spd_cancel (spd_connection);
+//  spd_stop (spd_connection);
+
   g_state = SPCH_STATE_STOPPED;
 
 }
+
+
+void CSpeech::get_voices()
+{
+//  char  **voices_array = spd_list_synthesis_voices2 (spd_connection,
+  //                                                    setlocale(LC_ALL, NULL),
+    //                                                  NULL);
+
+  char  **voices_array = (char**)spd_list_synthesis_voices (spd_connection);
+
+  if (voices_array == NULL)
+     return;
+
+  //SPDVoice  **voice = arr_voices;
+
+  int i = 0;
+while (voices_array[i] != NULL)
+  {
+       SPDVoice* voice = (SPDVoice*)voices_array[i]; // Приведение типа к SPDVoice*
+
+       CVoice v;
+       v.name = voice->name;
+       v.language = voice->language;
+
+       voices.push_back (v);
+
+
+     //voices.push_back (voice->name);
+
+
+    // Вывод информации о голосе
+/*
+    printf("Voice %d:\n", i + 1);
+    printf("Name: %s\n", voice->name);
+    printf("Language: %s\n", voice->language);
+    printf("Variant: %s\n", voice->variant);
+    printf("\n");
+*/
+    ++i;
+}
+
+
+
+ free_spd_voices((SPDVoice**)voices_array);
+
+}
+
+
+// int spd_set_synthesis_voice(SPDConnection* connection, const char* voice_name);

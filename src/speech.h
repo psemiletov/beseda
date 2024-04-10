@@ -17,11 +17,25 @@ usr/include/speech-dispatcher/speechd_types.h
 #include <semaphore.h>
 #include <signal.h>
 
+#include <vector>
+#include <string>
+
 
 #define SPCH_STATE_STOPPED 0
 #define SPCH_STATE_SAYING 1
 #define SPCH_STATE_PAUSED 2
 #define SPCH_STATE_NEXT 3
+
+
+class CVoice
+{
+public:
+
+  std::string name;
+  std::string language;
+
+
+};
 
 
 class CSpeech
@@ -30,17 +44,20 @@ class CSpeech
 
   SPDConnection *spd_connection;
 
+//  std::vector <std::string> voices; //module-specific
+
+  std::vector <CVoice> voices; //module-specific
+
+
   bool initialized;
+
+  std::string output_module_name;
+  std::string language_name;
 
   CSpeech();
   ~CSpeech();
 
-
-
-  //bool paused;
-
   void init (const char* client_name);
-
   void say (const char* text);
 
   void stop();
@@ -48,6 +65,8 @@ class CSpeech
   void play();
   void resume();
   void cancel();
+
+  void get_voices(); //fills voices vector
 
 
 };
