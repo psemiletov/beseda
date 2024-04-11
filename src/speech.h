@@ -48,11 +48,14 @@ class CSpeech
 
   std::vector <CVoice> voices; //module-specific
 
+  std::string locale_name;
 
   bool initialized;
 
   std::string output_module_name;
   std::string language_name;
+
+  int current_voice_index;
 
   CSpeech();
   ~CSpeech();
@@ -67,7 +70,7 @@ class CSpeech
   void cancel();
 
   void get_voices(); //fills voices vector
-
+  void set_voice_by_index (int index);
 
 };
 
