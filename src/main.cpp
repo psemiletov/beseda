@@ -291,6 +291,8 @@ int main (int argc, char *argv[])
 
         if (ch == KEY_RIGHT)
             {
+             //плохо, переписать проверки!
+
              if (filelist.current_index == filelist.files.size() - 1)
                 continue;
 
