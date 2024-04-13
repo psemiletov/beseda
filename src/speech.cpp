@@ -143,9 +143,6 @@ void CSpeech::init (const char* client_name)
       get_voices();
 
       current_voice_index = 0;
-
-
-
      }
 }
 
@@ -156,7 +153,6 @@ void CSpeech::say (const char* text)
       return;
 
   g_state = SPCH_STATE_SAYING;
-
 
   int result = spd_say (spd_connection, SPD_TEXT, text);
 
@@ -176,7 +172,6 @@ void CSpeech::stop()
    spd_stop (spd_connection);
    g_position = 0;
    g_state = SPCH_STATE_STOPPED;
-
 }
 
 

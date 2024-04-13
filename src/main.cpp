@@ -114,7 +114,7 @@ int main (int argc, char *argv[])
   sp.current_voice_index = settings.get_int ("voice", 0);
   sp.set_voice_by_index (sp.current_voice_index);
 
-  std::cout << "VOICE IS: " << sp.voices[sp.current_voice_index].name << std::endl;
+ // std::cout << "VOICE IS: " << sp.voices[sp.current_voice_index].name << std::endl;
 
   //Do we need it?
   signal (SIGINT, f_signal_handler);
@@ -188,11 +188,14 @@ int main (int argc, char *argv[])
 
   //std::cout << "VOICE IS: " << sp.voices[sp.current_voice_index].name << std::endl;
 
+         if (! sp.output_module_name.empty())
+            printw ("synth module: %s\n", sp.output_module_name.c_str());
+
          if (sp.voices.size() > 0)
-           {
-            current_voice = sp.voices[sp.current_voice_index].name;
-            printw ("voice: %s\n", current_voice.c_str());
-           }
+            {
+             current_voice = sp.voices[sp.current_voice_index].name;
+             printw ("voice: %s\n", current_voice.c_str());
+            }
 
          printw ("slot: %d\n", bookmarks.current_index);
          printw ("filename: %s\n", filename.c_str());
@@ -366,33 +369,26 @@ int main (int argc, char *argv[])
                 }
             }
 
-
          //select voice
 
         if (ch == '[')
           {
-           //message = "[[[[[[[[[[";
            if (sp.current_voice_index != 0)
              {
               sp.current_voice_index--;
               sp.set_voice_by_index (sp.current_voice_index);
               settings.set_int ("voice", sp.current_voice_index);
-
              }
 
           }
 
         if (ch == ']')
           {
-            //message = "]]]]]]]]]]]]";
-
            if (sp.current_voice_index < sp.voices.size() - 1)
               {
                sp.current_voice_index++;
                sp.set_voice_by_index (sp.current_voice_index);
                settings.set_int ("voice", sp.current_voice_index);
-
-               message = "]]]] " + std::to_string (sp.current_voice_index);
              }
           }
 

@@ -42,13 +42,11 @@ bool CXML_walker::for_each (pugi::xml_node &node)
      {
       // Element in vector.
       std::string t = node.text().as_string();
-
 //      std::cout << "t:" << t << std::endl;
-
       if (! t.empty())
           if (t.size() != 1 && t[0] != ' ' && t[0] != '\n')
               lines.push_back (t);
-      }
+     }
 
   return true;
 }
@@ -93,7 +91,6 @@ CFIOList::CFIOList()
   loaders.push_back (new CFIOXMLZipped);
   loaders.push_back (new CFIOFB2);
   loaders.push_back (new CFIOEPUB);
-
 }
 
 
@@ -153,7 +150,7 @@ std::vector <std::string> CFIOHTML::load (const std::string &fname)
 
   std::string cleared = html_strip (temp);
 
-  std::cout << cleared << std::endl;
+  //std::cout << cleared << std::endl;
 
   std::vector<std::string> lines = split_string_to_vector (cleared, "\n", false);
 
@@ -323,7 +320,7 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
       return lines;
      }
 
-  std::cout << fname << std::endl;
+  //std::cout << fname << std::endl;
 
   //else zipped fb2.zip or fbz
 
@@ -359,23 +356,9 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
       }
 
 
-
     if (source_fname.empty())
        return lines;
 
-
-/*
-
-  if (hasEnding (fname, "fb2.zip"))
-     {
-      source_fname = fname.substr(0, fname.size() - 4);
-      source_fname = source_fname.substr (source_fname.find_last_of("/\\") +1);
-     }
-*/
-   //if (hasEnding (fname, "fbz"))
-      //source_fname = source_fname + ".fb2";
-
-//  std::cout << source_fname << std::endl;
 
 
   void *buf = NULL;
@@ -402,11 +385,6 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
 }
 
 
-
-
-
-
-
 bool CFIOEPUB::understand (const std::string &fname)
 {
   std::string ext = get_file_ext (fname);
@@ -420,7 +398,6 @@ bool CFIOEPUB::understand (const std::string &fname)
 
 std::vector <std::string> CFIOEPUB::load (const std::string &fname)
 {
-
   std::vector <std::string> tags;
   std::vector <std::string> lines; //lines from all html contained at epub
 
@@ -428,7 +405,6 @@ std::vector <std::string> CFIOEPUB::load (const std::string &fname)
 
   if (! zip)
      return lines;
-
 
   //read content.opf
 
