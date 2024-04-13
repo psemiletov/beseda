@@ -170,6 +170,7 @@ int main (int argc, char *argv[])
   //use nodelay instead?
 
   int ch;
+  std::string current_voice;
 
   saved_pos = -1;
 
@@ -182,6 +183,17 @@ int main (int argc, char *argv[])
          printw ("%s\n", program_name.c_str());
 
          printw ("message: %s\n", message.c_str());
+
+           //NOT LOADED!!!!
+
+  //std::cout << "VOICE IS: " << sp.voices[sp.current_voice_index].name << std::endl;
+
+         if (sp.voices.size() > 0)
+           {
+            current_voice = sp.voices[sp.current_voice_index].name;
+            printw ("voice: %s\n", current_voice.c_str());
+           }
+
          printw ("slot: %d\n", bookmarks.current_index);
          printw ("filename: %s\n", filename.c_str());
 

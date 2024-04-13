@@ -72,7 +72,7 @@ CSpeech::CSpeech()
   std::string temp_locale = setlocale(LC_ALL, "");
   locale_name = temp_locale.substr (0, 2);
 
-  std::cout << "LOC: " << locale_name << std::endl;
+//  std::cout << "LOC: " << locale_name << std::endl;
 
 
   //sem_init (&g_semaphore, 0, 0);
@@ -107,7 +107,7 @@ void CSpeech::init (const char* client_name)
       initialized = true;
 
 ///NEW!!!!!!!!!!!!!
-       spd_set_language (spd_connection, locale_name.c_str());
+      spd_set_language (spd_connection, locale_name.c_str());
 ////
 
       spd_connection->callback_end = cbk_end_of_speech;
@@ -143,6 +143,8 @@ void CSpeech::init (const char* client_name)
       get_voices();
 
       current_voice_index = 0;
+
+
 
      }
 }
@@ -230,9 +232,6 @@ void CSpeech::get_voices()
     //                                                  NULL);
 
 
-
-
-
   char  **voices_array = (char**)spd_list_synthesis_voices (spd_connection);
 
   if (voices_array == NULL)
@@ -256,13 +255,13 @@ while (voices_array[i] != NULL)
 
 
     // Вывод информации о голосе
-
+/*
     printf("Voice %d:\n", i + 1);
     printf("Name: %s\n", voice->name);
     printf("Language: %s\n", voice->language);
     printf("Variant: %s\n", voice->variant);
     printf("\n");
-
+*/
     ++i;
 }
 
@@ -285,7 +284,7 @@ void CSpeech::set_voice_by_index (int index)
       std::cout << "ERRRRR" << std::endl;
 
 
-  std::cout << "spd_set_synthesis_voice: " <<  voices[index].name << std::endl;
+ // std::cout << "spd_set_synthesis_voice: " <<  voices[index].name << std::endl;
 }
 
 
