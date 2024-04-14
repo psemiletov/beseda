@@ -140,7 +140,7 @@ void CSpeech::init (const char* client_name)
     //   spd_set_language(spd_connection, "ru");
 
 
-      get_voices();
+    //  get_voices();
 
       current_voice_index = 0;
      }
@@ -220,32 +220,71 @@ void CSpeech::cancel()
 }
 
 
-void CSpeech::get_voices()
+void CSpeech::get_voices (int locale_only)
 {
 //  char  **voices_array = spd_list_synthesis_voices2 (spd_connection,
   //                                                    setlocale(LC_ALL, NULL),
-    //                                                  NULL);
+    //
 
+  //std::cout << "locale_only" << locale_only << std::endl;
+
+  if (! initialized)
+      return;
 
   char  **voices_array = (char**)spd_list_synthesis_voices (spd_connection);
+
+  //for > 0.15 API
+    //char  **voices_array = (char**)spd_list_synthesis_voices2 (spd_connection, "ru", NULL);
+
 
   if (voices_array == NULL)
      return;
 
+
+  std::string lang_name_short;
+
   //SPDVoice  **voice = arr_voices;
 
   int i = 0;
-while (voices_array[i] != NULL)
+  while (voices_array[i] != NULL)
   {
        SPDVoice* voice = (SPDVoice*)voices_array[i]; // Приведение типа к SPDVoice*
 
-       CVoice v;
-       v.name = voice->name;
-       v.language = voice->language;
+    /*   CVoice v;
+           v.name = voice->name;
+           v.language = voice->language;
 
-       voices.push_back (v);
+           voices.push_back (v);
+*/
 
 
+
+       if (locale_only == 1)
+          {
+           CVoice v;
+           v.name = voice->name;
+
+           lang_name_short = voice->language;
+           lang_name_short = lang_name_short.substr(0, 2);
+           v.language = lang_name_short;
+
+          // std::cout << "v.language: " << v.language << std::endl;
+           //std::cout << "language_name: " << language_name << std::endl;
+
+           if (v.language == language_name)
+              voices.push_back (v);
+          }
+       else
+          {
+           CVoice v;
+           v.name = voice->name;
+
+           lang_name_short = voice->language;
+           lang_name_short = lang_name_short.substr(0, 2);
+           v.language = lang_name_short;
+
+           voices.push_back (v);
+          }
      //voices.push_back (voice->name);
 
 
@@ -261,6 +300,7 @@ while (voices_array[i] != NULL)
 }
 
 
+ //std::cout << "voices count: " << voices.size() << std::endl;
 
  free_spd_voices((SPDVoice**)voices_array);
 

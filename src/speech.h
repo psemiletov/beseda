@@ -69,7 +69,7 @@ class CSpeech
   void resume();
   void cancel();
 
-  void get_voices(); //fills voices vector
+  void get_voices (int locale_only = 1); //fills voices vector
   void set_voice_by_index (int index);
 
 };

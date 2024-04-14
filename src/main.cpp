@@ -85,6 +85,7 @@ int main (int argc, char *argv[])
   settings.load (fname_config);
 
   std::string filename = "no file is loaded";
+  int locale_only = settings.get_int ("locale_only", 1);
 
 
 #ifdef DEBUGFIO
@@ -109,9 +110,16 @@ int main (int argc, char *argv[])
   //SPEECH INIT
   CSpeech sp;
   sp.init ("beseda");
+  sp.get_voices (locale_only);
 
 
   sp.current_voice_index = settings.get_int ("voice", 0);
+  if (sp.current_voice_index > sp.voices.size() - 1)
+     {
+      sp.current_voice_index = 0;
+      settings.set_int ("voice", sp.current_voice_index);
+     }
+
   sp.set_voice_by_index (sp.current_voice_index);
 
  // std::cout << "VOICE IS: " << sp.voices[sp.current_voice_index].name << std::endl;
@@ -514,6 +522,9 @@ int main (int argc, char *argv[])
   endwin();
 
   sp.stop();
+
+  settings.set_int ("locale_only", locale_only);
+  settings.set_int ("voice", sp.current_voice_index);
 
  // bookmarks.pf.save();
   settings.save();
