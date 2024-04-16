@@ -387,7 +387,6 @@ int main (int argc, char *argv[])
               sp.set_voice_by_index (sp.current_voice_index);
               settings.set_int ("voice", sp.current_voice_index);
              }
-
           }
 
         if (ch == ']')
@@ -399,6 +398,23 @@ int main (int argc, char *argv[])
                settings.set_int ("voice", sp.current_voice_index);
              }
           }
+
+
+       if (ch == 'z')
+          {
+           if (sp.current_voice_index < sp.voices.size() - 1)
+              {
+               if (locale_only == 0)
+                   locale_only = 1;
+               else
+                   locale_only = 0;
+
+               sp.get_voices (locale_only);
+               sp.set_voice_by_index (sp.current_voice_index);
+//               settings.set_int ("voice", sp.current_voice_index);
+             }
+          }
+
 
          //slots
 

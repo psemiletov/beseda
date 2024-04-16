@@ -231,6 +231,8 @@ void CSpeech::get_voices (int locale_only)
   if (! initialized)
       return;
 
+  voices.clear();
+
   char  **voices_array = (char**)spd_list_synthesis_voices (spd_connection);
 
   //for > 0.15 API
@@ -285,6 +287,9 @@ void CSpeech::get_voices (int locale_only)
 
            voices.push_back (v);
           }
+
+
+       current_voice_index = 0;
      //voices.push_back (voice->name);
 
 
