@@ -104,8 +104,10 @@ you can select some file with left/right cursor keys. Press Enter to load the fi
 
 <b>F3</b> - load the file and the position to the current slot, if it has been saved previously. Thus, you can run Beseda without any file at the command line, then select the slot and load file to it with the saved position.<br>
 
-<b>[ or ]</b> select the installed speech synth voice. Bu default, only voices for the current locale is available. To get the full list with all languages, add "locale_only=0" line (without double quotes) to <i>$HOME./config/beseda/beseda.conf</i> and reload Beseda. The side effect that there are can be too many voices and you will be tired to list them one by one.
+<b>[ or ]</b> select the installed speech synth voice. Bu default, only voices for the current locale is available. To get the full list with all languages, press Z - it is the cycle mode switch, so press it to switch between the modes. Or, add "locale_only=0" line (without double quotes) to <i>$HOME./config/beseda/beseda.conf</i> and reload Beseda. The side effect that there are can be too many voices and you will be tired to list them one by one.
 </p>
+
+<p>Please note that most voices are binded to one langiage, so to speak for example Afrikaans you need the Afrikaans voice. Also there are exists voices that supports two languages at the same time, they are named for example Alex+Anna.</p>
 
 <h3>DONATE</h3>
 
@@ -192,6 +194,10 @@ sudo make install</pre>
 <b>F2</b> - сохранить в текущий слот текущий файл и положение в нем<br>
 
 <b>F3</b> - загрузить в текущий слот сохраненный в нем ранее файл и перейти к положению в нем</p>
+
+<b>[ or ]</b> выбирать текущий голос из доступных, назад или вперед. Доступность по умолчанию такова - голоса для текущего языка. Если нажать Z, то выбор будет осуществляться из всех языков, поддерживаемых речевым синтезатором, а их может быть очень много. Для чтения текстов например на русском и английском удобнее выбрать голос, поддерживающий оба языка, обычно они называются допустим Alex+Anna. Иначе же для каждого языка надо выбирать голос, который поддерживает этот язык.
+</p>
+
 
 <h3>ПОДДЕРЖАТЬ ПРОЕКТ</h3>
 
