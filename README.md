@@ -34,6 +34,8 @@ F2 - save the current file name and posion as the bookmark at the current bookma
 
 F3 - load the file and the position to the current slot, if it has been saved previously
 
+[ and ] - select the voice from the available at the current sound synths. The list of the voices is depened on the current language, or for all supported languages (press Z to choose the mode, from locale langiage to all languages).
+
 
 ## How to build and install:
 

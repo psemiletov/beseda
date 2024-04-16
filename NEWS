@@ -1,7 +1,7 @@
-Beseda 1.1.0
-[08 april 2024] 
+Beseda 1.2.0
+[16 april 2024] 
 
-+ EPUB, KWD (old KWord format) support
-+ Beseda can take the directory as the filename, to make this directory as the working one, so you can move through the files there (cursor left/right, Enter to load).
++ Voice selection by pressing - keys [ and ]
++ Select voice selection range from local to all supported languages - key Z
 
 Peter Semiletov

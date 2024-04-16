@@ -29,10 +29,10 @@
 
 <h3>NEWS</h3>
 
-<p><b>08 april 2024 - <a href="https://github.com/psemiletov/beseda/archive/refs/tags/1.1.0.tar.gz">Beseda 1.1.0</a></b>
+<p><b>16 april 2024 - <a href="https://github.com/psemiletov/beseda/archive/refs/tags/1.2.0.tar.gz">Beseda 1.2.0</a></b>
 
-+ EPUB, KWD (old KWord format) support<br>
-+ Beseda can take the directory as the filename, to make this directory as the working one, so you can move through the files there (cursor left/right, Enter to load).
++ Voice selection by pressing keys [ and ]<br>
++ Select voice selection range from local to all supported languages - press key Z to change the mode
 </p>
 
 <h3>ABOUT</h3>
@@ -41,11 +41,11 @@
 
 <p>It supports the following formats: TXT, FB2, EPUB, [X]HTML, ODT, DOCX, KWD, ABW.</p>
 
-<p>For the speech it uses <a href="https://freebsoft.org/speechd">Speech Dispatcher</a> service that must be installed and configured separately. Speech Dispatcher needs some  voice synths, such as <a href="RHVoice">https://github.com/RHVoice</a> or <a href="http://festvox.org">Festival, Flite</a>. Please read the documentation for you Linux distro or those programs for a details.</p>
+<p>For the speech it uses <a href="https://freebsoft.org/speechd">Speech Dispatcher</a> service that must be installed and configured separately. Speech Dispatcher needs some  voice synths, such as <a href="RHVoice">https://github.com/RHVoice</a>, <a href="http://festvox.org">Festival, Flite</a> or <a href="https://github.com/espeak-ng/espeak-ng">espeak-ng</a>. Please read the documentation for your Linux distro or those programs for a details.</p>
 
 <h3>INSTALL</h3>
 
-<p>To install Beseda, you can try to find the package for your distro (if available), or build it from the source. <a href="https://github.com/psemiletov/beseda/archive/refs/tags/1.1.0.tar.gz">This link</a> points to the latest release, and <a href="https://github.com/psemiletov/beseda">here is the project page</a> at Github.</p>
+<p>To install Beseda, you can try to find the package for your distro (if available), or build it from the source. <a href="https://github.com/psemiletov/beseda/archive/refs/tags/1.2.0.tar.gz">This link</a> points to the latest release, and <a href="https://github.com/psemiletov/beseda">here is the project page</a> at Github.</p>
 
 <p>To build it from the source, you need some utilities and packages. The dependencies are:</p>
 
@@ -107,7 +107,7 @@ you can select some file with left/right cursor keys. Press Enter to load the fi
 <b>[ or ]</b> select the installed speech synth voice. Bu default, only voices for the current locale is available. To get the full list with all languages, press Z - it is the cycle mode switch, so press it to switch between the modes. Or, add "locale_only=0" line (without double quotes) to <i>$HOME./config/beseda/beseda.conf</i> and reload Beseda. The side effect that there are can be too many voices and you will be tired to list them one by one.
 </p>
 
-<p>Please note that most voices are binded to one langiage, so to speak for example Afrikaans you need the Afrikaans voice. Also there are exists voices that supports two languages at the same time, they are named for example Alex+Anna.</p>
+<p>Most voices are binded to one langiage, so to speak for example Afrikaans you need the Afrikaans voice. Also there are exists voices that supports two languages at the same time, they are named for example Alex+Anna.</p>
 
 <h3>DONATE</h3>
 
@@ -121,10 +121,10 @@ you can select some file with left/right cursor keys. Press Enter to load the fi
 
 <h3>НОВОСТИ</h3>
 
-<p><b>08 апреля 2024 - <a href="https://github.com/psemiletov/beseda/archive/refs/tags/1.1.0.tar.gz">Беседа 1.1.0</a></b>
+<p><b>16 апреля 2024 - <a href="https://github.com/psemiletov/beseda/archive/refs/tags/1.2.0.tar.gz">Beseda 1.2.0</a></b>
 
-+ Поддержка EPUB, KWD (старый формат KWord) <br>
-+ Беседа может теперь принимать в качестве параметра имя директории, и делает ее текущей, чтобы вы могли перемещаться в ней по файлам при помощи курсорных влево-вправо, и Энтером загружали нужную книгу.
++ Выбор голоса клавишами [ и ]<br>
++ Выбор диапазона голосов клавишей Z, от текущего языка до всех доступных (для синтезатора) языков
 </p>
 
 
@@ -134,12 +134,12 @@ you can select some file with left/right cursor keys. Press Enter to load the fi
 
 <p>Поддерживаются такие форматы: TXT, FB2, EPUB, [X]HTML, ODT, DOCX, KWD, ABW.</p>
 
-<p>Для чтения вслух используется сервис <a href="https://freebsoft.org/speechd">Speech Dispatcher</a>, который надо установить и настроить отдельно. А Speech Dispatcher требует модули синтеза речи, например <a href="RHVoice">https://github.com/RHVoice</a> или <a href="http://festvox.org">Festival, Flite</a>. Пожалуйста, читайте в документации к вашему дистрибутиву Linux или этим программам, как их установить и настроить.</p>
+<p>Для чтения вслух используется сервис <a href="https://freebsoft.org/speechd">Speech Dispatcher</a>, который надо установить и настроить отдельно. А Speech Dispatcher требует модули синтеза речи, например <a href="RHVoice">https://github.com/RHVoice</a>, <a href="https://github.com/espeak-ng/espeak-ng">espeak-ng</a> или <a href="http://festvox.org">Festival, Flite</a>. Пожалуйста, читайте в документации к вашему дистрибутиву Linux или этим программам, как их установить и настроить.</p>
 
 <h3>УСТАНОВКА</h3>
 
 
-<p>Чтобы установить Беседу, попробуйте найти ее пакет для своего дистрибутива Linux, или же соберите из исходника. <a href="https://github.com/psemiletov/beseda/archive/refs/tags/1.1.0.tar.gz">Эта ссылочка</a> указывает на последний выпуск, а <a href="https://github.com/psemiletov/beseda">вот страница проекта</a> на Github.</p>
+<p>Чтобы установить Беседу, попробуйте найти ее пакет для своего дистрибутива Linux, или же соберите из исходника. <a href="https://github.com/psemiletov/beseda/archive/refs/tags/1.2.0.tar.gz">Эта ссылочка</a> указывает на последний выпуск, а <a href="https://github.com/psemiletov/beseda">вот страница проекта</a> на Github. Пользователи Arch могут просто дать команду <i>yay -S beseda</i></p>
 
 <p>Для сборки из исходников, вам понадобится кое-какой софт:</p>
 
@@ -206,8 +206,6 @@ sudo make install</pre>
 
 
 </td>
-
-
 </tr>
 
 </table>
