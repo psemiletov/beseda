@@ -122,7 +122,7 @@ void CSpeech::init (const char* client_name)
       if (s)
         {
          output_module_name = s;
-        // std::cout << "output_module_name: " << output_module_name  << std::endl;
+         std::cout << "output_module_name: " << output_module_name  << std::endl;
 
          free (s);
         }
@@ -132,7 +132,7 @@ void CSpeech::init (const char* client_name)
          {
           language_name = s;
 
-//          std::cout << "language_name: " << language_name  << std::endl;
+          std::cout << "language_name: " << language_name  << std::endl;
 
           free (s);
          }
