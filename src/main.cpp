@@ -105,8 +105,16 @@ int main (int argc, char *argv[])
 
   //std::cout << setlocale(LC_ALL, NULL) << std::endl;
 
-  std::string locale_string = setlocale (LC_ALL, "");
+  char *loc = setlocale (LC_ALL, "");
 
+/*
+  std::string locale_string;
+
+  if (loc)
+     locale_string = loc;
+  else
+      locale_string = "en";
+*/
   //SPEECH INIT
   CSpeech sp;
   sp.init ("beseda");

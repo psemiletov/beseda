@@ -356,8 +356,8 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
       }
 
 
-    if (source_fname.empty())
-       return lines;
+  if (source_fname.empty())
+      return lines;
 
 
 
@@ -411,8 +411,11 @@ std::vector <std::string> CFIOEPUB::load (const std::string &fname)
   void *contentopf = NULL;
   size_t bufsize;
 
-   if (zip_entry_open (zip, "OEBPS/content.opf") < 0)
-     return lines;
+  if (zip_entry_open (zip, "OEBPS/content.opf") < 0)
+     {
+       if (zip_entry_open (zip, "OPS/content.opf") < 0)
+          return lines;
+     }
 
   zip_entry_read (zip, &contentopf, &bufsize);
 
