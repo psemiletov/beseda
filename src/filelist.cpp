@@ -22,6 +22,8 @@ CFileList::CFileList()
   exts.push_back ("xhtml");
   exts.push_back ("htm");
   exts.push_back ("epub");
+  exts.push_back ("fb2.epub");
+
   exts.push_back ("kwd");
 
   current_index = -1;

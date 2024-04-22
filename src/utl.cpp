@@ -800,7 +800,6 @@ std::vector <std::string> extract_hrefs (const std::string &source, const std::s
  std::string signature_str = "<item href=\"";
  size_t signature_size = signature_str.size();
 
-
  while (i < limit)
        {
         size_t pos_start = source.find (signature_str, i);
@@ -818,10 +817,53 @@ std::vector <std::string> extract_hrefs (const std::string &source, const std::s
         if (ends_with (url, "html") || ends_with (url, "xhtml"))
            if (url.rfind("wrap", 0) != 0)
               {
-                  result.push_back (prefix + url);
-                          std::cout << "url: " << url << std::endl;
-
+               result.push_back (prefix + url);
+               std::cout << "url: " << url << std::endl;
               }
+
+        i = pos_end + 1;
+       }
+
+   return result;
+}
+
+
+
+std::vector <std::string> extract_src_from_toc (const std::string &source, const std::string &prefix)
+{
+ std::vector <std::string> result;
+
+ size_t i = 0;
+ size_t limit = source.size() - 1;
+ std::string signature_str = "src=\"";
+ size_t signature_size = signature_str.size();
+
+ while (i < limit)
+       {
+        size_t pos_start = source.find (signature_str, i);
+        if (pos_start == std::string::npos)
+           break;
+
+        size_t pos_end = source.find ("\"", pos_start + signature_size);
+        if (pos_end == std::string::npos)
+           break;
+
+        //else
+
+        std::string url = source.substr (pos_start + signature_size, pos_end - (pos_start + signature_size));
+
+        //find "#" if any
+        //remove after # to the end of string
+
+        size_t pos_part = url.find ("#");
+        if (pos_end != std::string::npos)
+            url = url.substr (0, pos_part);
+
+        if (ends_with (url, "html") || ends_with (url, "xhtml"))
+           {
+            std::string url_to_add = prefix + url;
+            result.push_back (url_to_add);
+           }
 
         i = pos_end + 1;
        }

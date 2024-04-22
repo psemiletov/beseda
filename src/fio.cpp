@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
+#include <string>
 
 #include "pugixml.hpp"
 #include "zip.h"
@@ -342,7 +343,7 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
        const char *name = zip_entry_name(zip);
 
        std::string tname = name;
-        if (ends_with (tname, "fb2"))
+       if (ends_with (tname, "fb2"))
            {
             source_fname = tname;
             zip_entry_close(zip);
@@ -387,13 +388,14 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
 
 bool CFIOEPUB::understand (const std::string &fname)
 {
-  std::string ext = get_file_ext (fname);
+  //std::string ext = get_file_ext (fname);
 
-  if (ext == "epub")
+  if (ends_with (fname, ".epub"))
      return true;
 
   return false;
 }
+
 
 
 std::vector <std::string> CFIOEPUB::load (const std::string &fname)
@@ -406,15 +408,28 @@ std::vector <std::string> CFIOEPUB::load (const std::string &fname)
   if (! zip)
      return lines;
 
-  //read content.opf
+  //read toc.ncx
 
   void *contentopf = NULL;
   size_t bufsize;
 
+  std::string subdir = "OEBPS/";
+/*
   if (zip_entry_open (zip, "OEBPS/content.opf") < 0)
      {
-       if (zip_entry_open (zip, "OPS/content.opf") < 0)
+      if (zip_entry_open (zip, "OPS/content.opf") < 0)
           return lines;
+
+      subdir = "OPS/";
+     }
+*/
+
+  if (zip_entry_open (zip, "OEBPS/toc.ncx") < 0)
+     {
+      if (zip_entry_open (zip, "OPS/toc.ncx") < 0)
+          return lines;
+
+      subdir = "OPS/";
      }
 
   zip_entry_read (zip, &contentopf, &bufsize);
@@ -424,11 +439,13 @@ std::vector <std::string> CFIOEPUB::load (const std::string &fname)
   if (bufsize == 0)
     return lines;
 
- // done with contentopf
+ // done with toc.ncx
   std::string content ((char*)contentopf);
   free (contentopf);
 
-  std::vector <std::string> urls = extract_hrefs (content, "OEBPS/");
+//std::vector <std::string> urls = extract_hrefs (content, subdir);
+
+  std::vector <std::string> urls = extract_src_from_toc (content, subdir);
 
   //HERE WE ALREADY PARSED URLS
 
@@ -441,33 +458,32 @@ std::vector <std::string> CFIOEPUB::load (const std::string &fname)
 
   for (size_t i = 0; i < urls.size(); i++)
       {
-//      std::cout << i << std::endl;
-  //    std::cout << "open: " << urls[i] << std::endl;
+       if (i + 1 != urls.size())
+           if (urls[i] == urls[i+1])
+              continue;
+
 
       void *temp = NULL;
 
       if (zip_entry_open (zip, urls[i].c_str()) >= 0)
          {
+           std::cout << "open: " << urls[i] << std::endl;
 
-//           std::cout << "ok" << std::endl;
 
            zip_entry_read (zip, &temp, &bufsize);
            zip_entry_close (zip);
 
   //         std::cout << "bufsize: " << bufsize << std::endl;
-
            //std::cout << (char*) temp << std::endl;
 
            std::string st = (char*) temp;
            std::string st_cleaned = html_strip (st);
 
-           //std::cout << st_cleaned << std::endl;
-
+//           std::cout << st_cleaned << std::endl;
 
            std::vector <std::string> file_lines = split_string_to_vector (st_cleaned, "\n", false);
 
            //file_lines = extract_text_from_xml_pugi ((char*) temp, bufsize, tags);
-
            //print_lines (file_lines);
 
 
