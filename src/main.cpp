@@ -39,10 +39,6 @@
 
 
 
-
-//using namespace std;
-
-
 /*
 
   std::signal (SIGINT, f_signal_handler);
@@ -102,7 +98,6 @@ int main (int argc, char *argv[])
      }
 
   //std::cout << "filename:::" << filename << std::endl;
-
   //std::cout << setlocale(LC_ALL, NULL) << std::endl;
 
   char *loc = setlocale (LC_ALL, "");
@@ -115,11 +110,12 @@ int main (int argc, char *argv[])
   else
       locale_string = "en";
 */
-  //SPEECH INIT
+
+//SPEECH INIT
+
   CSpeech sp;
   sp.init ("beseda");
   sp.get_voices (locale_only);
-
 
   sp.current_voice_index = settings.get_int ("voice", 0);
   if (sp.current_voice_index > sp.voices.size() - 1)
@@ -338,7 +334,6 @@ int main (int argc, char *argv[])
             {
              //плохо, переписать проверки!
 
-
              //flushinp();
 
              if (filelist.current_index == filelist.files.size() - 1)
@@ -352,9 +347,6 @@ int main (int argc, char *argv[])
              if (filelist.current_index != -1)
                 if (filelist.current_index < filelist.files.size())
                    {
-                    //if (text_buffer.loaded)
-                      //sp.cancel();
-
                     std::string temp_filename = filelist.files[filelist.current_index];
 
                     message = get_file_name (temp_filename);
@@ -362,7 +354,6 @@ int main (int argc, char *argv[])
 
                     g_position = 0;
                     g_state = SPCH_STATE_STOPPED;
-  //               continue;
                   }
             }
 
@@ -419,7 +410,6 @@ int main (int argc, char *argv[])
 
                sp.get_voices (locale_only);
                sp.set_voice_by_index (sp.current_voice_index);
-//               settings.set_int ("voice", sp.current_voice_index);
              }
           }
 
@@ -538,8 +528,6 @@ int main (int argc, char *argv[])
              }
 
         refresh();
-
-
        }
 
 
@@ -550,12 +538,7 @@ int main (int argc, char *argv[])
   settings.set_int ("locale_only", locale_only);
   settings.set_int ("voice", sp.current_voice_index);
 
- // bookmarks.pf.save();
   settings.save();
-
-  //  std::cout << "111111111111 - B" << std::endl;
-
-  //bookmarks.save();
 
   return 0;
 }

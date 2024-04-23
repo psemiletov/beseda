@@ -33,7 +33,6 @@ void CPairFile::save()
       return; 
  
 
-
   TSPair::const_iterator end = values.end(); 
 
   for (TSPair::const_iterator it = values.begin(); it != end; it++)

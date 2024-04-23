@@ -55,8 +55,6 @@ bool CXML_walker::for_each (pugi::xml_node &node)
 
 std::vector <std::string> extract_text_from_xml_pugi (const char *string_data, size_t datasizebytes, std::vector <std::string> tags)
 {
-//  std::cout << "extract_text_from_xml_pugi 1" << std::endl;
-
   std::vector <std::string> result_lines;
 
   pugi::xml_document doc;
@@ -148,11 +146,7 @@ bool CFIOPlainText::understand (const std::string &fname)
 std::vector <std::string> CFIOHTML::load (const std::string &fname)
 {
   std::string temp = string_file_load (fname);
-
   std::string cleared = html_strip (temp);
-
-  //std::cout << cleared << std::endl;
-
   std::vector<std::string> lines = split_string_to_vector (cleared, "\n", false);
 
   return lines;
@@ -260,37 +254,6 @@ std::vector <std::string> CFIOXMLZipped::load (const std::string &fname)
   return lines;
 }
 
-/*
-class CFB2_walker: public pugi::xml_tree_walker
-{
-public:
-
-  std::vector <std::string> lines;
-
-  bool for_each (pugi::xml_node& node);
-};
-
-
-bool CFB2_walker::for_each (pugi::xml_node &node)
-{
-  if (node.type() != pugi::node_element)
-      return true;
-
-  std::string node_name = node.name();
-
-  if (node_name == "p")
-     {
-      std::string t = node.text().as_string();
-      lines.push_back (t);
-     }
-
-  //if (node_name == "title" || node_name == "section" || node_name == "empty-line")
-    //  text->append ("\n"); //НЕ ДОБАВЛЯЕТСЯ?
-
-  return true;
-}
-*/
-
 
 bool CFIOFB2::understand (const std::string &fname)
 {
@@ -305,7 +268,6 @@ bool CFIOFB2::understand (const std::string &fname)
 
 std::vector <std::string> CFIOFB2::load (const std::string &fname)
 {
-
   std::vector <std::string> tags;
   std::vector <std::string> lines;
   std::string ext = get_file_ext (fname);
@@ -315,17 +277,13 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
   if (ext == "fb2")
      {
       std::string temp = string_file_load (fname);
-
       lines = extract_text_from_xml_pugi (temp.c_str(), temp.size(), tags);
 
       return lines;
      }
 
-  //std::cout << fname << std::endl;
-
   //else zipped fb2.zip or fbz
 
-  //std::string source_fname = fname.substr (fname.find_last_of("/\\") + 1); //WINDOWS
   std::string source_fname;
 
   //we can have malformed internal filename, so find the first fb2 at the archive
@@ -350,9 +308,9 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
             break;
            }
 
-        //int isdir = zip_entry_isdir(zip);
-        //unsigned long long size = zip_entry_size(zip);
-        //unsigned int crc32 = zip_entry_crc32(zip);
+       //int isdir = zip_entry_isdir(zip);
+       //unsigned long long size = zip_entry_size(zip);
+       //unsigned int crc32 = zip_entry_crc32(zip);
        zip_entry_close(zip);
       }
 
@@ -360,26 +318,19 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
   if (source_fname.empty())
       return lines;
 
-
-
   void *buf = NULL;
   size_t bufsize;
 
- // struct zip_t *zip = zip_open (fname.c_str(), 0, 'r');
-
-  if (zip_entry_open (zip, source_fname.c_str()) < 0)
+   if (zip_entry_open (zip, source_fname.c_str()) < 0)
      return lines;
 
-
   zip_entry_read(zip, &buf, &bufsize);
-
 
   zip_entry_close(zip);
 
   lines = extract_text_from_xml_pugi ((char*)buf, bufsize, tags);
 
   zip_close(zip);
-
   free(buf);
 
   return lines;
@@ -388,14 +339,11 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
 
 bool CFIOEPUB::understand (const std::string &fname)
 {
-  //std::string ext = get_file_ext (fname);
-
   if (ends_with (fname, ".epub"))
      return true;
 
   return false;
 }
-
 
 
 std::vector <std::string> CFIOEPUB::load (const std::string &fname)
@@ -410,19 +358,10 @@ std::vector <std::string> CFIOEPUB::load (const std::string &fname)
 
   //read toc.ncx
 
-  void *contentopf = NULL;
+  void *contenttoc = NULL;
   size_t bufsize;
 
   std::string subdir = "OEBPS/";
-/*
-  if (zip_entry_open (zip, "OEBPS/content.opf") < 0)
-     {
-      if (zip_entry_open (zip, "OPS/content.opf") < 0)
-          return lines;
-
-      subdir = "OPS/";
-     }
-*/
 
   if (zip_entry_open (zip, "OEBPS/toc.ncx") < 0)
      {
@@ -432,7 +371,7 @@ std::vector <std::string> CFIOEPUB::load (const std::string &fname)
       subdir = "OPS/";
      }
 
-  zip_entry_read (zip, &contentopf, &bufsize);
+  zip_entry_read (zip, &contenttoc, &bufsize);
 
   zip_entry_close (zip);
 
@@ -440,10 +379,8 @@ std::vector <std::string> CFIOEPUB::load (const std::string &fname)
     return lines;
 
  // done with toc.ncx
-  std::string content ((char*)contentopf);
-  free (contentopf);
-
-//std::vector <std::string> urls = extract_hrefs (content, subdir);
+  std::string content ((char*)contenttoc);
+  free (contenttoc);
 
   std::vector <std::string> urls = extract_src_from_toc (content, subdir);
 
@@ -462,13 +399,11 @@ std::vector <std::string> CFIOEPUB::load (const std::string &fname)
            if (urls[i] == urls[i+1])
               continue;
 
+       void *temp = NULL;
 
-      void *temp = NULL;
-
-      if (zip_entry_open (zip, urls[i].c_str()) >= 0)
-         {
+       if (zip_entry_open (zip, urls[i].c_str()) >= 0)
+          {
            std::cout << "open: " << urls[i] << std::endl;
-
 
            zip_entry_read (zip, &temp, &bufsize);
            zip_entry_close (zip);
@@ -483,23 +418,18 @@ std::vector <std::string> CFIOEPUB::load (const std::string &fname)
 
            std::vector <std::string> file_lines = split_string_to_vector (st_cleaned, "\n", false);
 
-           //file_lines = extract_text_from_xml_pugi ((char*) temp, bufsize, tags);
            //print_lines (file_lines);
-
 
            if (file_lines.size() > 0)
               lines.insert(std::end(lines), std::begin(file_lines), std::end(file_lines));
 
-          free (temp);
-         }
-      }
+           free (temp);
+          }
+       }
 
   zip_close(zip);
 
  // print_lines (lines);
-
-//  std::cout << "2222\n";
-
 
   return lines;
 }

@@ -190,9 +190,7 @@ std::vector <std::string> files_get_list (const std::string &path, const std::st
 }
 
 
-
 #else
-
 
 
 std::vector <std::string> files_get_list (const std::string &path)

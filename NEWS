@@ -1,7 +1,7 @@
-Beseda 1.2.0
-[16 april 2024] 
+Beseda 1.2.1
+[23 april 2024] 
 
-+ Voice selection by pressing keys [ and ]
-+ Select voice selection range from local to all supported languages - key Z
+* EPUB support fixed a lot
+* other fixes
 
 Peter Semiletov
