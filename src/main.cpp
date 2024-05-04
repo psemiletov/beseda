@@ -186,6 +186,9 @@ int main (int argc, char *argv[])
 
   saved_pos = -1;
 
+  sp.say ("Hello!");
+
+
   /* Event loop */
   while (running)
         {

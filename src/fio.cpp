@@ -57,6 +57,13 @@ std::vector <std::string> extract_text_from_xml_pugi (const char *string_data, s
 {
   std::vector <std::string> result_lines;
 
+
+  std::string enc = string_between (string_data, "encoding=\"", "\"");
+
+  if (enc.empty())
+     enc = "UTF-8";
+
+
   pugi::xml_document doc;
 
   pugi::xml_parse_result result = doc.load_buffer (string_data,
@@ -76,6 +83,22 @@ std::vector <std::string> extract_text_from_xml_pugi (const char *string_data, s
   std::copy (tags.begin(), tags.end(), back_inserter(walker.paragraphs));
 
   doc.traverse (walker);
+
+  if (enc.find ("1251") != std::string::npos)
+     {
+      for (size_t i = 0; i < walker.lines.size(); i++)
+         {
+          std::string s = walker.lines.at(i);
+          char16_t *t_utf16 = ConvertFromCP1251ToUTF16(s.c_str());
+          std::string t_utf8 = ConvertUTF16ToUTF8(t_utf16);
+          walker.lines[i] = t_utf8;
+
+          delete [] t_utf16;
+
+
+         }
+     }
+
 
   return walker.lines;
 }

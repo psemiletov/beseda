@@ -57,5 +57,15 @@ std::vector <std::string> extract_hrefs (const std::string &source, const std::s
 std::vector <std::string> extract_src_from_toc (const std::string &source, const std::string &prefix);
 void print_lines (std::vector <std::string> lines);
 
+//std::string convert_cp1251_to_utf8(const char* text);
+
+std::string ConvertUTF16ToUTF8(const char16_t* utf16_text);
+char16_t* ConvertFromCP1251ToUTF16(const char* cp1251Text);
+
+std::string string_between(const std::string &source,
+                           const std::string &sep1,
+                           const std::string &sep2);
+
+
 
 #endif
