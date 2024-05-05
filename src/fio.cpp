@@ -94,8 +94,6 @@ std::vector <std::string> extract_text_from_xml_pugi (const char *string_data, s
           walker.lines[i] = t_utf8;
 
           delete [] t_utf16;
-
-
          }
      }
 
@@ -163,7 +161,6 @@ bool CFIOPlainText::understand (const std::string &fname)
 
   return false;
 }
-
 
 
 std::vector <std::string> CFIOHTML::load (const std::string &fname)
