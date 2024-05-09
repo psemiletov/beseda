@@ -63,9 +63,19 @@ make
 make install
 ```
 
+## Working example configuration:
+
+1. Install Speech Dispatcher
+
+2. Install RHVoice and voices for it
+Copy the ```/etc/speech-dispatcher``` directory to ```$HOME/.config```
+
+3. There, edit ```speechd.conf```, where uncomment the line with ```AddModule "rhVoice"``` and add the line: ```DefaultModule rhvoice```
+
+4. To avoid crackles when run other audio software (such as Reaper or Ardour), if you use Pipewire or Pulse, uncomment ```AudioOutputMethod "pulse"```
+
+
 ## Donate
 
 If you like this software, you can donate to me, Peter Semiletov, via Paypal: peter.semiletov@gmail.com
-
-
 
