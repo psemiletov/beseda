@@ -117,6 +117,9 @@ int main (int argc, char *argv[])
   sp.init ("beseda");
   sp.get_voices (locale_only);
 
+  std::cout << "1" <<  std::endl;
+
+
   sp.current_voice_index = settings.get_int ("voice", 0);
   if (sp.current_voice_index > sp.voices.size() - 1)
      {
@@ -124,7 +127,12 @@ int main (int argc, char *argv[])
       settings.set_int ("voice", sp.current_voice_index);
      }
 
+  std::cout << "2" <<  std::endl;
+
   sp.set_voice_by_index (sp.current_voice_index);
+
+  std::cout << "3" <<  std::endl;
+
 
  // std::cout << "VOICE IS: " << sp.voices[sp.current_voice_index].name << std::endl;
 

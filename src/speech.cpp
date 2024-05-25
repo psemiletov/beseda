@@ -95,12 +95,11 @@ CSpeech::~CSpeech()
 
 void CSpeech::init (const char* client_name)
 {
-
-
   spd_connection = spd_open (client_name,
                              "main",
                              NULL, //username
                              SPD_MODE_THREADED);
+
 
   if (spd_connection)
      {
@@ -113,19 +112,19 @@ void CSpeech::init (const char* client_name)
       spd_connection->callback_end = cbk_end_of_speech;
      // spd_connection->callback_cancel = cbk_cancel_of_speech;
 
-      spd_set_notification_on(spd_connection, SPD_END);
+      spd_set_notification_on (spd_connection, SPD_END);
 
       char *s = NULL;
 
       s = spd_get_output_module (spd_connection);
 
       if (s)
-        {
-         output_module_name = s;
-         std::cout << "output_module_name: " << output_module_name  << std::endl;
+         {
+          output_module_name = s;
+          std::cout << "output_module_name: " << output_module_name  << std::endl;
 
-         free (s);
-        }
+          free (s);
+         }
 
       s = spd_get_language (spd_connection);
       if (s)
@@ -233,7 +232,7 @@ void CSpeech::get_voices (int locale_only)
 
   voices.clear();
 
-  char  **voices_array = (char**)spd_list_synthesis_voices (spd_connection);
+  char **voices_array = (char**)spd_list_synthesis_voices (spd_connection);
 
   //for > 0.15 API
     //char  **voices_array = (char**)spd_list_synthesis_voices2 (spd_connection, "ru", NULL);
@@ -249,8 +248,8 @@ void CSpeech::get_voices (int locale_only)
 
   int i = 0;
   while (voices_array[i] != NULL)
-  {
-       SPDVoice* voice = (SPDVoice*)voices_array[i]; // Приведение типа к SPDVoice*
+        {
+         SPDVoice* voice = (SPDVoice*)voices_array[i]; // Приведение типа к SPDVoice*
 
     /*   CVoice v;
            v.name = voice->name;
@@ -289,6 +288,7 @@ void CSpeech::get_voices (int locale_only)
           }
 
 
+
        current_voice_index = 0;
      //voices.push_back (voice->name);
 
@@ -309,13 +309,19 @@ void CSpeech::get_voices (int locale_only)
 
  free_spd_voices((SPDVoice**)voices_array);
 
+ if (voices.size() == 0)
+    initialized = false;
 }
 
 
 void CSpeech::set_voice_by_index (int index)
 {
-  if (index == -1)
+  if (index == -1 || ! initialized)
       return;
+
+
+ std::cout << "voices.size()" << voices.size() << std::endl;
+ std::cout << "index" << index << std::endl;
 
   if (index > voices.size() - 1)
      return;
