@@ -309,8 +309,7 @@ void CSpeech::get_voices (int locale_only)
 
  free_spd_voices((SPDVoice**)voices_array);
 
- if (voices.size() == 0)
-    initialized = false;
+
 }
 
 
@@ -319,6 +318,8 @@ void CSpeech::set_voice_by_index (int index)
   if (index == -1 || ! initialized)
       return;
 
+   if (voices.size() == 0)
+      return;
 
  std::cout << "voices.size()" << voices.size() << std::endl;
  std::cout << "index" << index << std::endl;
