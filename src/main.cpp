@@ -122,6 +122,9 @@ int main (int argc, char *argv[])
   if (! sp.initialized)
     {
      std::cout << "Speech Dispatcher is not initialized" << std::endl;
+
+     std::cout << "Voices installed: " << sp.voices.size() << std::endl;
+
      return 0;
 
    }
