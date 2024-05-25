@@ -105,9 +105,7 @@ void CSpeech::init (const char* client_name)
      {
       initialized = true;
 
-///NEW!!!!!!!!!!!!!
       spd_set_language (spd_connection, locale_name.c_str());
-////
 
       spd_connection->callback_end = cbk_end_of_speech;
      // spd_connection->callback_cancel = cbk_cancel_of_speech;
@@ -130,14 +128,12 @@ void CSpeech::init (const char* client_name)
       if (s)
          {
           language_name = s;
-
           std::cout << "language_name: " << language_name  << std::endl;
 
           free (s);
          }
 
     //   spd_set_language(spd_connection, "ru");
-
 
     //  get_voices();
 
@@ -308,8 +304,6 @@ void CSpeech::get_voices (int locale_only)
  //std::cout << "voices count: " << voices.size() << std::endl;
 
  free_spd_voices((SPDVoice**)voices_array);
-
-
 }
 
 
@@ -321,8 +315,8 @@ void CSpeech::set_voice_by_index (int index)
    if (voices.size() == 0)
       return;
 
- std::cout << "voices.size()" << voices.size() << std::endl;
- std::cout << "index" << index << std::endl;
+// std::cout << "voices.size()" << voices.size() << std::endl;
+// std::cout << "index" << index << std::endl;
 
   if (index > voices.size() - 1)
      return;

@@ -124,10 +124,15 @@ int main (int argc, char *argv[])
      std::cout << "Speech Dispatcher is not initialized" << std::endl;
 
      std::cout << "Voices installed: " << sp.voices.size() << std::endl;
-
      return 0;
-
    }
+
+    if (sp.voices.size() == 0)
+    {
+     std::cout << "Voices installed: " << sp.voices.size() << std::endl;
+     return 0;
+   }
+
 
   sp.current_voice_index = settings.get_int ("voice", 0);
   if (sp.current_voice_index > sp.voices.size() - 1)
