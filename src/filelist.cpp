@@ -62,6 +62,7 @@ void CFileList::update_for_file (const std::string &path)
      }
 }
 
+
 int CFileList::get_list_index_from_fname (const std::string &path)
 {
   if (path.empty())
@@ -81,7 +82,6 @@ int CFileList::get_list_index_from_fname (const std::string &path)
 
 void CFileList::left()
 {
-
   if (files.size() == 0)
      {
       current_index = -1; //no any file

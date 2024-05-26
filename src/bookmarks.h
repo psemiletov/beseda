@@ -3,7 +3,7 @@
  **********************************************************/
 
 #ifndef BOOKMARKS_H
-#define BOOKMARKSL_H
+#define BOOKMARKS_H
 
 #include <string>
 #include <vector>

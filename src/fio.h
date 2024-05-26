@@ -1,8 +1,7 @@
 /*
 written at 2024 by Peter Semiletov
 this code is the public domain
- */
-
+*/
 
 #ifndef FIO_H
 #define FIO_H
@@ -37,7 +36,6 @@ public:
 
   std::vector <std::string> load (const std::string &fname);
   bool understand (const std::string &fname);
-
 };
 
 
@@ -47,9 +45,7 @@ public:
 
   std::vector <std::string> load (const std::string &fname);
   bool understand (const std::string &fname);
-
 };
-
 
 
 class CFIOXMLZipped: public CFIO
@@ -58,7 +54,6 @@ public:
 
   std::vector <std::string> load (const std::string &fname);
   bool understand (const std::string &fname);
-
 };
 
 
@@ -68,7 +63,6 @@ public:
 
   std::vector <std::string> load (const std::string &fname);
   bool understand (const std::string &fname);
-
 };
 
 
@@ -78,10 +72,7 @@ public:
 
   std::vector <std::string> load (const std::string &fname);
   bool understand (const std::string &fname);
-
 };
-
-
 
 
 class CFIOList
@@ -94,11 +85,7 @@ public:
 
   CFIOList();
   ~CFIOList();
-
 };
-
-
-
 
 #endif
 
