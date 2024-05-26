@@ -14,7 +14,6 @@
 #include "utl.h"
 
 
-
 class CXML_walker: public pugi::xml_tree_walker
 {
 public:
@@ -57,12 +56,10 @@ std::vector <std::string> extract_text_from_xml_pugi (const char *string_data, s
 {
   std::vector <std::string> result_lines;
 
-
   std::string enc = string_between (string_data, "encoding=\"", "\"");
 
   if (enc.empty())
-     enc = "UTF-8";
-
+      enc = "UTF-8";
 
   pugi::xml_document doc;
 
@@ -89,14 +86,13 @@ std::vector <std::string> extract_text_from_xml_pugi (const char *string_data, s
       for (size_t i = 0; i < walker.lines.size(); i++)
          {
           std::string s = walker.lines.at(i);
-          char16_t *t_utf16 = ConvertFromCP1251ToUTF16(s.c_str());
-          std::string t_utf8 = ConvertUTF16ToUTF8(t_utf16);
+          char16_t *t_utf16 = ConvertFromCP1251ToUTF16 (s.c_str());
+          std::string t_utf8 = ConvertUTF16ToUTF8 (t_utf16);
           walker.lines[i] = t_utf8;
 
           delete [] t_utf16;
          }
      }
-
 
   return walker.lines;
 }
@@ -118,7 +114,6 @@ CFIOList::~CFIOList()
 {
   for (size_t i = 0; i < loaders.size(); i++)
        delete loaders[i];
-
 }
 
 
@@ -257,19 +252,19 @@ std::vector <std::string> CFIOXMLZipped::load (const std::string &fname)
   if (! zip)
      return lines;
 
-
-  if (zip_entry_open(zip, source_fname.c_str()) < 0)
+  if (zip_entry_open (zip, source_fname.c_str()) < 0)
      return lines;
 
-
   zip_entry_read (zip, &buf, &bufsize);
-
   zip_entry_close (zip);
+
+  if (bufsize == 0)
+     return lines;
 
   lines = extract_text_from_xml_pugi ((char*)buf, bufsize, tags);
 
   zip_close (zip);
-  free(buf);
+  free (buf);
 
   return lines;
 }
@@ -298,7 +293,6 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
      {
       std::string temp = string_file_load (fname);
       lines = extract_text_from_xml_pugi (temp.c_str(), temp.size(), tags);
-
       return lines;
      }
 
@@ -313,20 +307,20 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
   if (! zip)
      return lines;
 
-  int i, n = zip_entries_total(zip);
-  for (i = 0; i < n; ++i)
+  int n = zip_entries_total (zip);
+  for (int i = 0; i < n; ++i)
       {
-       zip_entry_openbyindex(zip, i);
+       zip_entry_openbyindex (zip, i);
 
-       const char *name = zip_entry_name(zip);
+       const char *name = zip_entry_name (zip);
 
        std::string tname = name;
        if (ends_with (tname, "fb2"))
-           {
-            source_fname = tname;
-            zip_entry_close(zip);
-            break;
-           }
+          {
+           source_fname = tname;
+           zip_entry_close (zip);
+           break;
+          }
 
        //int isdir = zip_entry_isdir(zip);
        //unsigned long long size = zip_entry_size(zip);
@@ -341,17 +335,19 @@ std::vector <std::string> CFIOFB2::load (const std::string &fname)
   void *buf = NULL;
   size_t bufsize;
 
-   if (zip_entry_open (zip, source_fname.c_str()) < 0)
-     return lines;
+  if (zip_entry_open (zip, source_fname.c_str()) < 0)
+      return lines;
 
-  zip_entry_read(zip, &buf, &bufsize);
+  zip_entry_read (zip, &buf, &bufsize);
+  zip_entry_close (zip);
 
-  zip_entry_close(zip);
+  if (bufsize == 0)
+      return lines;
 
   lines = extract_text_from_xml_pugi ((char*)buf, bufsize, tags);
 
-  zip_close(zip);
-  free(buf);
+  zip_close (zip);
+  free (buf);
 
   return lines;
 }
@@ -392,13 +388,13 @@ std::vector <std::string> CFIOEPUB::load (const std::string &fname)
      }
 
   zip_entry_read (zip, &contenttoc, &bufsize);
-
   zip_entry_close (zip);
 
   if (bufsize == 0)
     return lines;
 
  // done with toc.ncx
+
   std::string content ((char*)contenttoc);
   free (contenttoc);
 
@@ -407,7 +403,7 @@ std::vector <std::string> CFIOEPUB::load (const std::string &fname)
   //HERE WE ALREADY PARSED URLS
 
   if (urls.size() == 0)
-    return lines;
+      return lines;
 
   tags.push_back ("p");
 
@@ -423,10 +419,13 @@ std::vector <std::string> CFIOEPUB::load (const std::string &fname)
 
        if (zip_entry_open (zip, urls[i].c_str()) >= 0)
           {
-           std::cout << "open: " << urls[i] << std::endl;
+         //  std::cout << "open: " << urls[i] << std::endl;
 
            zip_entry_read (zip, &temp, &bufsize);
            zip_entry_close (zip);
+
+           if (bufsize == 0)
+              continue;
 
   //         std::cout << "bufsize: " << bufsize << std::endl;
            //std::cout << (char*) temp << std::endl;
@@ -447,7 +446,7 @@ std::vector <std::string> CFIOEPUB::load (const std::string &fname)
           }
        }
 
-  zip_close(zip);
+  zip_close (zip);
 
  // print_lines (lines);
 
