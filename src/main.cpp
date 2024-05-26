@@ -21,31 +21,10 @@
 
 //#define DEBUGFIO 1
 
-#define BOOK0 "/home/rox/devel/test-books/test.txt"
-#define BOOK1 "/home/rox/devel/test-books/Dracula by Bram Stoker.txt"
-#define BOOK2 "/home/rox/devel/test-books/frankenstein.txt"
-#define BOOK3 "/home/rox/devel/test-books/Pride and Prejudice by Jane Austen.txt"
-#define BOOK4 "/home/rox/devel/test-books/чтоделать.txt"
-#define BOOK5 "/home/rox/devel/test-books/human_hist.abw"
-#define BOOKDOCX "/home/rox/devel/test-books/01.docx"
-#define BOOKODT "/home/rox/devel/test-books/01.odt"
-#define BOOKKWD "/home/rox/devel/test-books/dark_rituals.kwd"
-#define BOOKFB2 "/home/rox/devel/test-books/dar.fb2"
-#define BOOKFB2ZIP "/home/rox/devel/test-books/Dante_Aligeri__Bozhestvennaja_komedija.fb2.zip"
-#define BOOKFBZ "/home/rox/devel/test-books/ud-tom-01Z.fbz"
-#define BOOKHTML "/home/rox/devel/test-books/aorta.html"
-#define BOOKEPUB "/home/rox/devel/test-books/pg1513.epub"
-#define BOOKEPUB3 "/home/rox/devel/test-books/pg1513-images-3.epub"
-
-
-
 /*
-
   std::signal (SIGINT, f_signal_handler);
-
-
- while (g_signal != SIGINT)
-
+[..]
+  while (g_signal != SIGINT)
  */
 
 
@@ -57,7 +36,6 @@ int saved_pos;
 
 int main (int argc, char *argv[])
 {
-
   CFileList filelist;
 
   g_position = 0;
@@ -90,12 +68,11 @@ int main (int argc, char *argv[])
 #endif
 
    if (argc == 2)
-     { //take from argv[1]
-       if (! is_dir (argv[1]))
-          filename = argv[1];
-      //else filename is empty
-
-     }
+      { //take from argv[1]
+        if (! is_dir (argv[1]))
+           filename = argv[1];
+       //else filename is empty
+      }
 
   //std::cout << "filename:::" << filename << std::endl;
   //std::cout << setlocale(LC_ALL, NULL) << std::endl;
@@ -117,15 +94,13 @@ int main (int argc, char *argv[])
   sp.init ("beseda");
   sp.get_voices (locale_only);
 
-  std::cout << "1" <<  std::endl;
-
   if (! sp.initialized)
-    {
-     std::cout << "Speech Dispatcher is not initialized" << std::endl;
+     {
+      std::cout << "Speech Dispatcher is not initialized" << std::endl;
 
-     std::cout << "Voices installed: " << sp.voices.size() << std::endl;
-     return 0;
-   }
+      std::cout << "Voices installed: " << sp.voices.size() << std::endl;
+      return 0;
+     }
 
     if (sp.voices.size() == 0)
     {

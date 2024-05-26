@@ -56,7 +56,6 @@ void cbk_cancel_of_speech (size_t msg_id, size_t client_id, SPDNotificationType 
      {
      // addstr("*SPD_EVENT_CANCEL*");
      }
-
 }
 
 
@@ -73,23 +72,19 @@ CSpeech::CSpeech()
   locale_name = temp_locale.substr (0, 2);
 
 //  std::cout << "LOC: " << locale_name << std::endl;
-
-
   //sem_init (&g_semaphore, 0, 0);
-
 }
 
 
 CSpeech::~CSpeech()
 {
-  if (initialized)
+//  if (initialized)
      if (spd_connection)
         {
          spd_close (spd_connection);
          //sem_close (&g_semaphore);
          //sem_destroy (&g_semaphore);
         }
-
 }
 
 
@@ -190,7 +185,6 @@ void CSpeech::play()
 }
 
 
-
 void CSpeech::resume()
 {
   if (! initialized)
@@ -201,17 +195,13 @@ void CSpeech::resume()
 }
 
 
-
 void CSpeech::cancel()
 {
   if (! initialized)
       return;
 
   spd_cancel (spd_connection);
-//  spd_stop (spd_connection);
-
   g_state = SPCH_STATE_STOPPED;
-
 }
 
 
@@ -226,6 +216,8 @@ void CSpeech::get_voices (int locale_only)
   if (! initialized)
       return;
 
+  initialized = false; //check for installed voices
+
   voices.clear();
 
   char **voices_array = (char**)spd_list_synthesis_voices (spd_connection);
@@ -233,10 +225,8 @@ void CSpeech::get_voices (int locale_only)
   //for > 0.15 API
     //char  **voices_array = (char**)spd_list_synthesis_voices2 (spd_connection, "ru", NULL);
 
-
   if (voices_array == NULL)
      return;
-
 
   std::string lang_name_short;
 
@@ -253,8 +243,6 @@ void CSpeech::get_voices (int locale_only)
 
            voices.push_back (v);
 */
-
-
 
        if (locale_only == 1)
           {
@@ -283,11 +271,8 @@ void CSpeech::get_voices (int locale_only)
            voices.push_back (v);
           }
 
-
-
        current_voice_index = 0;
      //voices.push_back (voice->name);
-
 
     // Вывод информации о голосе
 /*
@@ -298,21 +283,20 @@ void CSpeech::get_voices (int locale_only)
     printf("\n");
 */
     ++i;
-}
-
+   }
 
  //std::cout << "voices count: " << voices.size() << std::endl;
 
- free_spd_voices((SPDVoice**)voices_array);
+  free_spd_voices ((SPDVoice**)voices_array);
+
+  if (voices.size() > 0)
+     initialized = true;
 }
 
 
 void CSpeech::set_voice_by_index (int index)
 {
   if (index == -1 || ! initialized)
-      return;
-
-   if (voices.size() == 0)
       return;
 
 // std::cout << "voices.size()" << voices.size() << std::endl;
@@ -323,11 +307,7 @@ void CSpeech::set_voice_by_index (int index)
 
   if (spd_set_synthesis_voice (spd_connection, voices[index].name.c_str()))
       std::cout << "ERRRRR" << std::endl;
-
-
  // std::cout << "spd_set_synthesis_voice: " <<  voices[index].name << std::endl;
 }
-
-
 
 // int spd_set_synthesis_voice(SPDConnection* connection, const char* voice_name);
