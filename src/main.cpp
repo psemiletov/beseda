@@ -281,7 +281,7 @@ int main (int argc, char *argv[])
 
          if (ch == KEY_LEFT)
             {
-             if (filelist.current_index == -1 /*|| filelist.current_index == 0*/)
+             if (filelist.current_index == -1 && filelist.files.size() != 0)
                 {
                  refresh();
                  continue;
@@ -310,11 +310,11 @@ int main (int argc, char *argv[])
 
              //flushinp();
 
-             if (filelist.current_index == filelist.files.size() - 1)
-               {
-                refresh();
-                continue;
-               }
+             if (filelist.files.size() == 0 || filelist.current_index == filelist.files.size() - 1)
+                {
+                 refresh();
+                 continue;
+                }
 
              filelist.right();
 
