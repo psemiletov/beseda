@@ -10,8 +10,8 @@
 //bool saying;
 
 
-size_t g_state;
-size_t g_position;
+int g_state;
+int g_position;
 
 
 

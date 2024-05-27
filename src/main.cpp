@@ -28,8 +28,8 @@
  */
 
 
-extern size_t g_position;
-extern size_t g_state;
+extern int g_position;
+extern int g_state;
 
 int saved_pos;
 
@@ -242,8 +242,6 @@ int main (int argc, char *argv[])
                 g_position = text_buffer.lines.size() - 1;
             }
 
-
-
          //OK
          if (ch == KEY_HOME && text_buffer.loaded)
             {
@@ -251,7 +249,6 @@ int main (int argc, char *argv[])
              g_state = SPCH_STATE_SAYING;
              g_position = 0;
             }
-
 
          //ok
          if (ch == KEY_END && text_buffer.loaded)
@@ -284,12 +281,11 @@ int main (int argc, char *argv[])
 
          if (ch == KEY_LEFT)
             {
-             if (filelist.current_index == -1 || filelist.current_index == 0)
+             if (filelist.current_index == -1 /*|| filelist.current_index == 0*/)
                 {
                  refresh();
                  continue;
                 }
-             //lushinp();
 
              filelist.left();
 
