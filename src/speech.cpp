@@ -10,8 +10,8 @@
 //bool saying;
 
 
-int g_state;
-int g_position;
+size_t g_state;
+size_t g_position;
 
 
 
@@ -64,7 +64,7 @@ CSpeech::CSpeech()
   initialized = false;
   spd_connection = 0;
 
-  current_voice_index = -1;
+  current_voice_index = 0;
 
   g_state = SPCH_STATE_STOPPED;
 
@@ -226,7 +226,7 @@ void CSpeech::get_voices (int locale_only)
     //char  **voices_array = (char**)spd_list_synthesis_voices2 (spd_connection, "ru", NULL);
 
   if (voices_array == NULL)
-     return;
+      return;
 
   std::string lang_name_short;
 
@@ -237,42 +237,31 @@ void CSpeech::get_voices (int locale_only)
         {
          SPDVoice* voice = (SPDVoice*)voices_array[i]; // Приведение типа к SPDVoice*
 
-    /*   CVoice v;
-           v.name = voice->name;
-           v.language = voice->language;
+         if (locale_only == 1)
+            {
+             CVoice v;
+             v.name = voice->name;
 
-           voices.push_back (v);
-*/
+             lang_name_short = voice->language;
+             lang_name_short = lang_name_short.substr (0, 2);
+             v.language = lang_name_short;
 
-       if (locale_only == 1)
-          {
-           CVoice v;
-           v.name = voice->name;
+             if (v.language == language_name)
+                 voices.push_back (v);
+            }
+         else
+             {
+              CVoice v;
+              v.name = voice->name;
 
-           lang_name_short = voice->language;
-           lang_name_short = lang_name_short.substr(0, 2);
-           v.language = lang_name_short;
+              lang_name_short = voice->language;
+              lang_name_short = lang_name_short.substr(0, 2);
+              v.language = lang_name_short;
 
-          // std::cout << "v.language: " << v.language << std::endl;
-           //std::cout << "language_name: " << language_name << std::endl;
-
-           if (v.language == language_name)
               voices.push_back (v);
-          }
-       else
-          {
-           CVoice v;
-           v.name = voice->name;
+             }
 
-           lang_name_short = voice->language;
-           lang_name_short = lang_name_short.substr(0, 2);
-           v.language = lang_name_short;
-
-           voices.push_back (v);
-          }
-
-       current_voice_index = 0;
-     //voices.push_back (voice->name);
+        current_voice_index = 0;
 
     // Вывод информации о голосе
 /*
@@ -282,8 +271,8 @@ void CSpeech::get_voices (int locale_only)
     printf("Variant: %s\n", voice->variant);
     printf("\n");
 */
-    ++i;
-   }
+       ++i;
+      }
 
  //std::cout << "voices count: " << voices.size() << std::endl;
 
@@ -294,9 +283,9 @@ void CSpeech::get_voices (int locale_only)
 }
 
 
-void CSpeech::set_voice_by_index (int index)
+void CSpeech::set_voice_by_index (size_t index)
 {
-  if (index == -1 || ! initialized)
+  if (! initialized)
       return;
 
 // std::cout << "voices.size()" << voices.size() << std::endl;

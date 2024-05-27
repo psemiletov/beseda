@@ -28,8 +28,8 @@
  */
 
 
-extern int g_position;
-extern int g_state;
+extern size_t g_position;
+extern size_t g_state;
 
 int saved_pos;
 
@@ -100,13 +100,6 @@ int main (int argc, char *argv[])
       std::cout << "Voices installed: " << sp.voices.size() << std::endl;
       return 0;
      }
-/*
-  if (sp.voices.size() == 0)
-     {
-     std::cout << "Voices installed: " << sp.voices.size() << std::endl;
-     return 0;
-   }
-*/
 
   sp.current_voice_index = settings.get_int ("voice", 0);
   if (sp.current_voice_index > sp.voices.size() - 1)
@@ -140,14 +133,13 @@ int main (int argc, char *argv[])
       filelist.current_index = filelist.get_list_index_from_fname (filename);
      }
   else
-     {
-      if (argc == 2) //directory supplied
-        {
-         //TESTED
-         std::string dirpath = argv[1];
-         filelist.update_for_directory (dirpath);
-        }
-       else //NOT TESTED
+      {
+       if (argc == 2) //directory supplied
+          {
+           std::string dirpath = argv[1];
+           filelist.update_for_directory (dirpath);
+          }
+       else
            filelist.update_for_directory (current_path());
     }
 
@@ -158,19 +150,17 @@ int main (int argc, char *argv[])
 
 #endif
 
-
   bool running = true;
-
 
   //NCURSES INIT
   initscr();
-  keypad(stdscr, TRUE);
+  keypad (stdscr, TRUE);
   cbreak();
   noecho();
   clear();
 
 
-  halfdelay(1);
+  halfdelay (1);
   //use nodelay instead?
 
   int ch;
@@ -188,15 +178,12 @@ int main (int argc, char *argv[])
          erase();
 
          printw ("%s\n", program_name.c_str());
-
          printw ("message: %s\n", message.c_str());
-
-           //NOT LOADED!!!!
 
   //std::cout << "VOICE IS: " << sp.voices[sp.current_voice_index].name << std::endl;
 
          if (! sp.output_module_name.empty())
-            printw ("synth module: %s\n", sp.output_module_name.c_str());
+             printw ("synth module: %s\n", sp.output_module_name.c_str());
 
          if (sp.voices.size() > 0)
             {
@@ -208,7 +195,7 @@ int main (int argc, char *argv[])
          printw ("filename: %s\n", filename.c_str());
 
          if (text_buffer.loaded)
-            printw ("lines total: %s\n", std::to_string (text_buffer.lines.size()).c_str());
+             printw ("lines total: %s\n", std::to_string (text_buffer.lines.size()).c_str());
 
          std::string str_counter =  std::to_string(g_position);
          printw ("current line: %s\n", str_counter.c_str());
@@ -308,9 +295,6 @@ int main (int argc, char *argv[])
 
              if (filelist.current_index != -1)
                 {
-                 //if (text_buffer.loaded)
-             //       sp.cancel();
-
                  std::string temp_filename = filelist.files[filelist.current_index];
 
                  message = get_file_name (temp_filename);
@@ -320,7 +304,6 @@ int main (int argc, char *argv[])
                  g_position = 0;
                  g_state = SPCH_STATE_STOPPED;
 //                 continue;
-
                 }
             }
 

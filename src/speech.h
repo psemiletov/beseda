@@ -33,8 +33,6 @@ public:
 
   std::string name;
   std::string language;
-
-
 };
 
 
@@ -55,7 +53,7 @@ class CSpeech
   std::string output_module_name;
   std::string language_name;
 
-  int current_voice_index;
+  size_t current_voice_index;
 
   CSpeech();
   ~CSpeech();
@@ -70,7 +68,7 @@ class CSpeech
   void cancel();
 
   void get_voices (int locale_only = 1); //fills voices vector
-  void set_voice_by_index (int index);
+  void set_voice_by_index (size_t index);
 
 };
 
