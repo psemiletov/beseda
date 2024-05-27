@@ -310,7 +310,7 @@ int main (int argc, char *argv[])
 
              //flushinp();
 
-             if (filelist.files.size() == 0 || filelist.current_index == filelist.files.size() - 1)
+             if (filelist.files.size() == 0 /*|| filelist.current_index == filelist.files.size() - 1*/)
                 {
                  refresh();
                  continue;
