@@ -306,10 +306,6 @@ int main (int argc, char *argv[])
 
         if (ch == KEY_RIGHT)
             {
-             //плохо, переписать проверки!
-
-             //flushinp();
-
              if (filelist.files.size() == 0 /*|| filelist.current_index == filelist.files.size() - 1*/)
                 {
                  refresh();
@@ -337,7 +333,7 @@ int main (int argc, char *argv[])
              if (text_buffer.loaded)
                  sp.cancel();
 
-             if (filelist.current_index != -1)
+             if (filelist.current_index != -1 && filelist.files.size() != 0)
                 {
                  filename = filelist.files[filelist.current_index];
 
