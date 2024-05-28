@@ -33,6 +33,8 @@ extern int g_state;
 
 int saved_pos;
 
+bool fresh_start;
+
 
 int main (int argc, char *argv[])
 {
@@ -40,6 +42,8 @@ int main (int argc, char *argv[])
 
   g_position = 0;
 
+  fresh_start = true;
+  
   std::string program_name = "Beseda " + std::string (VERSION_NUMBER) + " by Peter Semiletov, https://psemiletov.github.io/beseda/";
 
   std::string config_dir = get_home_dir() + "/.config";
@@ -281,16 +285,16 @@ int main (int argc, char *argv[])
 
          if (ch == KEY_LEFT)
             {
-             if (filelist.current_index == -1 && filelist.files.size() != 0)
+             /*if (filelist.current_index == -1 && filelist.files.size() != 0)
                 {
                  refresh();
                  continue;
                 }
-
+*/
              filelist.left();
 
-             if (filelist.current_index != -1)
-                {
+             //if (filelist.current_index != -1)
+               // {
                  std::string temp_filename = filelist.files[filelist.current_index];
 
                  message = get_file_name (temp_filename);
@@ -300,23 +304,40 @@ int main (int argc, char *argv[])
                  g_position = 0;
                  g_state = SPCH_STATE_STOPPED;
 //                 continue;
-                }
+               // }
             }
 
 
         if (ch == KEY_RIGHT)
             {
-             if (filelist.files.size() == 0 /*|| filelist.current_index == filelist.files.size() - 1*/)
+               /*
+             if (filelist.files.size() == 0)
                 {
                  refresh();
                  continue;
                 }
+              */
+              if (fresh_start) 
+                 {
+                    
+                    
+                  std::string temp_filename = filelist.files[filelist.current_index];
 
-             filelist.right();
+                    message = get_file_name (temp_filename);
+                    sp.say (message.c_str());
 
-             if (filelist.current_index != -1)
-                if (filelist.current_index < filelist.files.size())
-                   {
+                    g_position = 0;
+                    g_state = SPCH_STATE_STOPPED;
+                    fresh_start = false;
+                    continue;
+                 }
+                
+               filelist.right();
+
+               
+             //if (filelist.current_index != -1)
+               // if (filelist.current_index < filelist.files.size())
+            //       {
                     std::string temp_filename = filelist.files[filelist.current_index];
 
                     message = get_file_name (temp_filename);
@@ -324,7 +345,9 @@ int main (int argc, char *argv[])
 
                     g_position = 0;
                     g_state = SPCH_STATE_STOPPED;
-                  }
+              //    }
+                    
+   
             }
 
 
@@ -333,8 +356,8 @@ int main (int argc, char *argv[])
              if (text_buffer.loaded)
                  sp.cancel();
 
-             if (filelist.current_index != -1 && filelist.files.size() != 0)
-                {
+             //if (filelist.current_index != -1 && filelist.files.size() != 0)
+               // {
                  filename = filelist.files[filelist.current_index];
 
                //add here say filename
@@ -343,7 +366,7 @@ int main (int argc, char *argv[])
                  saved_pos = -1;
                  g_position = 0;
                  g_state = SPCH_STATE_SAYING;
-                }
+               // }
             }
 
          //select voice

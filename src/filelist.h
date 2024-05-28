@@ -14,7 +14,9 @@ class CFileList
 {
 public:
 
-  int current_index;
+  size_t current_index;
+  bool no_more_files;
+  
 
   std::vector <std::string> exts;
   std::vector <std::string> files;

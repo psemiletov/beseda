@@ -24,7 +24,8 @@ CFileList::CFileList()
   exts.push_back ("epub");
   exts.push_back ("kwd");
 
-  current_index = -1;
+  current_index = 0;
+  no_more_files = true;
 }
 
 
@@ -38,7 +39,10 @@ void CFileList::update_for_directory (const std::string &path)
   files = files_get_list (path, exts);
 
   if (files.size() != 0)
+     {
       sort (files.begin(), files.end());
+      no_more_files = false;
+     } 
 }
 
 
@@ -53,52 +57,40 @@ void CFileList::update_for_file (const std::string &path)
   files = files_get_list (dir, exts);
 
   if (files.size() != 0)
+     {
       sort (files.begin(), files.end());
+      no_more_files = false;
+     } 
 }
 
 
 int CFileList::get_list_index_from_fname (const std::string &path)
 {
-  if (path.empty())
-      return -1;
+  if (path.empty() || no_more_files)
+      return 0;
 
-  if (files.size() == 0)
-      return -1;
-
-  int result = -1;
+  int result = 0;
   for (size_t i = 0; i < files.size(); i++)
       if (files[i] == path)
          return (int)i;
 
-  return -1;
+  return 0;
 }
 
 
 void CFileList::left()
 {
-  if (files.size() == 0)
-     {
-      current_index = -1; //no any file
-      return;
-     }
-
+  if (no_more_files || current_index == 0)
+     return;
+ 
   current_index--;
-
-  if (current_index < 0)
-     current_index = 0;
 }
 
 
 void CFileList::right()
 {
- if (files.size() == 0)
-    {
-     current_index = -1;
+  if (no_more_files || current_index == files.size() -1)
      return;
-    }
 
   current_index++;
-
-  if (current_index == files.size())
-     current_index--;
 }
