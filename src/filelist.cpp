@@ -38,7 +38,7 @@ void CFileList::update_for_directory (const std::string &path)
 
   files = files_get_list (path, exts);
 
-  if (files.size() != 0)
+  if (files.size() > 1)
      {
       sort (files.begin(), files.end());
       no_more_files = false;
@@ -56,7 +56,7 @@ void CFileList::update_for_file (const std::string &path)
   std::string dir = get_file_path (path);
   files = files_get_list (dir, exts);
 
-  if (files.size() != 0)
+  if (files.size() > 1)
      {
       sort (files.begin(), files.end());
       no_more_files = false;
