@@ -190,8 +190,8 @@ void CSpeech::resume()
   if (! initialized)
      return;
 
-   if (spd_resume (spd_connection) != -1)
-      g_state = SPCH_STATE_SAYING;
+  if (spd_resume (spd_connection) != -1)
+     g_state = SPCH_STATE_SAYING;
 }
 
 
