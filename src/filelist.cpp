@@ -69,7 +69,6 @@ int CFileList::get_list_index_from_fname (const std::string &path)
   if (path.empty() || no_more_files)
       return 0;
 
-  int result = 0;
   for (size_t i = 0; i < files.size(); i++)
       if (files[i] == path)
          return (int)i;

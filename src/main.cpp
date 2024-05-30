@@ -201,7 +201,7 @@ int main (int argc, char *argv[])
          if (text_buffer.loaded)
              printw ("lines total: %s\n", std::to_string (text_buffer.lines.size()).c_str());
 
-         std::string str_counter =  std::to_string(g_position);
+         std::string str_counter =  std::to_string (g_position);
          printw ("current line: %s\n", str_counter.c_str());
 
 
