@@ -860,7 +860,7 @@ std::vector <std::string> extract_src_from_toc (const std::string &source, const
         if (pos_end != std::string::npos)
             url = url.substr (0, pos_part);
 
-        if (ends_with (url, "html") || ends_with (url, "xhtml"))
+        if (ends_with (url, "html") || ends_with (url, "htm") || ends_with (url, "xhtml"))
            {
             std::string url_to_add = prefix + url;
             result.push_back (url_to_add);
