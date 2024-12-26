@@ -67,5 +67,7 @@ std::string string_between(const std::string &source,
                            const std::string &sep2);
 
 
+std::string xml_strip_remove_empty_lines (std::string &xmlBuffer);
+
 
 #endif

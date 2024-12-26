@@ -8,6 +8,9 @@
 
 #include <cstring>
 
+#include <sstream>
+
+
 #include <uchar.h>
 /*
 #ifndef USE_OPENSUSE
@@ -772,6 +775,99 @@ std::string format3 (const std::string &s)
 }
 
 
+
+
+//from https://stackoverflow.com/questions/13739924/remove-all-xml-tags-from-a-stdstring
+std::string xml_strip(std::string &xmlBuffer)
+{
+    bool copy = true;
+    std::string plainString = "";   
+    std::stringstream convertStream;
+
+    // remove all xml tags
+    for (int i=0; i < xmlBuffer.length(); i++)
+    {                   
+        convertStream << xmlBuffer[i];
+
+        if(convertStream.str().compare("<") == 0) copy = false;
+        else if(convertStream.str().compare(">") == 0) 
+        {
+            copy = true;
+            convertStream.str(std::string());
+            continue;
+        }
+
+        if (copy) 
+           plainString.append(convertStream.str());       
+        //
+        
+        convertStream.str(std::string());
+    }
+
+    return plainString;
+}
+
+
+/*
+vector <string> split_string_to_vector (const string& s, const string& delimeter, const bool keep_empty)
+{
+  vector <string> result;
+
+  if (delimeter.empty())
+     {
+      result.push_back (s);
+      return result;
+     }
+
+  string::const_iterator substart = s.begin(), subend;
+
+  while (true)
+        {
+         subend = search (substart, s.end(), delimeter.begin(), delimeter.end());
+
+         string temp (substart, subend);
+
+         if (keep_empty || ! temp.empty())
+             result.push_back (temp);
+
+         if (subend == s.end())
+             break;
+
+         substart = subend + delimeter.size();
+        }
+
+  return result;
+}
+*/
+
+std::string join_lines (const std::vector<std::string> &lst, const std::string &delim)
+{
+    std::string ret;
+    for(const auto &s : lst) {
+        if(!ret.empty())
+            ret += delim;
+        ret += s;
+    }
+    return ret;
+}
+
+std::string xml_strip_remove_empty_lines (std::string &xmlBuffer)
+{
+  std::string s = xml_strip (xmlBuffer);
+  
+  std::vector <std::string> v = split_string_to_vector (s, "\n", false);
+
+  return join_lines (v, "\n");
+  
+  //str.find_first_not_of(" \t\n\v\f\r") != std::string::npos
+  
+  
+  
+}
+
+
+
+
 std::string html_strip (const std::string &source)
 {
   std::string html = source;
@@ -860,7 +956,7 @@ std::vector <std::string> extract_src_from_toc (const std::string &source, const
         if (pos_end != std::string::npos)
             url = url.substr (0, pos_part);
 
-        if (ends_with (url, "html") || ends_with (url, "htm") || ends_with (url, "xhtml"))
+        if (ends_with (url, "html") || ends_with (url, "htm") || ends_with (url, "xhtml") || ends_with (url, "xml"))
            {
             std::string url_to_add = prefix + url;
             result.push_back (url_to_add);

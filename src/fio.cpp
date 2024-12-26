@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <string>
 
+
 #include "pugixml.hpp"
 #include "zip.h"
 
@@ -430,8 +431,18 @@ std::vector <std::string> CFIOEPUB::load (const std::string &fname)
   //         std::cout << "bufsize: " << bufsize << std::endl;
            //std::cout << (char*) temp << std::endl;
 
-           std::string st = (char*) temp;
-           std::string st_cleaned = html_strip (st);
+          // std::string st = (char*) temp;
+            
+            std::string st; 
+           
+           if (temp)
+              st = (char*) temp;
+            
+            
+         //  std::string st_cleaned = html_strip (st);
+           
+            std::string st_cleaned = xml_strip_remove_empty_lines (st);
+           
 
 //           std::cout << st_cleaned << std::endl;
 
